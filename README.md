@@ -9,7 +9,7 @@ TODO: update package.json file
 ## Stack
 
 - React
-- Redux
+- Redux!?
 - Styled Components
 - Jest
 - Cypress
