@@ -1,9 +1,66 @@
-# How to contribute
+# Contributing guide
 
-Government employees, public and members of the private sector are encouraged to contribute to the repository by **forking and submitting a pull request**.
+Thanks for taking a moment and reading this guide. Is very important to have 
+everyone on the same page. This guide describes how to:
+- Set up your environment
+- Run this application
+- Run tests
+- Submit pull requests
+- Follow our code practices
 
 (If you are new to GitHub, you might start with a [basic tutorial](https://help.github.com/articles/set-up-git) and check out a more detailed guide to [pull requests](https://help.github.com/articles/using-pull-requests/).)
 
-Pull requests will be evaluated by the repository guardians on a schedule and if deemed beneficial will be committed to the main branch.
+All contributors retain the original copyright to their stuff, but by
+contributing to this project, you grant a world-wide, royalty-free, 
+perpetual, irrevocable, non-exclusive, transferable license to all 
+users **under the terms of the [license](./LICENSE.md) under which 
+this project is distributed**.
 
-All contributors retain the original copyright to their stuff, but by contributing to this project, you grant a world-wide, royalty-free, perpetual, irrevocable, non-exclusive, transferable license to all users **under the terms of the [license](./LICENSE.md) under which this project is distributed**.
+## Set up your environment
+
+### Git
+
+Make sure you have Git installed on your machine. You can follow
+[this link](https://git-scm.com/downloads) for instructions.
+
+### NPM
+
+NodeJS is required to build and start this app. You can look for install
+instructions [here](https://nodejs.org/en/download/).
+
+### IDE
+
+If you like, Microsoft Visual Studio can be a great option. Lots of plugins
+and integrations. You can learn how to install [here](https://code.visualstudio.com/).
+
+### Check-style
+
+To be defined...
+
+## Run this application
+
+After setting up your environment you might want to see this service running. 
+You can get it up and running by typing `npm run dev` in the project
+root directory.
+
+## Run tests
+
+You can run tests running `npm run test`. Tests coverage reposts can be seen
+on you command line window.
+
+## Submit pull requests
+
+We use git flow, so all code changes happen through Pull Requests. There's a
+Pull Request template that you can fill. The more complete the better. If you
+have images, screen capture or diagrams, that helps a lot. Don't forget to add
+reviewers, assign to yourself and add a label.
+
+## Follow our best practices
+
+- Typescript source code must be formatted according to
+[Google Java Style Guide](https://google.github.io/styleguide/javaguide.html),
+as mentioned. There's a pipeline to unsure all of our code is good to go.
+- We try to use [conventional commits](https://www.conventionalcommits.org/)
+because it makes the process of generating changelogs way easier. So we encourage
+you to read at least the [summary](https://www.conventionalcommits.org/en/v1.0.0/#summary)
+that summarize and give some examples.
