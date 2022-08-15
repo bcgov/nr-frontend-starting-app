@@ -39,14 +39,14 @@ To be defined...
 
 ## Run this application
 
-After setting up your environment you might want to see this service running. 
+Now that your environment is all set up, we can run the application. 
 You can get it up and running by typing `npm run dev` in the project
 root directory.
 
 ## Run tests
 
-You can run tests running `npm run test`. Tests coverage reposts can be seen
-on you command line window.
+You can run tests running `npm run test`. Tests coverage reports can be seen
+on you command line window and also on GitHub, in your commis and pull requests.
 
 ## Submit pull requests
 
@@ -59,8 +59,7 @@ reviewers, assign to yourself and add a label.
 
 - Typescript source code must be formatted according to
 [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html),
-as mentioned. There's a pipeline to unsure all of our code is good to go.
+as mentioned. There's a pipeline to ensure all of our code is good to go.
 - We try to use [conventional commits](https://www.conventionalcommits.org/)
 because it makes the process of generating changelogs way easier. So we encourage
-you to read at least the [summary](https://www.conventionalcommits.org/en/v1.0.0/#summary)
-that summarize and give some examples.
+you to read at least the [summary](https://www.conventionalcommits.org/en/v1.0.0/#summary) and learn a bit about it.
