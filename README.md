@@ -26,15 +26,15 @@ been used in this app. And also everything you need to get started, build,
 test and deploy.
 
 - React Progressive Web Application
-  - We write code in TypeScript
-  - Redux!?
+  - TypeScript
+  - Redux
   - Styled Components
   - Jest and Cypress
 - Lint
-  - Airbnb ESLint!?
+  - Airbnb ESLint
 - Tools
   - Docker
-  - Visual Studio Code
+  - Microsoft Visual Studio Code
   - Postman
 
 # Getting started

@@ -35,7 +35,9 @@ and integrations. You can learn how to install [here](https://code.visualstudio.
 
 ### Check-style
 
-To be defined...
+To enforce a better solution and a stronger product we decided to use
+the Airbnb ESLint check-style. This way also hels us to have a dedicated
+pipeline to check for common errors and possible bugs.
 
 ## Run this application
 
