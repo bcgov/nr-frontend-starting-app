@@ -48,7 +48,7 @@ root directory.
 ## Run tests
 
 You can run tests running `npm run test`. Tests coverage reports can be seen
-on you command line window and also on GitHub, in your commis and pull requests.
+on you command line window and also on GitHub, in your commits and pull requests.
 
 ## Submit pull requests
 
