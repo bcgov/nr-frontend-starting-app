@@ -1,43 +1,54 @@
-# Front-end Starting App
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/nr-frontend-starting-app)
 
-This is a starting front-end app that intends to get the team started with code definitions, commits standards and guides related to code-style.
+# Natural Resources Front-End Starting Progressive Web Application
 
-In case you're looking for the original readme template file, you can see it [here](README_template.md)
+This repository holds a set of policies, standard, guides and pipelines to get
+started with a Progressive Web Application. Before writing your first line of code, please take a
+moment and check out our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
-TODO: update package.json file
+## Our Policy
 
-## Stack
+- Work in the open: That means that everything we do should be open, should be
+public. Please, don't create private repositories unless you have a very strong
+reason. Keeping things public is a must follow rule for BC Government.
+- Customer centred services: All the work that's been created is to improve
+users, customers, and friends usability and experience. Is important to keep
+that in mind, because as engineers sometimes we face technical issues, however, our goal is to have a good product.
+- Community based work: Remember that you're not alone. It's very likely that
+your problem is someone else's problem. Let's figure it out together. So, ask
+a question using our channels. We have [our own Stackoverflow](https://stackoverflow.developer.gov.bc.ca/)
+and [our Rocket Chat](https://chat.developer.gov.bc.ca/) channel.
 
-- React
-- Redux!?
-- Styled Components
-- Jest
-- Cypress
+# Stack
 
-## Getting started with the environment
+Here you will find a comprehensive list of all the languages and tools that are
+been used in this app. And also everything you need to get started, build,
+test and deploy.
 
-All you need is an IDE, we recommend [Microsoft Visual Studio](http://link.com), and a recent version of NodeJS.
+- React Progressive Web Application
+  - TypeScript
+  - Redux
+  - Styled Components
+  - Jest and Cypress
+- Lint
+  - Airbnb ESLint
+- Tools
+  - Docker
+  - Microsoft Visual Studio Code
+  - Postman
 
-## Running the app
+# Getting started
 
-Before run the application you must install the dependencies. To do that, run:
-- `yarn install`
+Once you have cloned this repository, you can get the app running by typing
+`yarn install` and then `npm run dev` from the project root directory. Then
+head to http://localhost:3000.
 
-Then you can start a development server
-- `npm run dev`
+To run tests all you need is `npm run test`.
 
-## Running Tests
+Before writing your first line of code, please take a moment and check out
+our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
-We're using **jest** and **cypress** to run tests. You can run with:
-- `npm run test`
+## Getting help
 
-## Commits Standards
-
-There's a hook that will run before each commit, to make sure the commit message, title and body, if present, will be in compliance with the standards.
-
-## Internal TODO
-
-- [ ] Finish this readme file
-- [ ] Adjust the package.json file
-- [ ] Add a starting code-base
-- [ ] Add tests
+As mentioned, we're here to help. Feel free to start a conversation
+on Rocket chat or ask a question on Stackoverflow.
