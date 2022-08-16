@@ -1,6 +1,6 @@
 # Contributing guide
 
-Thanks for taking a moment and reading this guide. Is very important to have 
+Thanks for taking a moment and reading this guide. It's very important to have 
 everyone on the same page. This guide describes how to:
 - Set up your environment
 - Run this application
