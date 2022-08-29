@@ -26,7 +26,8 @@ Make sure you have Git installed on your machine. You can follow
 ### NPM
 
 NodeJS is required to build and start this app. You can look for install
-instructions [here](https://nodejs.org/en/download/).
+instructions [here](https://nodejs.org/en/download/). Make sure you have
+at least the version 16.10 (that includes yarn)
 
 ### IDE
 
@@ -42,8 +43,9 @@ pipeline to check for common errors and possible bugs.
 ## Run this application
 
 Now that your environment is all set up, we can run the application. 
-You can get it up and running by typing `npm run dev` in the project
-root directory.
+To do that, first you need to install required dependencies. Run
+`yarn install` and once is finished, you can get it up and running
+by typing `npm run dev` in the project root directory.
 
 ## Run tests
 
