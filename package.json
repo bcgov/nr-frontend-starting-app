@@ -1,105 +1,70 @@
 {
-  "name": "greenfield-template",
-  "version": "0.0.1",
-  "description": "BCGov greenfield template. For reference, testing and new projects.",
-  "main": "index.js",
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "lint:staged": "./node_modules/.bin/lint-staged",
-    "make-badges": "istanbul-badges-readme --logo=jest --exitCode=1",
-    "make-badges:ci": "npm run make-badges -- --ci",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bcgov/greenfield-template.git"
-  },
-  "keywords": [
-    "openshift",
-    "pipeline",
-    "node",
-    "js",
-    "devops"
-  ],
-  "author": "Derek Roberts",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/bcgov/greenfield-template/issues"
-  },
-  "homepage": "https://github.com/bcgov/greenfield-template#readme",
+  "name": "nr-sample-frontend",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.10.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/parser": "5.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "jest": "^29.0.0",
+    "node-sass": "^7.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-test-renderer": "^18.2.0",
+    "shared-components": "https://github.com/bcgov/react-shared-components/releases/download/v1.2.6/shared-components-1.2.6.tgz",
+    "styled-components": "^5.3.5",
+    "ts-jest": "^28.0.8",
+    "typescript": "*",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "jest",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-promise": "^5.2.0",
-    "istanbul-badges-readme": "^1.8.1",
-    "jest": "^27.3.0",
-    "jest-badges": "^0.1.3",
-    "jest-sonar-reporter": "^2.0.0",
-    "lint-staged": "^12.3.1",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "source-map-support": "^0.5.20",
-    "supertest": "^6.1.6",
-    "ts-jest": "^27.0.7",
-    "ts-node": "^10.3.0",
-    "tsconfig-paths": "^3.11.0",
-    "typescript": "^4.4.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "cobertura",
-      "jest-badges"
-    ],
-    "testEnvironment": "node",
-    "testResultsProcessor": "jest-sonar-reporter"
-  },
-  "lint-staged": {
-    "*.{js,ts}": "./node_modules/.bin/eslint --cache --fix"
-  },
-  "overrides": {
-    "minimist@<1.2.6": "1.2.6"
+    "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.1.1/bcgov-bootstrap-theme-1.1.1.tgz",
+    "@types/react-test-renderer": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "bootstrap": "~4.3.1",
+    "eslint": "8.2.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react-hooks": "4.3.0"
   }
 }

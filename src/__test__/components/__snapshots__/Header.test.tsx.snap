@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<header
+  className="sc-gsnTZi ftQjjz"
+>
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": ".css-1oqqzyl-MuiContainer-root{width:100%;margin-left:auto;box-sizing:border-box;margin-right:auto;display:block;padding-left:16px;padding-right:16px;}@media (min-width:600px){.css-1oqqzyl-MuiContainer-root{padding-left:24px;padding-right:24px;}}@media (min-width:1200px){.css-1oqqzyl-MuiContainer-root{max-width:1200px;}}",
+      }
+    }
+    data-emotion="css 1oqqzyl-MuiContainer-root"
+  />
+  <div
+    className="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        {
+          "__html": ".css-a5rdam-MuiGrid-root{box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;margin-top:-8px;width:calc(100% + 8px);margin-left:-8px;}.css-a5rdam-MuiGrid-root>.MuiGrid-item{padding-top:8px;}.css-a5rdam-MuiGrid-root>.MuiGrid-item{padding-left:8px;}",
+        }
+      }
+      data-emotion="css a5rdam-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
+    >
+      <div
+        className="sc-bczRLJ jtcqdn"
+      >
+        <a
+          href="https://gov.bc.ca"
+        >
+          <img
+            alt="Go to the Government of British Columbia website"
+            className="sc-dkzDqf fUaPXL"
+            height="45px"
+            src="https://developer.gov.bc.ca/static/BCID_H_rgb_rev-20eebe74aef7d92e02732a18b6aa6bbb.svg"
+          />
+        </a>
+        <div
+          className="sc-hKMtZM hLTdUm"
+        >
+          NR Sample App
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+`;
