@@ -3,8 +3,7 @@ import React from 'react';
 interface CardProps {
   title: string,
   text: string,
-  children?: React.ReactNode,
-  // data-test?: string
+  children?: React.ReactNode
 }
 
 const Card = ({ title, text, children }: CardProps) => (

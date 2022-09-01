@@ -1,6 +1,6 @@
 # Contributing guide
 
-Thanks for taking a moment and reading this guide. It's very important to have 
+Thanks for taking a moment and reading this guide. It's very important to have
 everyone on the same page. This guide describes how to:
 - Set up your environment
 - Run this application
@@ -11,9 +11,9 @@ everyone on the same page. This guide describes how to:
 (If you are new to GitHub, you might start with a [basic tutorial](https://help.github.com/articles/set-up-git) and check out a more detailed guide to [pull requests](https://help.github.com/articles/using-pull-requests/).)
 
 All contributors retain the original copyright to their stuff, but by
-contributing to this project, you grant a world-wide, royalty-free, 
-perpetual, irrevocable, non-exclusive, transferable license to all 
-users **under the terms of the [license](./LICENSE.md) under which 
+contributing to this project, you grant a world-wide, royalty-free,
+perpetual, irrevocable, non-exclusive, transferable license to all
+users **under the terms of the [license](./LICENSE.md) under which
 this project is distributed**.
 
 ## Set up your environment
@@ -42,14 +42,14 @@ pipeline to check for common errors and possible bugs.
 
 ## Run this application
 
-Now that your environment is all set up, we can run the application. 
+Now that your environment is all set up, we can run the application.
 To do that, first you need to install required dependencies. Run
 `yarn install` and once is finished, you can get it up and running
-by typing `npm run dev` in the project root directory.
+by typing `yarn start` in the project root directory.
 
 ## Run tests
 
-You can run tests running `npm run test`. Tests coverage reports can be seen
+You can run tests running `yarn test`. Tests coverage reports can be seen
 on you command line window and also on GitHub, in your commits and pull requests.
 
 ## Submit pull requests

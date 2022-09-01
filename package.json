@@ -28,6 +28,23 @@
     "typescript": "*",
     "web-vitals": "^2.1.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcgov/nr-frontend-starting-app.git"
+  },
+  "keywords": [
+    "fsa",
+    "nr",
+    "frontend",
+    "node",
+    "js",
+    "react"
+  ],
+  "author": "Encora Team",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bcgov/nr-frontend-starting-app/issues"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "tsc -p tsconfig.build.json",
