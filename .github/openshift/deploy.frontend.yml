@@ -3,8 +3,8 @@ kind: Template
 metadata:
   name: ${NAME}
   annotations:
-    description: "Greenfield Template"
-    tags: "gfp"
+    description: "NR Frontend Sample App"
+    tags: "nrfesampleapp"
     iconClass: icon-js
 labels:
   app: ${NAME}-${ZONE}
@@ -12,10 +12,10 @@ labels:
 parameters:
   - name: NAME
     description: Module name
-    value: gfp
+    value: nrfesampleapp
   - name: COMPONENT
     description: Component name
-    value: frontend
+    value: nrfesampleapp
   - name: ZONE
     description: Deployment zone, e.g. pr-### or prod
     required: true
@@ -33,7 +33,10 @@ parameters:
     value: ghcr.io
   - name: PROMOTE
     description: Image (namespace/name:tag) to promote/import
-    value: bcgov/greenfield-pipeline:prod-frontend
+    value: bcgov/nr-frontend-starting-app:prod-nrfesampleapp
+  - name: NRFESAMPLEAPP_VERSION
+    description: Current sample app release version
+    required: true
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -84,8 +87,8 @@ objects:
               imagePullPolicy: Always
               name: ${NAME}
               env:
-                - name: BACKEND_URL
-                  value: https://${NAME}-${ZONE}-backend.${DOMAIN}
+                - name: NRFESAMPLEAPP_VERSION
+                  value: ${NRFESAMPLEAPP_VERSION}
               ports:
                 - containerPort: 3000
                   protocol: TCP
