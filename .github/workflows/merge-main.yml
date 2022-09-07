@@ -5,14 +5,12 @@ on:
     branches:
       - main
     paths-ignore:
-      - ".**"
       - "**.md"
-      - "**.yml"
-      - "**.yaml"
+    workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  NAME: gfp
+  NAME: nrfesampleapp
 
 jobs:
   codeql:
@@ -69,12 +67,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Backend Tests
-        run: |
-          cd frontend
-          npm ci
-          npm run test:cov
-
       - name: Frontend Tests
         run: |
           cd frontend
@@ -90,35 +82,12 @@ jobs:
           args: >
             -Dsonar.exclusions=**/test/**,.github/**/*
             -Dsonar.organization=bcgov-sonarcloud
-            -Dsonar.javascript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
-            -Dsonar.cobertura.reportPaths=backend/coverage/cobertura-coverage.xml,frontend/coverage/cobertura-coverage.xml
+            -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
+            -Dsonar.cobertura.reportPaths=frontend/coverage/cobertura-coverage.xml
             -Dsonar.project.monorepo.enabled=true
             -Dsonar.projectKey=greenfield-template
-            -Dsonar.sources=backend,frontend
-            -Dsonar.tests=backend/test,frontend/test
-
-  # https://github.com/marketplace/actions/aqua-security-trivy
-  trivy-backend:
-    name: Backend Image Report
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Backend container scan
-      - name: Trivy Image Scan
-        uses: aquasecurity/trivy-action@0.3.0
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:test-backend
-          ignore-unfixed: true
-          severity: CRITICAL
-          format: "sarif"
-          output: "trivy-results-backend.sarif"
-
-      - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: "trivy-results-backend.sarif"
+            -Dsonar.sources=frontend
+            -Dsonar.tests=frontend/test
 
   # https://github.com/marketplace/actions/aqua-security-trivy
   trivy-frontend:
@@ -199,7 +168,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           package: ${{ github.event.repository.name }}
           owner: orgs/bcgov
-          skip_tags: prod-frontend,prod-backend
+          skip_tags: prod-frontend
 
   deploy-test:
     name: TEST Deployment
@@ -222,15 +191,10 @@ jobs:
           fi
 
           # Process and apply deployment templates
-          oc process -f .github/openshift/deploy.database.yml -p ZONE=${{ env.ZONE }} | oc apply -f -
-          oc process -f .github/openshift/deploy.backend.yml -p ZONE=${{ env.ZONE }} \
-            -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-backend | oc apply -f -
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
             -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-frontend | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
-          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-database -w
-          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-backend -w
           oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-frontend -w
 
           # Remove completed build runs, build pods and deployment pods
@@ -238,23 +202,6 @@ jobs:
           do
             oc delete po ${p}
           done
-
-  zap-backend:
-    name: Backend Pen Tests
-    needs:
-      - deploy-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.3.0
-        with:
-          target: https://${{ env.NAME }}-test-backend.apps.silver.devops.gov.bc.ca/
-          cmd_options: "-a"
-          allow_issue_writing: false
-          fail_action: false
 
   zap-frontend:
     name: Frontend Pen Tests
@@ -276,7 +223,6 @@ jobs:
   deploy-prod:
     name: PROD Deployment
     needs:
-      - zap-backend
       - zap-frontend
     runs-on: ubuntu-latest
     environment:
@@ -298,15 +244,10 @@ jobs:
           fi
 
           # Process and apply deployment templates
-          oc process -f .github/openshift/deploy.database.yml -p ZONE=${{ env.ZONE }} | oc apply -f -
-          oc process -f .github/openshift/deploy.backend.yml -p ZONE=${{ env.ZONE }} \
-            -p PROMOTE=${{ github.repository }}:${{ env.PREV }}-backend | oc apply -f -
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
             -p PROMOTE=${{ github.repository }}:${{ env.PREV }}-frontend | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
-          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-database -w
-          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-backend -w
           oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-frontend -w
 
           # Remove completed build runs, build pods and deployment pods
@@ -314,15 +255,6 @@ jobs:
           do
             oc delete po ${p}
           done
-
-      - name: Promote Backend Image to PROD
-        uses: shrink/actions-docker-registry-tag@v2
-        with:
-          registry: ghcr.io
-          repository: ${{ github.repository }}
-          target: ${{ env.PREV }}-backend
-          tags: |
-            prod-backend
 
       - name: Promote Frontend Image to PROD
         uses: shrink/actions-docker-registry-tag@v2
