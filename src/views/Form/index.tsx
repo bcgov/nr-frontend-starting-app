@@ -6,8 +6,12 @@ import { Alert, Button } from 'shared-components';
 
 import TextInput from '../../components/TextInput';
 import Label from '../../components/Label';
+import UserTable from '../../components/UserTable';
+
+ import SampleUser from '../../types/SampleUser';
 
 import './styles.css';
+import getUsers from '../../api/UserSampleApi';
 
 const Form = () => {
   const [firstFeed, setFirstFeed] = React.useState('');
@@ -15,6 +19,7 @@ const Form = () => {
   const [firstIsValid, setFirstIsValid] = React.useState<boolean | undefined>(undefined);
   const [lastIsValid, setLastIsValid] = React.useState<boolean | undefined>(undefined);
   const [submitted, setSubmitted] = React.useState(false);
+  const [users, setUsers] = React.useState<any[]>([]);
 
   const handleFirstName = (event: React.FocusEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
@@ -49,6 +54,35 @@ const Form = () => {
     navigate('/');
   };
 
+  const getUsers = () => {
+    const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
+
+    function request<TResponse>(
+      url: string,
+      config: RequestInit = {}
+    ): Promise<TResponse> {
+      return fetch(url, config)
+        .then((response) => response.json())
+        .then((data) => data as TResponse);
+    }
+
+    return request<SampleUser>(`${BASE_URL}/users/find-all`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((dataJson) => {
+      console.log('dataJson', dataJson);
+      setUsers(dataJson);
+    });
+  };
+
+  React.useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
@@ -75,6 +109,7 @@ const Form = () => {
         <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
         <Button onClick={goBack} label="Cancel" styling="bcgov-normal-white btn buttonMargin" />
       </Grid>
+      <UserTable elements={users} />
     </Grid>
   );
 };
