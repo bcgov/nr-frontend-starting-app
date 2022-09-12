@@ -14,7 +14,7 @@ const Header = () => (
           <a href="https://gov.bc.ca">
             <HeaderImage src="https://developer.gov.bc.ca/static/BCID_H_rgb_rev-20eebe74aef7d92e02732a18b6aa6bbb.svg" alt="Go to the Government of British Columbia website" height="45px" />
           </a>
-          <HeaderTitle>
+          <HeaderTitle data-testid="header-title">
             NR Sample App
           </HeaderTitle>
         </HeaderBanner>

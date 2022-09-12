@@ -3,9 +3,14 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import HeaderBox from '../../components/HeaderBox';
 
-it('renders correctly', () => {
-  const tree = renderer
-    .create(<HeaderBox />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+// This component serves only as a 'parent' to style correctly the header
+// so the snapshot test is sufficient
+
+describe('the component renders correctly', () => {
+  it('should match the snapshot', () => {
+    const tree = renderer
+      .create(<HeaderBox />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
