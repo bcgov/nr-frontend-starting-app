@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly fail input 1`] = `
+[
+  <input
+    className="form-control is-invalid"
+    id="test3"
+    onBlur="undefined"
+    type="text"
+  />,
+  <div
+    className="invalid-feedback"
+  >
+    invalid field
+  </div>,
+]
+`;
+
+exports[`renders correctly neutral input 1`] = `
+[
+  <input
+    className="form-control is-valid"
+    id="test1"
+    onBlur="undefined"
+    type="text"
+  />,
+  <div
+    className="valid-feedback"
+  >
+    valid field
+  </div>,
+]
+`;
+
+exports[`renders correctly success input 1`] = `
+[
+  <input
+    className="form-control is-valid"
+    id="test2"
+    onBlur="undefined"
+    type="text"
+  />,
+  <div
+    className="valid-feedback"
+  >
+    valid field
+  </div>,
+]
+`;

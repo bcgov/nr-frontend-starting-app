@@ -40,10 +40,10 @@ test and deploy.
 # Getting started
 
 Once you have cloned this repository, you can get the app running by typing
-`yarn install` and then `npm run dev` from the project root directory. Then
+`yarn install` and then `yarn start` from the project root directory. Then
 head to http://localhost:3000.
 
-To run tests all you need is `npm run test`.
+To run tests all you need is `yarn test`.
 
 Before writing your first line of code, please take a moment and check out
 our [CONTRIBUTING](CONTRIBUTING.md) guide.

@@ -1,4 +1,5 @@
+// Ignores test files when building the app
 {
-  "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "extends": "./tsconfig",
+  "exclude": ["**/*.test.*", "**/__tests__/*"]
 }
