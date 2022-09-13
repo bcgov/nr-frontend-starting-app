@@ -1,4 +1,5 @@
-interface SampleUser {
+type SampleUser = {
+  key?: number,
   firstName: string,
   lastName: string
 }

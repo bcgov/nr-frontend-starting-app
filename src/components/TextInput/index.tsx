@@ -9,15 +9,19 @@ interface InputProps {
 }
 
 const TextInput = ({
-  id, isValid, size = 'form-control ', feedback = '', blur = undefined
+  id,
+  isValid,
+  size = 'form-control',
+  feedback = '',
+  blur = 'undefined'
 }: InputProps) => {
   let valid = '';
 
-  if (isValid !== undefined) {
+  if (typeof isValid === 'boolean') {
     valid = isValid ? 'is-valid' : 'is-invalid';
   }
 
-  const inputClasses = size + valid;
+  const inputClasses = `${size} ${valid}`;
 
   return (
     <>

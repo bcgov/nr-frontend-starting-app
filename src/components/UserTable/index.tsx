@@ -6,27 +6,25 @@ interface TableProps {
 }
 
 function UserTable({ elements }: TableProps) {
-  const rows = [];
-  elements.forEach((element) => {
-    const tableRow = (
-      <tr>
-        <td>{ element.firstName }</td>
-        <td>{ element.lastName }</td>
-      </tr>
-    );
-
-    rows.push(tableRow);
-  });
-
   return (
     <table className="table">
       <thead>
         <tr>
+          <th scope="row">#</th>
           <th scope="col">First</th>
           <th scope="col">Last</th>
         </tr>
       </thead>
-      <tbody>{rows}</tbody>
+      <tbody>
+        {elements.map((item, idx) => (
+          // FIXME: dont't use 'idx' as key: https://reactjs.org/docs/lists-and-keys.html#keys
+          <tr key={idx.toString()}>
+            <td>{idx}</td>
+            <td>{item.firstName}</td>
+            <td>{item.lastName}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }
