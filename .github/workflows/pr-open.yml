@@ -61,7 +61,7 @@ jobs:
     needs:
       - validate-lint
     steps:
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Set Node
         uses: actions/setup-node@v3
