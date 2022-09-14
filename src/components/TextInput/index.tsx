@@ -5,7 +5,9 @@ interface InputProps {
   isValid?: boolean,
   size?: string,
   feedback?: string,
-  blur?: any
+  onChangeHandler?: ChangeEventHandler<HTMLInputElement> | undefined,
+  inputValue?: string,
+  onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement> | undefined
 }
 
 const TextInput = ({
@@ -13,7 +15,9 @@ const TextInput = ({
   isValid,
   size = 'form-control ',
   feedback = '',
-  blur = 'undefined'
+  onChangeHandler = undefined,
+  inputValue = '',
+  onKeyDownHandler = undefined
 }: InputProps) => {
   let valid = '';
 
@@ -25,8 +29,17 @@ const TextInput = ({
 
   return (
     <>
-      <input data-testid="input-element" type="text" id={id} className={inputClasses} onChange={blur} value={inputValue} />
-      <div data-testid="feedback-element" className={isValid ? 'valid-feedback' : 'invalid-feedback'}>{ feedback }</div>
+      <input
+        data-testid="input-element"
+        type="text"
+        id={id}
+        className={inputClasses}
+        onChange={onChangeHandler}
+        value={inputValue}
+        onKeyDown={onKeyDownHandler}
+      />
+      <div data-testid="feedback-element"
+            className={isValid ? 'valid-feedback' : 'invalid-feedback'}>{ feedback }</div>
     </>
   );
 };

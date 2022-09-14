@@ -77,11 +77,10 @@ const Form = () => {
     }
   };
 
-  const handleFirstName = (event: React.FocusEvent<HTMLElement>): void => {
-    const target = event.target as HTMLInputElement;
+  const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFirstName(event.target.value.trim());
 
-    if (target.value !== '') {
-      setFirstName(target.value.trim());
+    if (event.target.value !== '') {
       setFirstIsValid(true);
       setFirstFeed('OK!');
     } else {
@@ -90,16 +89,21 @@ const Form = () => {
     }
   };
 
-  const handleLastName = (event: React.FocusEvent<HTMLElement>): void => {
-    const target = event.target as HTMLInputElement;
+  const handleLastName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setLastName(event.target.value.trim());
 
-    if (target.value !== '') {
-      setLastName(target.value.trim());
+    if (event.target.value !== '') {
       setLastIsValid(true);
       setLastFeed('OK!');
     } else {
       setLastIsValid(false);
       setLastFeed('Please enter a valid value');
+    }
+  };
+
+  const enterKeyHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -153,11 +157,25 @@ const Form = () => {
       }
       <Grid item xs={12} sm={6}>
         <Label labelStr="First Name" forStr="fnInput" />
-        <TextInput id="fnInput" isValid={firstIsValid} feedback={firstFeed} blur={handleFirstName} inputValue={firstName} />
+        <TextInput
+          id="fnInput"
+          isValid={firstIsValid}
+          feedback={firstFeed}
+          onChangeHandler={handleFirstName}
+          inputValue={firstName}
+          onKeyDownHandler={enterKeyHandler}
+        />
       </Grid>
       <Grid item xs={12} sm={6}>
         <Label labelStr="Last Name" forStr="lnInput" />
-        <TextInput id="lnInput" isValid={lastIsValid} feedback={lastFeed} blur={handleLastName} inputValue={lastName} />
+        <TextInput
+          id="lnInput"
+          isValid={lastIsValid}
+          feedback={lastFeed}
+          onChangeHandler={handleLastName}
+          inputValue={lastName}
+          onKeyDownHandler={enterKeyHandler}
+        />
       </Grid>
       <Grid item xs={12}>
         <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
