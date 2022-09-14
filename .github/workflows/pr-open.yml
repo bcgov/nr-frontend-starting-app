@@ -135,7 +135,7 @@ jobs:
             -Dsonar.tests=test
 
   security:
-    name: Security checks (Commits and PR)
+    name: Security checks
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -229,7 +229,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-image:
-    name: Image Build
+    name: Image Build (Only PR)
     env:
       COMPONENT: nrfesampleapp-image
       ZONE: ${{ github.event.number }}
@@ -285,7 +285,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.ZONE }}-${{ env.COMPONENT }}
 
   deploy-dev:
-    name: DEV Deployment
+    name: DEV Deployment (Only PR)
     needs:
       - build-image
     runs-on: ubuntu-latest
