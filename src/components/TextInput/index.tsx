@@ -11,7 +11,7 @@ interface InputProps {
 const TextInput = ({
   id,
   isValid,
-  size = 'form-control',
+  size = 'form-control ',
   feedback = '',
   blur = 'undefined'
 }: InputProps) => {
@@ -25,7 +25,7 @@ const TextInput = ({
 
   return (
     <>
-      <input data-testid="input-element" type="text" id={id} className={inputClasses} onBlur={blur} />
+      <input data-testid="input-element" type="text" id={id} className={inputClasses} onChange={blur} value={inputValue} />
       <div data-testid="feedback-element" className={isValid ? 'valid-feedback' : 'invalid-feedback'}>{ feedback }</div>
     </>
   );

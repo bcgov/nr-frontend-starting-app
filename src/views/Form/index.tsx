@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MdCancel, MdCheckBox } from 'react-icons/md';
+import { MdCancel } from 'react-icons/md';
 
 import { Grid } from '@mui/material';
 import { Alert, Button } from 'shared-components';
@@ -10,9 +10,10 @@ import Label from '../../components/Label';
 import UserTable from '../../components/UserTable';
 
 import SampleUser from '../../types/SampleUser';
+import toApiException from '../../types/ApiException';
 
 import './styles.css';
-import { fetchApiRequest, getRequestInit } from '../../service/FetchApi';
+import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 const Form = () => {
   const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
@@ -25,32 +26,56 @@ const Form = () => {
   const [lastFeed, setLastFeed] = React.useState('');
   const [lastIsValid, setLastIsValid] = React.useState<boolean | undefined>(undefined);
 
-  const [submitted, setSubmitted] = React.useState(false);
-  const [finished, setFinished] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
 
+  const resetForm = (): void => {
+    setFirstName('');
+    setFirstIsValid(undefined);
+    setFirstFeed('');
+
+    setLastName('');
+    setLastIsValid(undefined);
+    setLastFeed('');
+
+    setShowError(false);
+    setErrorMessage('');
+  };
+
   const fetchData = async () => {
-    const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, getRequestInit());
+    const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
     setUsers(result);
   };
 
-  const saveData = async (firstName: string, lastName: string):void => {
-    const body = {
-      firstName,
-      lastName
-    };
+  const saveUser = async (first: string, last: string) => {
+    const body: BodyInit = JSON.stringify({
+      firstName: first,
+      lastName: last
+    });
 
-    const result = await fetchApiRequest(`${BASE_URL}/users`, getRequestInit(body));
-    console.log('POST result:', result);
-    if (result.errorMessage) {
-      console.log('result error:', error);
-      window.alert('ooops!');
-    } else {
-      setFinished(true);
+    try {
+      await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
+      resetForm();
       fetchData();
+    } catch (error) {
+      const errorObject = toApiException(error);
+      setShowError(true);
+      setErrorMessage(errorObject.errorMessage);
     }
-  }
+  };
+
+  const deleteUser = async (first: string, last: string) => {
+    try {
+      await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
+      fetchData();
+    } catch (error) {
+      const errorObject = toApiException(error);
+      setShowError(true);
+      setErrorMessage(errorObject.errorMessage);
+    }
+  };
 
   const handleFirstName = (event: React.FocusEvent<HTMLElement>): void => {
     const target = event.target as HTMLInputElement;
@@ -79,30 +104,32 @@ const Form = () => {
   };
 
   const handleSubmit = (): void => {
-    setSubmitted(true);
+    let message = '';
 
-    if (firstIsValid && lastIsValid) {
-      console.log(`Trigger a POST! with ${firstName} and ${lastName}`);
-      saveData(firstName, lastName);
-      //setFinished(true);
+    if (!firstIsValid && !lastIsValid) {
+      message = 'Please, enter your first and last name!';
+    } else if (!firstIsValid) {
+      message = 'Please, enter your first name!';
+    } else if (!lastIsValid) {
+      message = 'Please, enter your last name!';
     }
-  };
 
-  const resetForm = (): void => {
-    setFirstName('');
-    setFirstIsValid(undefined);
-    setFirstFeed('');
+    setShowError(message !== '');
+    setErrorMessage(message);
 
-    setLastName('');
-    setLastIsValid(undefined);
-    setLastFeed('');
-
-    setSubmitted(false);
+    if (message === '') {
+      saveUser(firstName, lastName);
+    }
   };
 
   const navigate = useNavigate();
   const goBack = () => {
     navigate('/');
+  };
+
+  const deleteByIndex = (idx: number): void => {
+    const userToDelete = users[idx];
+    deleteUser(userToDelete.firstName, userToDelete.lastName);
   };
 
   React.useEffect(() => {
@@ -118,20 +145,19 @@ const Form = () => {
         </p>
       </Grid>
       {
-        finished && firstIsValid && lastIsValid
-          ? <Grid item xs={12}><Alert icon={<MdCheckBox size={32} />} type="success" styling="bcgov-success-background" element="Your name was submitted to nowhere!" /></Grid> : ''
-      }
-      {
-        submitted && (!firstIsValid || !lastIsValid)
-          ? <Grid item xs={12}><Alert icon={<MdCancel size={32} />} type="error" styling="bcgov-error-background" element="Please, enter your name correctly!" /></Grid> : ''
+        showError && (
+        <Grid item xs={12}>
+          <Alert icon={<MdCancel size={32} />} type="error" styling="bcgov-error-background" element={errorMessage} />
+        </Grid>
+        )
       }
       <Grid item xs={12} sm={6}>
         <Label labelStr="First Name" forStr="fnInput" />
-        <TextInput id="fnInput" isValid={firstIsValid} feedback={firstFeed} blur={handleFirstName} />
+        <TextInput id="fnInput" isValid={firstIsValid} feedback={firstFeed} blur={handleFirstName} inputValue={firstName} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <Label labelStr="Last Name" forStr="lnInput" />
-        <TextInput id="lnInput" isValid={lastIsValid} feedback={lastFeed} blur={handleLastName} />
+        <TextInput id="lnInput" isValid={lastIsValid} feedback={lastFeed} blur={handleLastName} inputValue={lastName} />
       </Grid>
       <Grid item xs={12}>
         <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
@@ -139,7 +165,7 @@ const Form = () => {
         <Button onClick={goBack} label="Back to home" styling="bcgov-normal-white btn buttonMargin" />
       </Grid>
       <Grid item xs={12}>
-        <UserTable elements={users} />
+        <UserTable elements={users} deleteFn={deleteByIndex} />
       </Grid>
     </Grid>
   );

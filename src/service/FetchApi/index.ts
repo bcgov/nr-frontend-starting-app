@@ -5,29 +5,44 @@
  * is going to use POST method. Otherwise GET will be used.
  * @returns a RequestInit object
  */
-function getRequestInit(postBody?: BodyInit): RequestInit {
-  if (!postBody) {
+function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
+  if (method === 'GET') {
     return {
-      method: 'GET',
+      method,
       mode: 'cors',
       cache: 'default',
       headers: { 'Content-Type': 'application/json' }
     };
   }
 
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  if (method === 'POST' && postBody) {
+    headers.append('Content-Length', String(postBody.toString().length));
+  }
+
   return {
-    method: 'POST',
+    method,
     mode: 'cors',
     cache: 'default',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(postBody)
+    headers,
+    body: postBody
   };
 }
 
 function fetchApiRequest<T>(url: string, config: RequestInit = {}): Promise<T> {
   return fetch(url, config)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response
+        .json()
+        .then((data) => {
+          throw new Error(JSON.stringify(data));
+        });
+    })
     .then((data) => data as T);
 }
 
-export { fetchApiRequest, getRequestInit };
+export { fetchApiRequest, createRequestInit };
