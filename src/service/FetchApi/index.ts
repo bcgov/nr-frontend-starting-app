@@ -5,7 +5,7 @@
  * is going to use POST method. Otherwise GET will be used.
  * @returns a RequestInit object
  */
-function createRequestInit(method: string, postBody?: string) {
+function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
   if (method === 'GET') {
     return {
       method,

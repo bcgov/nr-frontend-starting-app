@@ -44,9 +44,19 @@ const Form = () => {
     setErrorMessage('');
   };
 
+  const handleError = (error: unknown): void => {
+    const errorObject = toApiException(error);
+    setShowError(true);
+    setErrorMessage(errorObject.errorMessage);
+  };
+
   const fetchData = async () => {
-    const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
-    setUsers(result);
+    try {
+      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
+      setUsers(result);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const saveUser = async (first: string, last: string) => {
@@ -60,9 +70,7 @@ const Form = () => {
       resetForm();
       fetchData();
     } catch (error) {
-      const errorObject = toApiException(error);
-      setShowError(true);
-      setErrorMessage(errorObject.errorMessage);
+      handleError(error);
     }
   };
 
@@ -71,9 +79,7 @@ const Form = () => {
       await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
       fetchData();
     } catch (error) {
-      const errorObject = toApiException(error);
-      setShowError(true);
-      setErrorMessage(errorObject.errorMessage);
+      handleError(error);
     }
   };
 
@@ -179,7 +185,7 @@ const Form = () => {
       </Grid>
       <Grid item xs={12}>
         <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
-        <Button onClick={resetForm} label="Cancel" styling="bcgov-normal-white btn buttonMargin" />
+        <Button onClick={resetForm} label="Reset" styling="bcgov-normal-white btn buttonMargin" />
         <Button onClick={goBack} label="Back to home" styling="bcgov-normal-white btn buttonMargin" />
       </Grid>
       <Grid item xs={12}>

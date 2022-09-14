@@ -8,7 +8,9 @@
         "airbnb"
     ],
     "globals": {
-      "JSX": true
+      "JSX": true,
+      "RequestInit": true,
+      "BodyInit": true
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
