@@ -19,50 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Not sure what to do with this job :(
-  check-frontend:
-    name: Check Frontend
-    outputs:
-      build: ${{ steps.check.outputs.build }}
-    env:
-      TRIGGERS: ('/')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check and process modified files
-        id: check
-        run: |
-          # Fetch main to diff against
-          git fetch origin main:refs/remotes/origin/master
-
-          # Trigger build if diff matches any triggers
-          TRIGGERS=${{ env.TRIGGERS }}
-          while read -r check
-          do
-              for t in "${TRIGGERS[@]}"; do
-                  if [[ "${check}" =~ "${t}" ]]
-                  then
-                      # Output build=true for next steps
-                      echo "::set-output name=build::true"
-                      echo -e "${t}\n --> ${check}\n"
-                      exit 0
-                  fi
-              done
-          done < <(git diff origin/main --name-only)
-          echo "Container build not required"
-
-      - name: Recycle/retag PROD Image
-        if: steps.check.outputs.build != 'true'
-        uses: shrink/actions-docker-registry-tag@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          repository: ${{ github.repository }}
-          target: prod-frontend
-          tags: |
-            ${{ github.event.number }}-frontend
-
   install-dependencies:
     name: Install dependencies
     runs-on: ubuntu-latest
@@ -103,10 +59,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs:
-      - install-dependencies
       - validate-lint
-      - check-frontend
-    if: needs.check-frontend.outputs.build == 'true'
     steps:
         uses: actions/checkout@v3
 
@@ -119,7 +72,6 @@ jobs:
       - name: Install dependencies
         run: yarn --prefer-offline
 
-      # Not sure if this should be maintaned
       - name: Cache for test results
         id: cache-tests
         uses: actions/cache@v3
@@ -145,7 +97,42 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           lcov-file: ./coverage/lcov.info
 
-      # TODO: What about E2E tests ???
+  sonarcloud:
+    name: Static Analysis
+    needs:
+      - run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        # Disable shallow clone for SonarCloud analysis
+        with:
+          fetch-depth: 0
+
+      # Not sure if this should be maintaned
+      - name: Cache for test results
+        id: cache-tests
+        uses: actions/cache@v3
+        with:
+          path: /coverage
+          key: coverage-${{ github.run_number }}
+          restore-keys: |
+            coverage-
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.exclusions=**/test/**,.github/**/*
+            -Dsonar.organization=bcgov-sonarcloud
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.cobertura.reportPaths=coverage/cobertura-coverage.xml
+            -Dsonar.project.monorepo.enabled=true
+            -Dsonar.projectKey=greenfield-template
+            -Dsonar.sources=.
+            -Dsonar.tests=test
 
   security:
     name: Security checks (Commits and PR)
@@ -153,7 +140,7 @@ jobs:
     permissions:
       security-events: write
     needs:
-      - validate
+      - validate-lint
     steps:
       - uses: actions/checkout@v3
       - name: Set Node
@@ -186,17 +173,13 @@ jobs:
   build-image:
     name: Image Build
     env:
-      COMPONENT: nrfesampleapp-image
+      COMPONENT: ${{ env.NAME }}-image
       ZONE: ${{ github.event.number }}
       NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
     runs-on: ubuntu-latest
     needs:
-      - check-frontend
-      - install-dependencies
-      - validate-lint
       - run-tests
       - security
-    if: needs.check-frontend.outputs.build == 'true'
     permissions:
       contents: read
       packages: write
@@ -242,54 +225,10 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.ZONE }}-${{ env.COMPONENT }}
 
-  # Needs SolarCloud permission
-  sonarcloud:
-    name: Static Analysis
-    needs:
-      - build-image
-      - run-tests
-      - security
-    if: always() && (needs.build-image.result == 'success')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        # Disable shallow clone for SonarCloud analysis
-        with:
-          fetch-depth: 0
-
-      # Not sure if this should be maintaned
-      - name: Cache for test results
-        id: cache-tests
-        uses: actions/cache@v3
-        with:
-          path: /coverage
-          key: coverage-${{ github.run_number }}
-          restore-keys: |
-            coverage-
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.exclusions=**/test/**,.github/**/*
-            -Dsonar.organization=bcgov-sonarcloud
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.cobertura.reportPaths=coverage/cobertura-coverage.xml
-            -Dsonar.project.monorepo.enabled=true
-            -Dsonar.projectKey=greenfield-template
-            -Dsonar.sources=frontend
-            -Dsonar.tests=test
-
   deploy-dev:
     name: DEV Deployment
     needs:
       - build-image
-      - run-tests
-      - security
-    if: always() && (needs.build-image.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -307,17 +246,17 @@ jobs:
           if [ ${{ needs.build-image.outputs.build == 'true' }} ]
           then
             # Clear stale images for import/replacement
-            oc delete is ${{ env.NAME }}-${{ env.ZONE }}-nrfesampleapp || \
+            oc delete is ${{ env.NAME }}-${{ env.ZONE }}-app || \
               echo "No previously imported images have been found"
           fi
 
           # Process and apply template
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
             -p NRFESAMPLEAPP_VERSION=${{ env.NRFESAMPLEAPP_VERSION }} \
-            -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-nrfesampleapp | oc apply -f -
+            -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
-          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-nrfesampleapp -w
+          oc rollout status dc/${{ env.NAME }}-${{ env.ZONE }}-app -w
 
       - name: DEV Deployment update
         uses: mshick/add-pr-comment@v1
@@ -327,4 +266,4 @@ jobs:
           allow-repeats: false
           message: |
             DEV deployments have completed successfully!
-            Frontend: [https://${{ env.NAME }}-${{ github.event.number }}-nrfesampleapp.apps.silver.devops.gov.bc.ca/]()
+            Frontend: [https://${{ env.NAME }}-${{ github.event.number }}-app.apps.silver.devops.gov.bc.ca/]()
