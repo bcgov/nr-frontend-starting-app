@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`the component renders correctly should match the snapshot 1`] = `
 <footer
   className="sc-bczRLJ bpbShr"
 />

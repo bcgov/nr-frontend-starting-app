@@ -1,47 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly fail input 1`] = `
+exports[`the component renders correctly should match the snapshot for the fail input 1`] = `
 [
   <input
     className="form-control is-invalid"
+    data-testid="input-element"
     id="test3"
-    onBlur="undefined"
     type="text"
   />,
   <div
     className="invalid-feedback"
+    data-testid="feedback-element"
   >
     invalid field
   </div>,
 ]
 `;
 
-exports[`renders correctly neutral input 1`] = `
+exports[`the component renders correctly should match the snapshot for the neutral input 1`] = `
 [
   <input
-    className="form-control is-valid"
+    className="form-control "
+    data-testid="input-element"
     id="test1"
-    onBlur="undefined"
     type="text"
   />,
   <div
-    className="valid-feedback"
-  >
-    valid field
-  </div>,
+    className="invalid-feedback"
+    data-testid="feedback-element"
+  />,
 ]
 `;
 
-exports[`renders correctly success input 1`] = `
+exports[`the component renders correctly should match the snapshot for the success input 1`] = `
 [
   <input
     className="form-control is-valid"
+    data-testid="input-element"
     id="test2"
-    onBlur="undefined"
     type="text"
   />,
   <div
     className="valid-feedback"
+    data-testid="feedback-element"
   >
     valid field
   </div>,
