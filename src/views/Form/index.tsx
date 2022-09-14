@@ -50,7 +50,7 @@ const Form = () => {
   };
 
   const saveUser = async (first: string, last: string) => {
-    const body: BodyInit = JSON.stringify({
+    const body = JSON.stringify({
       firstName: first,
       lastName: last
     });
@@ -101,12 +101,6 @@ const Form = () => {
     }
   };
 
-  const enterKeyHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'Enter') {
-      handleSubmit();
-    }
-  };
-
   const handleSubmit = (): void => {
     let message = '';
 
@@ -123,6 +117,12 @@ const Form = () => {
 
     if (message === '') {
       saveUser(firstName, lastName);
+    }
+  };
+
+  const enterKeyHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
