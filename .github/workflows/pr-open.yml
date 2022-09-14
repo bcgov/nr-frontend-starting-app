@@ -129,8 +129,8 @@ jobs:
             -Dsonar.organization=bcgov-sonarcloud
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.cobertura.reportPaths=coverage/cobertura-coverage.xml
-            -Dsonar.project.monorepo.enabled=true
-            -Dsonar.projectKey=greenfield-template
+            -Dsonar.project.monorepo.enabled=false
+            -Dsonar.projectKey=bcgov_nr-frontend-starting-app
             -Dsonar.sources=.
             -Dsonar.tests=test
 
