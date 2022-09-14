@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/nr-frontend-starting-app)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Natural Resources Front-End Starting Progressive Web Application
 
-## Available Scripts
+This repository holds a set of policies, standard, guides and pipelines to get
+started with a Progressive Web Application. Before writing your first line of code, please take a
+moment and check out our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
-In the project directory, you can run:
+## Our Policy
 
-### `yarn start`
+- Work in the open: That means that everything we do should be open, should be
+public. Please, don't create private repositories unless you have a very strong
+reason. Keeping things public is a must follow rule for BC Government.
+- Customer centred services: All the work that's been created is to improve
+users, customers, and friends usability and experience. Is important to keep
+that in mind, because as engineers sometimes we face technical issues, however, our goal is to have a good product.
+- Community based work: Remember that you're not alone. It's very likely that
+your problem is someone else's problem. Let's figure it out together. So, ask
+a question using our channels. We have [our own Stackoverflow](https://stackoverflow.developer.gov.bc.ca/)
+and [our Rocket Chat](https://chat.developer.gov.bc.ca/) channel.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Here you will find a comprehensive list of all the languages and tools that are
+been used in this app. And also everything you need to get started, build,
+test and deploy.
 
-### `yarn test`
+- React Progressive Web Application
+  - TypeScript
+  - Redux
+  - Styled Components
+  - Jest and Cypress
+- Lint
+  - Airbnb ESLint
+- Tools
+  - Docker
+  - Microsoft Visual Studio Code
+  - Postman
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Getting started
 
-### `yarn build`
+Once you have cloned this repository, you can get the app running by typing
+`yarn install` and then `yarn start` from the project root directory. Then
+head to http://localhost:3000.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run tests all you need is `yarn test`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Before writing your first line of code, please take a moment and check out
+our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting help
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+As mentioned, we're here to help. Feel free to start a conversation
+on Rocket chat or ask a question on Stackoverflow.
