@@ -15,7 +15,7 @@ parameters:
     value: nrfesampleapp
   - name: COMPONENT
     description: Component name
-    value: nrfesampleapp
+    value: app
   - name: ZONE
     description: Deployment zone, e.g. pr-### or prod
     required: true
@@ -33,7 +33,7 @@ parameters:
     value: ghcr.io
   - name: PROMOTE
     description: Image (namespace/name:tag) to promote/import
-    value: bcgov/nr-frontend-starting-app:prod-nrfesampleapp
+    value: bcgov/nr-frontend-starting-app:prod-app
   - name: NRFESAMPLEAPP_VERSION
     description: Current sample app release version
     required: true
