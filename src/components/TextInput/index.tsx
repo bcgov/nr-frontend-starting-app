@@ -5,9 +5,9 @@ interface InputProps {
   isValid?: boolean,
   size?: string,
   feedback?: string,
-  onChangeHandler?: ChangeEventHandler<HTMLInputElement> | undefined,
+  onChangeHandler?: ChangeEventHandler<HTMLInputElement>,
   inputValue?: string,
-  onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement> | undefined,
+  onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement>,
   disabled?: boolean
 }
 
@@ -16,9 +16,9 @@ const TextInput = ({
   isValid,
   size = 'form-control ',
   feedback = '',
-  onChangeHandler = undefined,
+  onChangeHandler,
   inputValue = '',
-  onKeyDownHandler = undefined,
+  onKeyDownHandler,
   disabled = false
 }: InputProps) => {
   let valid = '';
