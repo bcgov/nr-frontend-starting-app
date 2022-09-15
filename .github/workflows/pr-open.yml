@@ -147,7 +147,7 @@ jobs:
             -Dsonar.project.monorepo.enabled=false
             -Dsonar.projectKey=bcgov_nr-frontend-starting-app
             -Dsonar.sources=.
-            -Dsonar.tests=/src/__test__
+            -Dsonar.tests=../../src/__test__
 
   security:
     name: Security checks
