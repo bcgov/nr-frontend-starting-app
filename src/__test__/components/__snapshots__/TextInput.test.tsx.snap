@@ -5,6 +5,7 @@ exports[`the component renders correctly should match the snapshot for the fail 
   <input
     className="form-control is-invalid"
     data-testid="input-element"
+    disabled={false}
     id="test3"
     type="text"
   />,
@@ -22,6 +23,7 @@ exports[`the component renders correctly should match the snapshot for the neutr
   <input
     className="form-control "
     data-testid="input-element"
+    disabled={false}
     id="test1"
     type="text"
   />,
@@ -37,6 +39,7 @@ exports[`the component renders correctly should match the snapshot for the succe
   <input
     className="form-control is-valid"
     data-testid="input-element"
+    disabled={false}
     id="test2"
     type="text"
   />,

@@ -10,23 +10,23 @@ interface TableProps {
 function UserTable({ elements, deleteFn }: TableProps) {
   return (
     <table className="table">
-      <thead>
+      <thead className="thead-dark">
         <tr>
-          <th scope="row">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Delete?</th>
+          <th scope="col" className="w-25">#</th>
+          <th scope="col" className="w-25">First</th>
+          <th scope="col" className="w-25">Last</th>
+          <th scope="col" className="w-25">Delete?</th>
         </tr>
       </thead>
       <tbody>
         {elements.map((item, idx) => (
           // FIXME: dont't use 'idx' as key: https://reactjs.org/docs/lists-and-keys.html#keys
           <tr key={idx.toString()}>
-            <td>{idx}</td>
+            <th scope="row">{idx}</th>
             <td>{item.firstName}</td>
             <td>{item.lastName}</td>
             <td>
-              <Button onClick={() => deleteFn(idx)} label="Delete-me" styling="bcgov-normal-blue btn buttonMargin" />
+              <Button onClick={() => deleteFn(idx)} label="Delete-me" styling="bcgov-normal-white btn" />
             </td>
           </tr>
         ))}

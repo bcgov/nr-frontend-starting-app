@@ -7,7 +7,8 @@ interface InputProps {
   feedback?: string,
   onChangeHandler?: ChangeEventHandler<HTMLInputElement> | undefined,
   inputValue?: string,
-  onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement> | undefined
+  onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement> | undefined,
+  disabled?: boolean
 }
 
 const TextInput = ({
@@ -17,7 +18,8 @@ const TextInput = ({
   feedback = '',
   onChangeHandler = undefined,
   inputValue = '',
-  onKeyDownHandler = undefined
+  onKeyDownHandler = undefined,
+  disabled = false
 }: InputProps) => {
   let valid = '';
 
@@ -37,6 +39,7 @@ const TextInput = ({
         onChange={onChangeHandler}
         value={inputValue}
         onKeyDown={onKeyDownHandler}
+        disabled={disabled}
       />
       <div data-testid="feedback-element"
             className={isValid ? 'valid-feedback' : 'invalid-feedback'}>{ feedback }</div>

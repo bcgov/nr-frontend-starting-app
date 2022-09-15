@@ -14,6 +14,7 @@ import toApiException from '../../types/ApiException';
 
 import './styles.css';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
+import CardLoader from '../../components/CardLoader';
 
 const Form = () => {
   const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
@@ -30,6 +31,7 @@ const Form = () => {
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
   const resetForm = (): void => {
     setFirstName('');
@@ -48,12 +50,14 @@ const Form = () => {
     const errorObject = toApiException(error);
     setShowError(true);
     setErrorMessage(errorObject.errorMessage);
+    setLoading(false);
   };
 
   const fetchData = async () => {
     try {
       const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
       setUsers(result);
+      setLoading(false);
     } catch (error) {
       handleError(error);
     }
@@ -66,6 +70,7 @@ const Form = () => {
     });
 
     try {
+      setLoading(true);
       await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
       resetForm();
       fetchData();
@@ -76,6 +81,7 @@ const Form = () => {
 
   const deleteUser = async (first: string, last: string) => {
     try {
+      setLoading(true);
       await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
       fetchData();
     } catch (error) {
@@ -151,7 +157,7 @@ const Form = () => {
       <Grid item xs={12}>
         <h1>NR Front End Form</h1>
         <p>
-          This is a simple test form, please write your information correctly.
+          This is a very simple form. Please, fill your first and last name then hit Submit!
         </p>
       </Grid>
       {
@@ -161,31 +167,50 @@ const Form = () => {
         </Grid>
         )
       }
+      {
+        loading && (
+          <Grid item xs={12}>
+            <CardLoader />
+          </Grid>
+        )
+      }
       <Grid item xs={12} sm={6}>
-        <Label labelStr="First Name" forStr="fnInput" />
+        <Label labelStr="First name" forStr="first-name" />
         <TextInput
-          id="fnInput"
+          id="first-name"
           isValid={firstIsValid}
           feedback={firstFeed}
           onChangeHandler={handleFirstName}
           inputValue={firstName}
           onKeyDownHandler={enterKeyHandler}
+          disabled={loading}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Label labelStr="Last Name" forStr="lnInput" />
+        <Label labelStr="Last lame" forStr="last-name" />
         <TextInput
-          id="lnInput"
+          id="last-name"
           isValid={lastIsValid}
           feedback={lastFeed}
           onChangeHandler={handleLastName}
           inputValue={lastName}
           onKeyDownHandler={enterKeyHandler}
+          disabled={loading}
         />
       </Grid>
       <Grid item xs={12}>
-        <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
-        <Button onClick={resetForm} label="Reset" styling="bcgov-normal-white btn buttonMargin" />
+        <Button
+          onClick={handleSubmit}
+          label="Submit"
+          styling="bcgov-normal-blue btn buttonMargin"
+          disabled={loading}
+        />
+        <Button
+          onClick={resetForm}
+          label="Reset"
+          styling="bcgov-normal-white btn buttonMargin"
+          disabled={loading}
+        />
         <Button onClick={goBack} label="Back to home" styling="bcgov-normal-white btn buttonMargin" />
       </Grid>
       <Grid item xs={12}>
