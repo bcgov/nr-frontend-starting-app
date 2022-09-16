@@ -48,7 +48,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint"
