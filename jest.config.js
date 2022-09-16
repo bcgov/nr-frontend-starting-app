@@ -6,8 +6,8 @@ module.exports = {
     '^.+\\.(css|less|scss)$': 'babel-jest'
   },
   coverageReporters: [
-    "text",
-    "cobertura",
-    "lcov"
+    'text',
+    'cobertura',
+    'lcov'
   ]
 };
