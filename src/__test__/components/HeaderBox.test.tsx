@@ -6,7 +6,7 @@ import HeaderBox from '../../components/HeaderBox';
 // This component serves only as a 'parent' to style correctly the header
 // so the snapshot test is sufficient
 
-describe('the component renders correctly', () => {
+describe('the HeaderBox component', () => {
   it('should match the snapshot', () => {
     const tree = renderer
       .create(<HeaderBox />)

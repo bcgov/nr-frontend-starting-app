@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import Footer from '../../components/Footer';
 
-describe('the component', () => {
+describe('the Footer component', () => {
   it('should have the correct links', () => {
     const { getByTestId } = render(<Footer />);
     expect(getByTestId('footer-home').textContent).toBe('Home');
@@ -14,9 +14,7 @@ describe('the component', () => {
     expect(getByTestId('footer-copyright').textContent).toBe('Copyright');
     expect(getByTestId('footer-contact').textContent).toBe('Contact Us');
   });
-});
 
-describe('the component renders correctly', () => {
   it('should match the snapshot', () => {
     const tree = renderer
       .create(<Footer />)

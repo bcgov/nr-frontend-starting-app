@@ -6,7 +6,7 @@ import HeaderBanner from '../../components/HeaderBanner';
 // This component serves only as a 'parent' for the header title and image
 // so the snapshot test is sufficient
 
-describe('the component renders correctly', () => {
+describe('the HeaderBanner component', () => {
   it('should match the snapshot', () => {
     const tree = renderer
       .create(<HeaderBanner />)

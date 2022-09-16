@@ -4,7 +4,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import TextInput from '../../components/TextInput';
 
-describe('the component', () => {
+describe('the TextInput component', () => {
   it('should have no feedback message when none is set', () => {
     const { getByTestId } = render(<TextInput id="test1" />);
     expect(getByTestId('feedback-element').textContent).toBe('');
@@ -19,9 +19,7 @@ describe('the component', () => {
     const { getByTestId } = render(<TextInput id="test3" isValid={false} feedback="invalid field" />);
     expect(getByTestId('feedback-element').textContent).toBe('invalid field');
   });
-});
 
-describe('the component renders correctly', () => {
   it('should match the snapshot for the neutral input', () => {
     const tree = renderer
       .create(<TextInput id="test1" />)

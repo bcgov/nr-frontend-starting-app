@@ -4,7 +4,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import FooterLink from '../../components/FooterLink';
 
-describe('the component', () => {
+describe('the FooterLink component', () => {
   it('should have the correct text link', () => {
     const { getByTestId } = render(
       <FooterLink data-testid="footer-test" href="#">
@@ -13,9 +13,7 @@ describe('the component', () => {
     );
     expect(getByTestId('footer-test').textContent).toBe('Test FooterLink');
   });
-});
 
-describe('the component renders correctly', () => {
   it('should match the snapshot', () => {
     const tree = renderer
       .create(<FooterLink />)
