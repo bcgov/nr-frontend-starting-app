@@ -87,7 +87,7 @@ jobs:
 
       - name: Tests
         run: |
-          yarn test
+          yarn test --coverage
 
       - name: Report code coverage
         uses: romeovs/lcov-reporter-action@v0.3.1
