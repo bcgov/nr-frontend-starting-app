@@ -83,11 +83,11 @@ jobs:
 
       - name: Build
         run: |
-          DISABLE_ESLINT_PLUGIN=true yarn build
+          yarn build
 
       - name: Tests
         run: |
-          yarn test --coverage
+          yarn test
 
       - name: Report code coverage
         uses: romeovs/lcov-reporter-action@v0.3.1
@@ -257,7 +257,7 @@ jobs:
 
       - name: Build
         run: |
-          DISABLE_ESLINT_PLUGIN=true yarn build
+          yarn build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
