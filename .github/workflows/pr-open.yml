@@ -257,7 +257,7 @@ jobs:
 
       - name: Build
         run: |
-          yarn build
+          DISABLE_ESLINT_PLUGIN=true yarn build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
