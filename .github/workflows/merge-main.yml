@@ -143,7 +143,7 @@ jobs:
           git-push: 'false'
 
       - name: Set new version
-      - uses: pocket-apps/action-update-version@v1
+        uses: pocket-apps/action-update-version@v1
         with:
           files: 'package.json'
           version-regexp: '\d+.\d+.\d+'
