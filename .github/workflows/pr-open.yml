@@ -87,7 +87,7 @@ jobs:
 
       - name: Tests
         run: |
-          yarn test --coverage
+          yarn test -u --coverage
 
       - name: Report code coverage
         uses: romeovs/lcov-reporter-action@v0.3.1
@@ -131,7 +131,7 @@ jobs:
 
       - name: Tests
         run: |
-          yarn test --coverage
+          yarn test -u --coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -246,7 +246,7 @@ jobs:
   build-image:
     name: Image Build (Only PR)
     env:
-      COMPONENT: nrfesampleapp-image
+      COMPONENT: app
       ZONE: ${{ github.event.number }}
       NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
     runs-on: ubuntu-latest
