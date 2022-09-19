@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler, KeyboardEventHandler } from 'react';
 
 interface InputProps {
   id: string,
@@ -28,6 +28,7 @@ const TextInput = ({
   }
 
   const inputClasses = `${size} ${valid}`;
+  const divClassName = isValid ? 'valid-feedback' : 'invalid-feedback';
 
   return (
     <>
@@ -41,8 +42,12 @@ const TextInput = ({
         onKeyDown={onKeyDownHandler}
         disabled={disabled}
       />
-      <div data-testid="feedback-element"
-            className={isValid ? 'valid-feedback' : 'invalid-feedback'}>{ feedback }</div>
+      <div
+        data-testid="feedback-element"
+        className={divClassName}
+      >
+        { feedback }
+      </div>
     </>
   );
 };
