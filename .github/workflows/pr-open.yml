@@ -178,7 +178,7 @@ jobs:
           args: --severity-threshold=high --sarif-file-output=snyk.sarif
 
   coverage-report:
-    name: Unit Tests
+    name: Coverage Report
     runs-on: ubuntu-latest
     # PR only
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
