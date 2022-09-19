@@ -2,7 +2,7 @@
  * Create a request Init
  *
  * @param postBody optional body to be sent. When present the request
- * is going to use POST method. Otherwise GET will be used.
+ *                 is going to use POST method. Otherwise GET will be used.
  * @returns a RequestInit object
  */
 function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
@@ -35,7 +35,7 @@ function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
  *
  * @param url API or server address
  * @param config A RequestInit to be used as configuration, containing
- * headers, method type, mode and more.
+ *               headers, method type, mode and more.
  * @returns a promise.
  */
 function fetchApiRequest<T>(url: string, config = {}): Promise<T> {

@@ -13,8 +13,8 @@ function UserTable({ elements, deleteFn }: TableProps) {
       <thead className="thead-dark">
         <tr>
           <th scope="col" className="w-25">#</th>
-          <th scope="col" className="w-25">First</th>
-          <th scope="col" className="w-25">Last</th>
+          <th scope="col" className="w-25">First name</th>
+          <th scope="col" className="w-25">Last name</th>
           <th scope="col" className="w-25">Delete?</th>
         </tr>
       </thead>
@@ -26,7 +26,7 @@ function UserTable({ elements, deleteFn }: TableProps) {
             <td>{item.firstName}</td>
             <td>{item.lastName}</td>
             <td>
-              <Button onClick={() => deleteFn(idx)} label="Delete-me" styling="bcgov-normal-white btn" />
+              <Button onClick={() => deleteFn(idx)} label="Delete me" styling="bcgov-normal-white btn" />
             </td>
           </tr>
         ))}

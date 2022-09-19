@@ -6,7 +6,6 @@ function CardLoader() {
   return (
     <LoaderBox>
       Please, wait!
-
       <Loader />
     </LoaderBox>
   );

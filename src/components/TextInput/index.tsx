@@ -14,7 +14,7 @@ interface InputProps {
 const TextInput = ({
   id,
   isValid,
-  size = 'form-control ',
+  size = 'form-control',
   feedback = '',
   onChangeHandler,
   inputValue = '',

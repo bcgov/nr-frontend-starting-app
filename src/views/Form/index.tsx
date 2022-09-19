@@ -187,7 +187,7 @@ const Form = () => {
         />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Label labelStr="Last lame" forStr="last-name" />
+        <Label labelStr="Last name" forStr="last-name" />
         <TextInput
           id="last-name"
           isValid={lastIsValid}
@@ -211,7 +211,11 @@ const Form = () => {
           styling="bcgov-normal-white btn buttonMargin"
           disabled={loading}
         />
-        <Button onClick={goBack} label="Back to home" styling="bcgov-normal-white btn buttonMargin" />
+        <Button
+          onClick={goBack}
+          label="Back to home"
+          styling="bcgov-normal-white btn buttonMargin"
+        />
       </Grid>
       <Grid item xs={12}>
         <UserTable elements={users} deleteFn={deleteByIndex} />
