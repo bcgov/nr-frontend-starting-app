@@ -330,10 +330,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: ./
           push: true
+          build-args:
+            - REACT_APP_NRFESAMPLEAPP_VERSION=${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }}
+            - REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.ZONE }}-${{ env.COMPONENT }}
 
   deploy-dev:
