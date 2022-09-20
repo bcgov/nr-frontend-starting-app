@@ -168,12 +168,14 @@ jobs:
 
   deploy-test:
     name: TEST Deployment
+    needs:
+      - release
     runs-on: ubuntu-latest
     environment:
       name: test
     env:
       ZONE: test
-      NRFESAMPLEAPP_VERSION: test
+      NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy
@@ -184,7 +186,7 @@ jobs:
 
           # Process and apply deployment templates
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
-            -p NRFESAMPLEAPP_VERSION=${{ env.NRFESAMPLEAPP_VERSION }} \
+            -p NRFESAMPLEAPP_VERSION=test-${{ env.NRFESAMPLEAPP_VERSION }} \
             -p REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} \
             -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-app | oc apply -f -
 
@@ -285,13 +287,14 @@ jobs:
     name: PROD Deployment
     needs:
       - image-app
+      - release
     runs-on: ubuntu-latest
     environment:
       name: prod
     env:
       ZONE: prod
       PREV: test
-      NRFESAMPLEAPP_VERSION: prod
+      NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy
@@ -302,7 +305,7 @@ jobs:
 
           # Process and apply deployment templates
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
-            -p NRFESAMPLEAPP_VERSION=${{ env.NRFESAMPLEAPP_VERSION }} \
+            -p NRFESAMPLEAPP_VERSION=prod-${{ env.NRFESAMPLEAPP_VERSION }} \
             -p REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} \
             -p PROMOTE=${{ github.repository }}:${{ env.PREV }}-app | oc apply -f -
 

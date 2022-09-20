@@ -16,7 +16,7 @@ exports[`the Footer component should match the snapshot 1`] = `
         <a
           className="sc-bczRLJ keriIN"
           data-testid="footer-home"
-          href="#"
+          href="/"
         >
           Home
         </a>
@@ -74,6 +74,17 @@ exports[`the Footer component should match the snapshot 1`] = `
           href="#"
         >
           Contact Us
+        </a>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+      >
+        <a
+          className="sc-bczRLJ keriIN"
+          data-testid="footer-release"
+          href="https://github.com/bcgov/nr-frontend-starting-app/releases"
+        >
+          Release dev
         </a>
       </div>
     </div>
