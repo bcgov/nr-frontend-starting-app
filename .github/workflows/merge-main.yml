@@ -99,7 +99,7 @@ jobs:
 
       - name: Tests
         run: |
-          yarn test --coverage
+          yarn test -u --coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
