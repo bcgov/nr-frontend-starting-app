@@ -133,6 +133,7 @@ jobs:
         with:
           args: >
             -Dsonar.exclusions=**/__test__/**,.github/**/*
+            -Dsonar.coverage.exclusions=**/__test__/**,.github/**/*
             -Dsonar.organization=bcgov-sonarcloud
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.cobertura.reportPaths=coverage/cobertura-coverage.xml
@@ -285,7 +286,7 @@ jobs:
     env:
       COMPONENT: app
       ZONE: ${{ github.event.number }}
-      NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
+      REACT_APP_NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     needs:
@@ -345,7 +346,7 @@ jobs:
     timeout-minutes: 15
     env:
       ZONE: ${{ github.event.number }}
-      NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
+      REACT_APP_NRFESAMPLEAPP_VERSION: snapshot-${{ github.event.number }}
     steps:
       - uses: actions/checkout@v2
       - name: Deploy
@@ -364,7 +365,7 @@ jobs:
 
           # Process and apply template
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
-            -p NRFESAMPLEAPP_VERSION=${{ env.NRFESAMPLEAPP_VERSION }} \
+            -p REACT_APP_NRFESAMPLEAPP_VERSION=${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }} \
             -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
