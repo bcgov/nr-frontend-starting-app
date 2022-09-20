@@ -142,7 +142,11 @@ jobs:
           skip-commit: 'true'
           git-push: 'false'
 
-      - name: Set new version
+      - name: Set new version output
+        run: |
+          echo "::set-output name=version::${{ steps.changelog.outputs.version }}"
+
+      - name: Set new version package.json
         uses: pocket-apps/action-update-version@v1
         with:
           files: 'package.json'
@@ -168,11 +172,17 @@ jobs:
 
   deploy-test:
     name: TEST Deployment
+    needs:
+      - cleanup-ghcr
+      - codeql
+      - sonarcloud
+      - release
     runs-on: ubuntu-latest
     environment:
       name: test
     env:
       ZONE: test
+      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy
@@ -288,8 +298,23 @@ jobs:
     env:
       ZONE: prod
       PREV: test
+      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
     steps:
+      - name: Remove any stale images
+        if: needs.image-app.outputs.build == 'true'
+        env:
+          COMPONENT: app
+        run: |
+          # Login to OpenShift and select project
+          oc login --token=${{ secrets.OC_TOKEN }} --server=${{ secrets.OC_SERVER }}
+          oc project ${{ secrets.OC_NAMESPACE }}
+          oc delete is/${{ env.NAME }}-${{ env.ZONE}}-${{ env.COMPONENT }} || true
+
       - uses: actions/checkout@v3
+
+      - name: Print REACT_APP_NRFESAMPLEAPP_VERSION env
+        run: echo REACT_APP_NRFESAMPLEAPP_VERSION:prod-${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }}
+
       - name: Deploy
         run: |
           # Login to OpenShift and select project
@@ -298,6 +323,7 @@ jobs:
 
           # Process and apply deployment templates
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
+            -p REACT_APP_NRFESAMPLEAPP_VERSION=prod-${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }} \
             -p PROMOTE=${{ github.repository }}:${{ env.PREV }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
