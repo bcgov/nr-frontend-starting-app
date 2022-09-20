@@ -17,7 +17,7 @@ import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 import CardLoader from '../../components/CardLoader';
 
 const Form = () => {
-  const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
+  const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
   const [firstName, setFirstName] = React.useState('');
   const [firstFeed, setFirstFeed] = React.useState('');

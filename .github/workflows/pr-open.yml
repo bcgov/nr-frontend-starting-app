@@ -365,6 +365,7 @@ jobs:
           # Process and apply template
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
             -p NRFESAMPLEAPP_VERSION=${{ env.NRFESAMPLEAPP_VERSION }} \
+            -p REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} \
             -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
