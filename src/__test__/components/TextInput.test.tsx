@@ -5,18 +5,20 @@ import renderer from 'react-test-renderer';
 import TextInput from '../../components/TextInput';
 
 describe('the TextInput component', () => {
+  const readOnly = true;
+
   it('should have no feedback message when none is set', () => {
-    const { getByTestId } = render(<TextInput id="test1" />);
+    const { getByTestId } = render(<TextInput id="test1" readonly={readOnly} />);
     expect(getByTestId('feedback-element').textContent).toBe('');
   });
 
   it('should have the correct valid feedback message', () => {
-    const { getByTestId } = render(<TextInput id="test2" isValid feedback="valid field" />);
+    const { getByTestId } = render(<TextInput id="test2" isValid feedback="valid field" readonly={readOnly} />);
     expect(getByTestId('feedback-element').textContent).toBe('valid field');
   });
 
   it('should have the correct invalid feedback message', () => {
-    const { getByTestId } = render(<TextInput id="test3" isValid={false} feedback="invalid field" />);
+    const { getByTestId } = render(<TextInput id="test3" isValid={false} feedback="invalid field" readonly={readOnly} />);
     expect(getByTestId('feedback-element').textContent).toBe('invalid field');
   });
 

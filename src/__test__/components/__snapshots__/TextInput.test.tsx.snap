@@ -7,6 +7,7 @@ exports[`the TextInput component should match the snapshot for the fail input 1`
     data-testid="input-element"
     disabled={false}
     id="test3"
+    readOnly={false}
     type="text"
     value=""
   />,
@@ -26,6 +27,7 @@ exports[`the TextInput component should match the snapshot for the neutral input
     data-testid="input-element"
     disabled={false}
     id="test1"
+    readOnly={false}
     type="text"
     value=""
   />,
@@ -43,6 +45,7 @@ exports[`the TextInput component should match the snapshot for the success input
     data-testid="input-element"
     disabled={false}
     id="test2"
+    readOnly={false}
     type="text"
     value=""
   />,

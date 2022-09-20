@@ -8,7 +8,8 @@ interface InputProps {
   onChangeHandler?: ChangeEventHandler<HTMLInputElement>,
   inputValue?: string,
   onKeyDownHandler?: KeyboardEventHandler<HTMLInputElement>,
-  disabled?: boolean
+  disabled?: boolean,
+  readonly?: boolean
 }
 
 const TextInput = ({
@@ -19,7 +20,8 @@ const TextInput = ({
   onChangeHandler,
   inputValue = '',
   onKeyDownHandler,
-  disabled = false
+  disabled = false,
+  readonly = false
 }: InputProps) => {
   let valid = '';
 
@@ -41,6 +43,7 @@ const TextInput = ({
         value={inputValue}
         onKeyDown={onKeyDownHandler}
         disabled={disabled}
+        readOnly={readonly}
       />
       <div
         data-testid="feedback-element"
