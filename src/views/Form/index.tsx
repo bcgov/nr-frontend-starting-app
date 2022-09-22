@@ -10,7 +10,7 @@ import Label from '../../components/Label';
 import UserTable from '../../components/UserTable';
 
 import SampleUser from '../../types/SampleUser';
-import toApiException from '../../types/ApiException';
+import getExceptionResponse from '../../service/GetExceptionResponse';
 
 import './styles.css';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
@@ -47,10 +47,22 @@ const Form = () => {
   };
 
   const handleError = (error: unknown): void => {
-    const errorObject = toApiException(error);
+    const errorObject = getExceptionResponse(error);
     setShowError(true);
     setErrorMessage(errorObject.errorMessage);
     setLoading(false);
+
+    if ('fields' in errorObject) {
+      errorObject.fields.forEach((fieldException) => {
+        if (fieldException.fieldName === 'firstName') {
+          setFirstFeed(fieldException.fieldMessage);
+          setFirstIsValid(false);
+        } else if (fieldException.fieldName === 'lastName') {
+          setLastFeed(fieldException.fieldMessage);
+          setLastIsValid(false);
+        }
+      });
+    }
   };
 
   const fetchData = async () => {

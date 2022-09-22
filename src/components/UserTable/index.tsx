@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'shared-components';
+import { hashObject } from 'react-hash-string';
 import SampleUser from '../../types/SampleUser';
 
 interface TableProps {
@@ -20,8 +21,7 @@ function UserTable({ elements, deleteFn }: TableProps) {
       </thead>
       <tbody>
         {elements.map((item, idx) => (
-          // FIXME: dont't use 'idx' as key: https://reactjs.org/docs/lists-and-keys.html#keys
-          <tr key={idx.toString()}>
+          <tr key={hashObject(item)}>
             <th scope="row">{idx}</th>
             <td>{item.firstName}</td>
             <td>{item.lastName}</td>
