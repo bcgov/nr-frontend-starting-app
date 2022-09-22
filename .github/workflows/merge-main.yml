@@ -1,12 +1,11 @@
-name: Merge to Main
+name: After Merge to Main
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - "**.md"
-  workflow_dispatch:
+  workflow_run:
+    workflows: [PR Close]
+    types:
+      - completed
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
 env:
   REGISTRY: ghcr.io
