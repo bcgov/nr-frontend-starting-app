@@ -145,14 +145,8 @@ jobs:
       - name: Set new version output
         run: |
           echo "::set-output name=version::${{ steps.changelog.outputs.version }}"
-
-      - name: Set new version package.json
-        uses: pocket-apps/action-update-version@v1
-        with:
-          files: 'package.json'
-          version-regexp: '\d+.\d+.\d+'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
+          npm version ${{ steps.changelog.outputs.version }} --git-tag-version false
+        
       - name: Commit package and changelog
         uses: EndBug/add-and-commit@v9
         with:
