@@ -1,12 +1,11 @@
-name: Merge to Main
+name: After Merge to Main
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - "**.md"
-  workflow_dispatch:
+  workflow_run:
+    workflows: [PR Close]
+    types:
+      - completed
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
 env:
   REGISTRY: ghcr.io
@@ -117,9 +116,9 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.tests=src/__test__/components
 
-  # Generate release notes and update new version
-  release:
-    name: Release Notes
+  # Get current version
+  get-version:
+    name: Get current version
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.changelog.outputs.version }}
@@ -132,37 +131,9 @@ jobs:
           node-version: '16'
           cache: 'yarn'
 
-      - name: Conventional Changelog Update
-        uses: TriPSs/conventional-changelog-action@v3
-        id: changelog
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          output-file: 'CHANGELOG.md'
-          skip-version-file: 'true'
-          skip-commit: 'true'
-          git-push: 'false'
-
       - name: Set new version output
         run: |
-          echo "::set-output name=version::${{ steps.changelog.outputs.version }}"
-          npm version ${{ steps.changelog.outputs.version }} --git-tag-version false
-        
-      - name: Commit package and changelog
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: Ci Bot
-          author_email: cibot@users.noreply.github.com
-          message: 'doc: updating package to ${{ steps.changelog.outputs.version }} [ci skip]'
-          add: '["package.json","CHANGELOG.md"]'
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
+          echo "::set-output name=version::$(npm run version --silent)"
 
   deploy-test:
     name: TEST Deployment
@@ -170,13 +141,13 @@ jobs:
       - cleanup-ghcr
       - codeql
       - sonarcloud
-      - release
+      - get-version
     runs-on: ubuntu-latest
     environment:
       name: test
     env:
       ZONE: test
-      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
+      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.get-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy
@@ -288,14 +259,14 @@ jobs:
     name: PROD Deployment
     needs:
       - image-app
-      - release
+      - get-version
     runs-on: ubuntu-latest
     environment:
       name: prod
     env:
       ZONE: prod
       PREV: test
-      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.release.outputs.version }}
+      REACT_APP_NRFESAMPLEAPP_VERSION: ${{ needs.get-version.outputs.version }}
     steps:
       - name: Remove any stale images
         if: needs.image-app.outputs.build == 'true'

@@ -53,7 +53,8 @@
     "build:production": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint"
+    "lint": "./node_modules/.bin/eslint",
+    "version": "echo $npm_package_version"
   },
   "eslintConfig": {
     "extends": [
