@@ -117,6 +117,35 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.tests=src/__test__/components
 
+  # Generate release notes and update new version
+  release:
+    name: Release Notes
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.changelog.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Conventional Changelog Update
+        uses: TriPSs/conventional-changelog-action@v3
+        id: changelog
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: 'CHANGELOG.md'
+          skip-version-file: 'true'
+          skip-commit: 'true'
+          git-push: 'false'
+
+      - name: Set new version output
+        run: |
+          echo "::set-output name=version::${{ steps.changelog.outputs.version }}"
+
   deploy-test:
     name: TEST Deployment
     needs:
