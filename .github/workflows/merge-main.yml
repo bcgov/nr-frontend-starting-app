@@ -145,14 +145,8 @@ jobs:
       - name: Set new version output
         run: |
           echo "::set-output name=version::${{ steps.changelog.outputs.version }}"
-
-      - name: Set new version package.json
-        uses: pocket-apps/action-update-version@v1
-        with:
-          files: 'package.json'
-          version-regexp: '\d+.\d+.\d+'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
+          npm version ${{ steps.changelog.outputs.version }} --git-tag-version false
+        
       - name: Commit package and changelog
         uses: EndBug/add-and-commit@v9
         with:
@@ -193,6 +187,8 @@ jobs:
 
           # Process and apply deployment templates
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
+            -p REACT_APP_NRFESAMPLEAPP_VERSION=test-${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }} \
+            -p REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} \
             -p PROMOTE=${{ github.repository }}:${{ env.ZONE }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)
@@ -292,6 +288,7 @@ jobs:
     name: PROD Deployment
     needs:
       - image-app
+      - release
     runs-on: ubuntu-latest
     environment:
       name: prod
@@ -323,7 +320,8 @@ jobs:
 
           # Process and apply deployment templates
           oc process -f .github/openshift/deploy.frontend.yml -p ZONE=${{ env.ZONE }} \
-            -p REACT_APP_NRFESAMPLEAPP_VERSION=prod-${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }} \
+            -p NRFESAMPREACT_APP_NRFESAMPLEAPP_VERSIONLEAPP_VERSION=prod-${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }} \
+            -p REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} \
             -p PROMOTE=${{ github.repository }}:${{ env.PREV }}-app | oc apply -f -
 
           # Follow any active rollouts (see deploymentconfigs)

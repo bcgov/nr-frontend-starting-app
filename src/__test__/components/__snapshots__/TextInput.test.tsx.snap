@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the component renders correctly should match the snapshot for the fail input 1`] = `
+exports[`the TextInput component should match the snapshot for the fail input 1`] = `
 [
   <input
     className="form-control is-invalid"
     data-testid="input-element"
+    disabled={false}
     id="test3"
+    readOnly={false}
     type="text"
+    value=""
   />,
   <div
     className="invalid-feedback"
@@ -17,13 +20,16 @@ exports[`the component renders correctly should match the snapshot for the fail 
 ]
 `;
 
-exports[`the component renders correctly should match the snapshot for the neutral input 1`] = `
+exports[`the TextInput component should match the snapshot for the neutral input 1`] = `
 [
   <input
     className="form-control "
     data-testid="input-element"
+    disabled={false}
     id="test1"
+    readOnly={false}
     type="text"
+    value=""
   />,
   <div
     className="invalid-feedback"
@@ -32,13 +38,16 @@ exports[`the component renders correctly should match the snapshot for the neutr
 ]
 `;
 
-exports[`the component renders correctly should match the snapshot for the success input 1`] = `
+exports[`the TextInput component should match the snapshot for the success input 1`] = `
 [
   <input
     className="form-control is-valid"
     data-testid="input-element"
+    disabled={false}
     id="test2"
+    readOnly={false}
     type="text"
+    value=""
   />,
   <div
     className="valid-feedback"

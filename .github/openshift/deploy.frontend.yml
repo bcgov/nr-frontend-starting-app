@@ -37,6 +37,9 @@ parameters:
   - name: REACT_APP_NRFESAMPLEAPP_VERSION
     description: Current sample app release version
     required: true
+  - name: REACT_APP_SERVER_URL
+    description: Server URL address
+    required: true
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -89,6 +92,8 @@ objects:
               env:
                 - name: REACT_APP_NRFESAMPLEAPP_VERSION
                   value: ${REACT_APP_NRFESAMPLEAPP_VERSION}
+                - name: REACT_APP_SERVER_URL
+                  value: ${REACT_APP_SERVER_URL}
               ports:
                 - containerPort: 3000
                   protocol: TCP

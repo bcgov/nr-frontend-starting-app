@@ -1,25 +1,110 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdCancel } from 'react-icons/md';
 
 import { Grid } from '@mui/material';
 import { Alert, Button } from 'shared-components';
 
 import TextInput from '../../components/TextInput';
 import Label from '../../components/Label';
+import UserTable from '../../components/UserTable';
+
+import SampleUser from '../../types/SampleUser';
+import getExceptionResponse from '../../service/GetExceptionResponse';
 
 import './styles.css';
+import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
+import CardLoader from '../../components/CardLoader';
 
 const Form = () => {
+  const BASE_URL = process.env.REACT_APP_SERVER_URL;
+
+  const [firstName, setFirstName] = React.useState('');
   const [firstFeed, setFirstFeed] = React.useState('');
-  const [lastFeed, setLastFeed] = React.useState('');
   const [firstIsValid, setFirstIsValid] = React.useState<boolean | undefined>(undefined);
+
+  const [lastName, setLastName] = React.useState('');
+  const [lastFeed, setLastFeed] = React.useState('');
   const [lastIsValid, setLastIsValid] = React.useState<boolean | undefined>(undefined);
-  const [submitted, setSubmitted] = React.useState(false);
 
-  const handleFirstName = (event: React.FocusEvent<HTMLElement>) => {
-    const target = event.target as HTMLInputElement;
+  const [showError, setShowError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
-    if (target.value !== '') {
+  const [users, setUsers] = React.useState<SampleUser[]>([]);
+  const [loading, setLoading] = React.useState(false);
+
+  const resetForm = (): void => {
+    setFirstName('');
+    setFirstIsValid(undefined);
+    setFirstFeed('');
+
+    setLastName('');
+    setLastIsValid(undefined);
+    setLastFeed('');
+
+    setShowError(false);
+    setErrorMessage('');
+  };
+
+  const handleError = (error: unknown): void => {
+    const errorObject = getExceptionResponse(error);
+    setShowError(true);
+    setErrorMessage(errorObject.errorMessage);
+    setLoading(false);
+
+    if ('fields' in errorObject) {
+      errorObject.fields.forEach((fieldException) => {
+        if (fieldException.fieldName === 'firstName') {
+          setFirstFeed(fieldException.fieldMessage);
+          setFirstIsValid(false);
+        } else if (fieldException.fieldName === 'lastName') {
+          setLastFeed(fieldException.fieldMessage);
+          setLastIsValid(false);
+        }
+      });
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
+      setUsers(result);
+      setLoading(false);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const saveUser = async (first: string, last: string) => {
+    const body = JSON.stringify({
+      firstName: first,
+      lastName: last
+    });
+
+    try {
+      setLoading(true);
+      await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
+      resetForm();
+      fetchData();
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const deleteUser = async (first: string, last: string) => {
+    try {
+      setLoading(true);
+      await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
+      fetchData();
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFirstName(event.target.value.trim());
+
+    if (event.target.value !== '') {
       setFirstIsValid(true);
       setFirstFeed('OK!');
     } else {
@@ -28,10 +113,10 @@ const Form = () => {
     }
   };
 
-  const handleLastName = (event: React.FocusEvent<HTMLElement>) => {
-    const target = event.target as HTMLInputElement;
+  const handleLastName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setLastName(event.target.value.trim());
 
-    if (target.value !== '') {
+    if (event.target.value !== '') {
       setLastIsValid(true);
       setLastFeed('OK!');
     } else {
@@ -40,8 +125,29 @@ const Form = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
+  const handleSubmit = (): void => {
+    let message = '';
+
+    if (!firstIsValid && !lastIsValid) {
+      message = 'Please, enter your first and last name!';
+    } else if (!firstIsValid) {
+      message = 'Please, enter your first name!';
+    } else if (!lastIsValid) {
+      message = 'Please, enter your last name!';
+    }
+
+    setShowError(message !== '');
+    setErrorMessage(message);
+
+    if (message === '') {
+      saveUser(firstName, lastName);
+    }
+  };
+
+  const enterKeyHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      handleSubmit();
+    }
   };
 
   const navigate = useNavigate();
@@ -49,31 +155,82 @@ const Form = () => {
     navigate('/');
   };
 
+  const deleteByIndex = (idx: number): void => {
+    const userToDelete = users[idx];
+    deleteUser(userToDelete.firstName, userToDelete.lastName);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
         <h1>NR Front End Form</h1>
         <p>
-          This is a simple test form, please write your information correctly.
+          This is a very simple form. Please, fill your first and last name then hit Submit!
         </p>
       </Grid>
       {
-        submitted && firstIsValid && lastIsValid ? <Grid item xs={12}><Alert type="success" styling="bcgov-success-background" element="Your name was submitted to nowhere!" /></Grid> : ''
+        showError && (
+        <Grid item xs={12}>
+          <Alert icon={<MdCancel size={32} />} type="error" styling="bcgov-error-background" element={errorMessage} />
+        </Grid>
+        )
       }
       {
-        submitted && !(firstIsValid && lastIsValid) ? <Grid item xs={12}><Alert type="error" styling="bcgov-error-background" element="Please, enter your name correctly!" /></Grid> : ''
+        loading && (
+          <Grid item xs={12}>
+            <CardLoader />
+          </Grid>
+        )
       }
       <Grid item xs={12} sm={6}>
-        <Label labelStr="First Name" forStr="fnInput" />
-        <TextInput id="fnInput" isValid={firstIsValid} feedback={firstFeed} blur={handleFirstName} />
+        <Label labelStr="First name" forStr="first-name" />
+        <TextInput
+          id="first-name"
+          isValid={firstIsValid}
+          feedback={firstFeed}
+          onChangeHandler={handleFirstName}
+          inputValue={firstName}
+          onKeyDownHandler={enterKeyHandler}
+          disabled={loading}
+        />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Label labelStr="Last Name" forStr="lnInput" />
-        <TextInput id="lnInput" isValid={lastIsValid} feedback={lastFeed} blur={handleLastName} />
+        <Label labelStr="Last name" forStr="last-name" />
+        <TextInput
+          id="last-name"
+          isValid={lastIsValid}
+          feedback={lastFeed}
+          onChangeHandler={handleLastName}
+          inputValue={lastName}
+          onKeyDownHandler={enterKeyHandler}
+          disabled={loading}
+        />
       </Grid>
       <Grid item xs={12}>
-        <Button onClick={handleSubmit} label="Submit" styling="bcgov-normal-blue btn buttonMargin" />
-        <Button onClick={goBack} label="Cancel" styling="bcgov-normal-white btn buttonMargin" />
+        <Button
+          onClick={handleSubmit}
+          label="Submit"
+          styling="bcgov-normal-blue btn buttonMargin"
+          disabled={loading}
+        />
+        <Button
+          onClick={resetForm}
+          label="Reset"
+          styling="bcgov-normal-white btn buttonMargin"
+          disabled={loading}
+        />
+        <Button
+          onClick={goBack}
+          label="Back to home"
+          styling="bcgov-normal-white btn buttonMargin"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <UserTable elements={users} deleteFn={deleteByIndex} />
       </Grid>
     </Grid>
   );

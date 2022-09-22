@@ -11,8 +11,8 @@ const Header = () => (
     <Container maxWidth="lg">
       <Grid container spacing={1}>
         <HeaderBanner>
-          <a href="https://gov.bc.ca">
-            <HeaderImage src="https://developer.gov.bc.ca/static/BCID_H_rgb_rev-20eebe74aef7d92e02732a18b6aa6bbb.svg" alt="Go to the Government of British Columbia website" height="45px" />
+          <a href="/" title="Go to home page">
+            <HeaderImage src="https://developer.gov.bc.ca/static/BCID_H_rgb_rev-20eebe74aef7d92e02732a18b6aa6bbb.svg" alt="Government of British Columbia logo" height="45px" />
           </a>
           <HeaderTitle data-testid="header-title">
             NR Sample App

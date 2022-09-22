@@ -1,5 +1,4 @@
 // Ignores test files when building the app
 {
-  "extends": "./tsconfig",
-  "exclude": ["**/*.test.*", "**/__tests__/*"]
+  "extends": "./tsconfig"
 }

@@ -13,6 +13,7 @@ describe('the Footer component', () => {
     expect(getByTestId('footer-acc').textContent).toBe('Accessibility');
     expect(getByTestId('footer-copyright').textContent).toBe('Copyright');
     expect(getByTestId('footer-contact').textContent).toBe('Contact Us');
+    expect(getByTestId('footer-release').textContent).toBe('Release dev');
   });
 
   it('should match the snapshot', () => {
