@@ -1,4 +1,4 @@
-# 0.1.0 (2022-09-23)
+## [0.1.1](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.1.0...v0.1.1) (2022-09-23)
 
 
 ### Bug Fixes
@@ -13,6 +13,7 @@
 * generating release version on merge-main (used for deploys) ([fa789ba](https://github.com/bcgov/nr-frontend-starting-app/commit/fa789ba97eb99a7a30085414a8d4dc80c0723a64))
 * relocating release action to pr-close workflow ([22dc483](https://github.com/bcgov/nr-frontend-starting-app/commit/22dc4831f7f5553313bf86b9a688d3c4524ab0d6))
 * reverting release action changes ([de7981f](https://github.com/bcgov/nr-frontend-starting-app/commit/de7981f7c6085ec4937fa999db35c1056f370194))
+* right tag name to avoid removing wrong images ([#16](https://github.com/bcgov/nr-frontend-starting-app/issues/16)) ([7a1d08c](https://github.com/bcgov/nr-frontend-starting-app/commit/7a1d08cb3997a470302e73393016c37675867f97))
 
 
 ### Features
