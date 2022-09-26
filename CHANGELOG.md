@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.1.1...v0.1.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* adjusting env for image promotion job ([e746d41](https://github.com/bcgov/nr-frontend-starting-app/commit/e746d41ad6bea22a59c5e56a10503eb12f10c82d))
+
+
+
 ## [0.1.1](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.1.0...v0.1.1) (2022-09-23)
 
 
