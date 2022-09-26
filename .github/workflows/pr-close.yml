@@ -34,7 +34,7 @@ jobs:
     outputs:
       build: ${{ steps.check.outputs.build }}
     env:
-      COMPONENT: nrfesampleapp-image
+      COMPONENT: nrfesampleapp-app
       PREV: ${{ github.event.number }}
       ZONE: test
     environment:
