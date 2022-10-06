@@ -35,7 +35,6 @@ test and deploy.
 - Tools
   - Docker
   - Microsoft Visual Studio Code
-  - Cypress
 
 # Getting started
 
