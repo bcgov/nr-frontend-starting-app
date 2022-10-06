@@ -35,7 +35,7 @@ test and deploy.
 - Tools
   - Docker
   - Microsoft Visual Studio Code
-  - Postman
+  - Cypress
 
 # Getting started
 
@@ -43,7 +43,7 @@ Once you have cloned this repository, you can get the app running by typing
 `yarn install` and then `yarn start` from the project root directory. Then
 head to http://localhost:3000.
 
-To run tests all you need is `yarn test`.
+To run the unit tests all you need is `yarn test`. For end-to-end test you need to run `yarn cypress run` to run on console or `yarn cypress open` to use the Cypress IDE.
 
 Before writing your first line of code, please take a moment and check out
 our [CONTRIBUTING](CONTRIBUTING.md) guide.
