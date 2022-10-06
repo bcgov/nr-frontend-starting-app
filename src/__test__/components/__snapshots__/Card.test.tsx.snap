@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`the Card component should match the snapshot 1`] = `
 <div
   className="card"
 >
   <h4
     className="card-header"
+    data-testid="card-title"
   >
     Test card
   </h4>
@@ -14,12 +15,14 @@ exports[`renders correctly 1`] = `
   >
     <p
       className="card-text"
+      data-testid="card-text"
     >
       This is just a test text.
     </p>
   </div>
   <div
     className="card-footer"
+    data-testid="card-footer"
   />
 </div>
 `;

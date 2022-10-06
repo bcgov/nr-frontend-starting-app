@@ -7,6 +7,11 @@
         "plugin:react/recommended",
         "airbnb"
     ],
+    "globals": {
+      "JSX": true,
+      "RequestInit": true,
+      "BodyInit": true
+    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {

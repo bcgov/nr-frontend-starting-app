@@ -1,6 +1,6 @@
 {
   "name": "nr-sample-frontend",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -19,6 +19,8 @@
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hash-string": "^1.0.0",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-test-renderer": "^18.2.0",
@@ -48,6 +50,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "tsc -p tsconfig.build.json",
+    "build:production": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint"
@@ -72,6 +75,7 @@
   },
   "devDependencies": {
     "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.1.1/bcgov-bootstrap-theme-1.1.1.tgz",
+    "@tsconfig/node16": "^1.0.3",
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "bootstrap": "~4.3.1",
@@ -85,6 +89,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "7.28.0",
-    "eslint-plugin-react-hooks": "4.3.0"
+    "eslint-plugin-react-hooks": "4.3.0",
+    "jest-environment-jsdom": "^29.0.1"
   }
 }

@@ -8,11 +8,11 @@ interface CardProps {
 
 const Card = ({ title, text, children }: CardProps) => (
   <div className="card">
-    <h4 className="card-header">{ title }</h4>
+    <h4 data-testid="card-title" className="card-header">{ title }</h4>
     <div className="card-body">
-      <p className="card-text">{ text }</p>
+      <p data-testid="card-text" className="card-text">{ text }</p>
     </div>
-    <div className="card-footer">
+    <div data-testid="card-footer" className="card-footer">
       {children}
     </div>
   </div>

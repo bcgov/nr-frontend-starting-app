@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`the HeaderImage component should match the snapshot 1`] = `
 <img
   className="sc-bczRLJ cywwia"
 />

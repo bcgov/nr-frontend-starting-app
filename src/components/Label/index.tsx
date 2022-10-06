@@ -6,7 +6,7 @@ interface LabelProps {
 }
 
 const Label = ({ labelStr, forStr }: LabelProps) => (
-  <label className="control-label" htmlFor={forStr}>{ labelStr }</label>
+  <label data-testid="label-element" className="control-label" htmlFor={forStr}>{ labelStr }</label>
 );
 
 export default Label;
