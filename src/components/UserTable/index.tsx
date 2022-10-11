@@ -1,38 +1,96 @@
 import React from 'react';
-import { Button } from 'shared-components';
+
+import {
+  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableBody,
+  TableCell,
+  Button,
+  InlineLoading
+} from '@carbon/react';
+import { TrashCan } from '@carbon/icons-react';
+
 import { hashObject } from 'react-hash-string';
 import SampleUser from '../../types/SampleUser';
 
 interface TableProps {
   elements: SampleUser[],
-  deleteFn: Function
+  deleteFn: Function,
+  headers: String[]
 }
 
-function UserTable({ elements, deleteFn }: TableProps) {
+const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
+  const [loading, setLoading] = React.useState(false);
+  const [loadDesc, setLoadDesc] = React.useState('Deleting...');
+  const [success, setSuccess] = React.useState('');
+
+  /**
+   * Calls the delete function and set the loading state.
+   *
+   * @param id the id of the user that will be deleted
+   */
+  const deleteEntry = (id: number) => {
+    setLoading(true);
+    setSuccess('active');
+
+    if (deleteFn(id)) {
+      setSuccess('finished');
+      setLoadDesc('Deleted!');
+    } else {
+      setSuccess('error');
+      setLoadDesc('Failed!');
+    }
+
+    // Reset value for next delete
+    setTimeout(() => {
+      setLoading(false);
+      setLoadDesc('Deleting...');
+      setSuccess('active');
+    }, 1000);
+  };
+
   return (
-    <table className="table">
-      <thead className="thead-dark">
-        <tr>
-          <th scope="col" className="w-25">#</th>
-          <th scope="col" className="w-25">First name</th>
-          <th scope="col" className="w-25">Last name</th>
-          <th scope="col" className="w-25">Delete?</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table size="lg" useZebraStyles={false}>
+      <TableHead>
+        <TableRow>
+          {headers.map((header) => (
+            <TableHeader key={header}>
+              {header}
+            </TableHeader>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {elements.map((item, idx) => (
-          <tr key={hashObject(item)}>
-            <th scope="row">{idx}</th>
-            <td>{item.firstName}</td>
-            <td>{item.lastName}</td>
-            <td>
-              <Button onClick={() => deleteFn(idx)} label="Delete me" styling="bcgov-normal-white btn" />
-            </td>
-          </tr>
+          <TableRow key={hashObject(item)}>
+            <TableCell>{idx}</TableCell>
+            <TableCell>{item.firstName}</TableCell>
+            <TableCell>{item.lastName}</TableCell>
+            <TableCell>
+              {
+                loading ? (
+                  <InlineLoading
+                    description={loadDesc}
+                    status={success}
+                  />
+                ) : (
+                  <Button
+                    onClick={() => deleteEntry(idx)}
+                    size="md"
+                    renderIcon={TrashCan}
+                  >
+                    Delete
+                  </Button>
+                )
+              }
+            </TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
-}
+};
 
 export default UserTable;

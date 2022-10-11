@@ -1,47 +1,61 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MdCancel } from 'react-icons/md';
 
-import { Grid } from '@mui/material';
-import { Alert, Button } from 'shared-components';
+import {
+  Button,
+  TextInput,
+  InlineLoading,
+  InlineNotification,
+  FlexGrid,
+  Column,
+  Row,
+  Stack
+} from '@carbon/react';
 
-import TextInput from '../../components/TextInput';
-import Label from '../../components/Label';
 import UserTable from '../../components/UserTable';
 
 import SampleUser from '../../types/SampleUser';
 import getExceptionResponse from '../../service/GetExceptionResponse';
 
-import './styles.css';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
-import CardLoader from '../../components/CardLoader';
+
+import './styles.css';
 
 const Form = () => {
-  const BASE_URL = process.env.REACT_APP_SERVER_URL;
+  const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
 
   const [firstName, setFirstName] = React.useState('');
   const [firstFeed, setFirstFeed] = React.useState('');
-  const [firstIsValid, setFirstIsValid] = React.useState<boolean | undefined>(undefined);
+  const [firstInvalid, setFirstInvalid] = React.useState<boolean | undefined>(undefined);
 
   const [lastName, setLastName] = React.useState('');
   const [lastFeed, setLastFeed] = React.useState('');
-  const [lastIsValid, setLastIsValid] = React.useState<boolean | undefined>(undefined);
+  const [lastInvalid, setLastInvalid] = React.useState<boolean | undefined>(undefined);
 
   const [showError, setShowError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
+
+  const [disableElements, setDisableElements] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [loadDesc, setLoadDesc] = React.useState('Submitting...');
+  const [success, setSuccess] = React.useState('active');
+
+  const tableHeaders: String[] = ['#', 'First name', 'Last name', 'Delete?'];
 
   const resetForm = (): void => {
     setFirstName('');
-    setFirstIsValid(undefined);
+    setFirstInvalid(undefined);
     setFirstFeed('');
 
     setLastName('');
-    setLastIsValid(undefined);
+    setLastInvalid(undefined);
     setLastFeed('');
 
+    setDisableElements(false);
+    setLoading(false);
+    setLoadDesc('Submitting...');
+    setSuccess('active');
     setShowError(false);
     setErrorMessage('');
   };
@@ -50,16 +64,19 @@ const Form = () => {
     const errorObject = getExceptionResponse(error);
     setShowError(true);
     setErrorMessage(errorObject.errorMessage);
+    setDisableElements(false);
     setLoading(false);
+    setSuccess('error');
+    setLoadDesc('Failed!');
 
     if ('fields' in errorObject) {
       errorObject.fields.forEach((fieldException) => {
         if (fieldException.fieldName === 'firstName') {
           setFirstFeed(fieldException.fieldMessage);
-          setFirstIsValid(false);
+          setFirstInvalid(false);
         } else if (fieldException.fieldName === 'lastName') {
           setLastFeed(fieldException.fieldMessage);
-          setLastIsValid(false);
+          setLastInvalid(false);
         }
       });
     }
@@ -83,9 +100,17 @@ const Form = () => {
 
     try {
       setLoading(true);
+      setDisableElements(true);
       await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
-      resetForm();
-      fetchData();
+      setSuccess('finished');
+      setLoadDesc('Submitted!');
+
+      // Set a timeout to provide user feedback that the data
+      // was submitted
+      setTimeout(() => {
+        resetForm();
+        fetchData();
+      }, 1000);
     } catch (error) {
       handleError(error);
     }
@@ -93,46 +118,52 @@ const Form = () => {
 
   const deleteUser = async (first: string, last: string) => {
     try {
-      setLoading(true);
       await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
       fetchData();
+      return true;
     } catch (error) {
       handleError(error);
+      return false;
     }
+  };
+
+  const setFirst = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFirstName(event.target.value.trim());
   };
 
   const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setFirstName(event.target.value.trim());
-
-    if (event.target.value !== '') {
-      setFirstIsValid(true);
-      setFirstFeed('OK!');
-    } else {
-      setFirstIsValid(false);
+    if (event.target.value === '') {
+      setFirstInvalid(true);
       setFirstFeed('Please enter a valid value');
+    } else {
+      setFirstInvalid(false);
+      setFirstFeed('');
     }
   };
 
-  const handleLastName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const setLast = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setLastName(event.target.value.trim());
+  };
 
-    if (event.target.value !== '') {
-      setLastIsValid(true);
-      setLastFeed('OK!');
-    } else {
-      setLastIsValid(false);
+  const handleLastName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value === '') {
+      setLastInvalid(true);
       setLastFeed('Please enter a valid value');
+    } else {
+      setLastInvalid(false);
+      setLastFeed('');
     }
   };
 
   const handleSubmit = (): void => {
     let message = '';
 
-    if (!firstIsValid && !lastIsValid) {
+    if ((firstInvalid && lastInvalid)
+        || (typeof firstInvalid !== 'boolean' && typeof lastInvalid !== 'boolean')) {
       message = 'Please, enter your first and last name!';
-    } else if (!firstIsValid) {
+    } else if (firstInvalid || typeof firstInvalid !== 'boolean') {
       message = 'Please, enter your first name!';
-    } else if (!lastIsValid) {
+    } else if (lastInvalid || typeof lastInvalid !== 'boolean') {
       message = 'Please, enter your last name!';
     }
 
@@ -144,20 +175,9 @@ const Form = () => {
     }
   };
 
-  const enterKeyHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'Enter') {
-      handleSubmit();
-    }
-  };
-
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate('/');
-  };
-
-  const deleteByIndex = (idx: number): void => {
+  const deleteByIndex = async (idx: number): Promise<boolean> => {
     const userToDelete = users[idx];
-    deleteUser(userToDelete.firstName, userToDelete.lastName);
+    return deleteUser(userToDelete.firstName, userToDelete.lastName);
   };
 
   React.useEffect(() => {
@@ -165,74 +185,97 @@ const Form = () => {
   }, []);
 
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={12}>
-        <h1>NR Front End Form</h1>
-        <p>
-          This is a very simple form. Please, fill your first and last name then hit Submit!
-        </p>
-      </Grid>
-      {
-        showError && (
-        <Grid item xs={12}>
-          <Alert icon={<MdCancel size={32} />} type="error" styling="bcgov-error-background" element={errorMessage} />
-        </Grid>
-        )
-      }
-      {
-        loading && (
-          <Grid item xs={12}>
-            <CardLoader />
-          </Grid>
-        )
-      }
-      <Grid item xs={12} sm={6}>
-        <Label labelStr="First name" forStr="first-name" />
-        <TextInput
-          id="first-name"
-          isValid={firstIsValid}
-          feedback={firstFeed}
-          onChangeHandler={handleFirstName}
-          inputValue={firstName}
-          onKeyDownHandler={enterKeyHandler}
-          disabled={loading}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Label labelStr="Last name" forStr="last-name" />
-        <TextInput
-          id="last-name"
-          isValid={lastIsValid}
-          feedback={lastFeed}
-          onChangeHandler={handleLastName}
-          inputValue={lastName}
-          onKeyDownHandler={enterKeyHandler}
-          disabled={loading}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          onClick={handleSubmit}
-          label="Submit"
-          styling="bcgov-normal-blue btn buttonMargin"
-          disabled={loading}
-        />
-        <Button
-          onClick={resetForm}
-          label="Reset"
-          styling="bcgov-normal-white btn buttonMargin"
-          disabled={loading}
-        />
-        <Button
-          onClick={goBack}
-          label="Back to home"
-          styling="bcgov-normal-white btn buttonMargin"
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <UserTable elements={users} deleteFn={deleteByIndex} />
-      </Grid>
-    </Grid>
+    <FlexGrid>
+      <Stack gap={6}>
+        <Row>
+          <Column sm={4}>
+            <Stack gap={3}>
+              <h1>NR Front End Form</h1>
+              <p>
+                This is a very simple form. Please, fill your first and last name then hit Submit!
+              </p>
+            </Stack>
+          </Column>
+        </Row>
+        <Row>
+          <Column sm={4}>
+            {
+              showError && (
+                <InlineNotification
+                  kind="error"
+                  title="Error"
+                  subtitle={errorMessage}
+                  role="alert"
+                  lowContrast
+                />
+              )
+            }
+          </Column>
+        </Row>
+        <Row>
+          <Column sm={4} md={4}>
+            <TextInput
+              id="first-name"
+              invalidText={firstFeed}
+              labelText="First name"
+              placeholder="Please put your first name here"
+              invalid={firstInvalid}
+              value={firstName}
+              onBlur={handleFirstName}
+              onChange={setFirst}
+              disabled={disableElements}
+              data-testid="first-name"
+            />
+          </Column>
+          <Column sm={4} md={4}>
+            <TextInput
+              id="last-name"
+              invalidText={lastFeed}
+              labelText="Last name"
+              placeholder="Please put your last name here"
+              invalid={lastInvalid}
+              value={lastName}
+              onBlur={handleLastName}
+              onChange={setLast}
+              disabled={disableElements}
+            />
+          </Column>
+        </Row>
+        <Row>
+          <Column className="buttonsColumn" sm={4}>
+            <Button
+              onClick={resetForm}
+              kind="tertiary"
+              size="md"
+              disabled={disableElements}
+            >
+              Reset
+            </Button>
+            {
+              loading ? (
+                <InlineLoading
+                  className="buttonMargin"
+                  description={loadDesc}
+                  status={success}
+                />
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  size="md"
+                >
+                  Submit
+                </Button>
+              )
+            }
+          </Column>
+        </Row>
+        <Row>
+          <Column sm={4}>
+            <UserTable elements={users} deleteFn={deleteByIndex} headers={tableHeaders} />
+          </Column>
+        </Row>
+      </Stack>
+    </FlexGrid>
   );
 };
 
