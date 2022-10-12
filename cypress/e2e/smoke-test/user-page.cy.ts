@@ -1,5 +1,4 @@
 describe('user form test', () => {
-  
   let testUser: {
     firstName: string,
     lastName: string
@@ -8,7 +7,7 @@ describe('user form test', () => {
 
   beforeEach(() => {
     cy.visit('/form');
-    
+
     // Loading test data
     cy.fixture('user').then((user) => {
       testUser = user;
@@ -30,11 +29,10 @@ describe('user form test', () => {
     cy.get('button').contains('Submit').click();
 
     // Check that the user is created in the UI
-    cy.intercept(Cypress.env('apiUrl') + '/users/find-all').as('getUsers');
+    cy.intercept(`${Cypress.env('apiUrl')}/users/find-all`).as('getUsers');
     cy.wait('@getUsers');
     cy.contains(testUser.firstName);
     cy.contains(testUser.lastName);
-
   });
 
   it('delete a user', () => {
@@ -44,10 +42,9 @@ describe('user form test', () => {
 
     // Delete user and verify that is deleted in the API
     cy.contains('td', testUser.firstName).parent('tr').within(() => {
-      cy.get('td').eq(2).contains('button', 'Delete me').click()
+      cy.get('td').eq(2).contains('button', 'Delete me').click();
     });
     cy.intercept('DELETE', `${Cypress.env('apiUrl')}/users/${testUser.firstName}/${testUser.lastName}`).as('delUser');
     cy.wait('@delUser').its('response.statusCode').should('eq', 200);
-
   });
 });
