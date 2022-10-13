@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Button,
   TextInput,
-  InlineLoading,
   InlineNotification,
   FlexGrid,
   Column,
@@ -11,6 +10,7 @@ import {
   Stack
 } from '@carbon/react';
 
+import LoadingButton from '../../components/LoadingButton';
 import UserTable from '../../components/UserTable';
 
 import SampleUser from '../../types/SampleUser';
@@ -37,11 +37,13 @@ const Form = () => {
   const [users, setUsers] = React.useState<SampleUser[]>([]);
 
   const [disableElements, setDisableElements] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [loadDesc, setLoadDesc] = React.useState('Submitting...');
-  const [success, setSuccess] = React.useState('active');
 
   const tableHeaders: String[] = ['#', 'First name', 'Last name', 'Delete?'];
+  const loadingStatus = {
+    loading: 'Submitting...',
+    success: 'Submitted!',
+    error: 'Error'
+  };
 
   const resetForm = (): void => {
     setFirstName('');
@@ -53,9 +55,6 @@ const Form = () => {
     setLastFeed('');
 
     setDisableElements(false);
-    setLoading(false);
-    setLoadDesc('Submitting...');
-    setSuccess('active');
     setShowError(false);
     setErrorMessage('');
   };
@@ -65,9 +64,6 @@ const Form = () => {
     setShowError(true);
     setErrorMessage(errorObject.errorMessage);
     setDisableElements(false);
-    setLoading(false);
-    setSuccess('error');
-    setLoadDesc('Failed!');
 
     if ('fields' in errorObject) {
       errorObject.fields.forEach((fieldException) => {
@@ -86,7 +82,6 @@ const Form = () => {
     try {
       const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
       setUsers(result);
-      setLoading(false);
     } catch (error) {
       handleError(error);
     }
@@ -99,20 +94,16 @@ const Form = () => {
     });
 
     try {
-      setLoading(true);
       setDisableElements(true);
       await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
-      setSuccess('finished');
-      setLoadDesc('Submitted!');
+      resetForm();
+      fetchData();
 
-      // Set a timeout to provide user feedback that the data
-      // was submitted
-      setTimeout(() => {
-        resetForm();
-        fetchData();
-      }, 1000);
+
+      return true;
     } catch (error) {
       handleError(error);
+      return false;
     }
   };
 
@@ -155,7 +146,7 @@ const Form = () => {
     }
   };
 
-  const handleSubmit = (): void => {
+  const handleSubmit = async (): Promise<boolean> => {
     let message = '';
 
     if ((firstInvalid && lastInvalid)
@@ -171,8 +162,9 @@ const Form = () => {
     setErrorMessage(message);
 
     if (message === '') {
-      saveUser(firstName, lastName);
+      return saveUser(firstName, lastName);
     }
+    return false;
   };
 
   const deleteByIndex = async (idx: number): Promise<boolean> => {
@@ -251,22 +243,11 @@ const Form = () => {
             >
               Reset
             </Button>
-            {
-              loading ? (
-                <InlineLoading
-                  className="buttonMargin"
-                  description={loadDesc}
-                  status={success}
-                />
-              ) : (
-                <Button
-                  onClick={handleSubmit}
-                  size="md"
-                >
-                  Submit
-                </Button>
-              )
-            }
+            <LoadingButton
+              clickFn={handleSubmit}
+              label="Submit"
+              status={loadingStatus}
+            />
           </Column>
         </Row>
         <Row>

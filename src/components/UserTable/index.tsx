@@ -6,13 +6,13 @@ import {
   TableHeader,
   TableRow,
   TableBody,
-  TableCell,
-  Button,
-  InlineLoading
+  TableCell
 } from '@carbon/react';
 import { TrashCan } from '@carbon/icons-react';
 
 import { hashObject } from 'react-hash-string';
+
+import LoadingButton from '../LoadingButton';
 import SampleUser from '../../types/SampleUser';
 
 interface TableProps {
@@ -22,33 +22,10 @@ interface TableProps {
 }
 
 const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
-  const [loading, setLoading] = React.useState(false);
-  const [loadDesc, setLoadDesc] = React.useState('Deleting...');
-  const [success, setSuccess] = React.useState('');
-
-  /**
-   * Calls the delete function and set the loading state.
-   *
-   * @param id the id of the user that will be deleted
-   */
-  const deleteEntry = (id: number) => {
-    setLoading(true);
-    setSuccess('active');
-
-    if (deleteFn(id)) {
-      setSuccess('finished');
-      setLoadDesc('Deleted!');
-    } else {
-      setSuccess('error');
-      setLoadDesc('Failed!');
-    }
-
-    // Reset value for next delete
-    setTimeout(() => {
-      setLoading(false);
-      setLoadDesc('Deleting...');
-      setSuccess('active');
-    }, 1000);
+  const loadingStatus = {
+    loading: 'Deleting...',
+    success: 'Deleted!',
+    error: 'Error'
   };
 
   return (
@@ -64,27 +41,17 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
       </TableHead>
       <TableBody>
         {elements.map((item, idx) => (
-          <TableRow key={hashObject(item)}>
+          <TableRow key={hashObject(item)} id={`row${idx}`}>
             <TableCell>{idx}</TableCell>
             <TableCell>{item.firstName}</TableCell>
             <TableCell>{item.lastName}</TableCell>
             <TableCell>
-              {
-                loading ? (
-                  <InlineLoading
-                    description={loadDesc}
-                    status={success}
-                  />
-                ) : (
-                  <Button
-                    onClick={() => deleteEntry(idx)}
-                    size="md"
-                    renderIcon={TrashCan}
-                  >
-                    Delete
-                  </Button>
-                )
-              }
+              <LoadingButton
+                clickFn={() => deleteFn(idx)}
+                label="Delete"
+                status={loadingStatus}
+                icon={TrashCan}
+              />
             </TableCell>
           </TableRow>
         ))}
