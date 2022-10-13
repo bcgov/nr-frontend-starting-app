@@ -11,6 +11,7 @@ import './styles.css';
 // was successful or not, so the loading component can be properly
 // adjusted
 interface ButtonProps {
+  id: String,
   clickFn: Function,
   status: {
     loading: String,
@@ -22,6 +23,7 @@ interface ButtonProps {
 }
 
 const LoadingButton = ({
+  id,
   clickFn,
   status,
   label,
@@ -60,12 +62,16 @@ const LoadingButton = ({
             className="buttonMargin"
             description={loadDesc}
             status={success}
+            id={`loading-${id}`}
+            data-testid={`loading-${id}`}
           />
         ) : (
           <Button
             onClick={() => setLoadingStates()}
             size="md"
             renderIcon={icon}
+            id={`button-${id}`}
+            data-testid={`button-${id}`}
           >
             {label}
           </Button>

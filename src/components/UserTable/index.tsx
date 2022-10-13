@@ -32,8 +32,8 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
     <Table size="lg" useZebraStyles={false}>
       <TableHead>
         <TableRow>
-          {headers.map((header) => (
-            <TableHeader key={header}>
+          {headers.map((header, idx) => (
+            <TableHeader key={header} id={`header-${header}-${idx}`} data-testid={`header-${header}-${idx}`}>
               {header}
             </TableHeader>
           ))}
@@ -47,6 +47,7 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
             <TableCell>{item.lastName}</TableCell>
             <TableCell>
               <LoadingButton
+                id={`delete-${idx}`}
                 clickFn={() => deleteFn(idx)}
                 label="Delete"
                 status={loadingStatus}

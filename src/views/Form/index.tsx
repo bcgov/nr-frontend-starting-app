@@ -21,7 +21,7 @@ import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 import './styles.css';
 
 const Form = () => {
-  const BASE_URL = 'https://nrbestapi-test-service-api.apps.silver.devops.gov.bc.ca';
+  const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
   const [firstName, setFirstName] = React.useState('');
   const [firstFeed, setFirstFeed] = React.useState('');
@@ -98,8 +98,6 @@ const Form = () => {
       await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
       resetForm();
       fetchData();
-
-
       return true;
     } catch (error) {
       handleError(error);
@@ -194,6 +192,7 @@ const Form = () => {
             {
               showError && (
                 <InlineNotification
+                  id="error-banner"
                   kind="error"
                   title="Error"
                   subtitle={errorMessage}
@@ -230,20 +229,24 @@ const Form = () => {
               onBlur={handleLastName}
               onChange={setLast}
               disabled={disableElements}
+              data-testid="last-name"
             />
           </Column>
         </Row>
         <Row>
           <Column className="buttonsColumn" sm={4}>
             <Button
+              id="reset-user"
               onClick={resetForm}
               kind="tertiary"
               size="md"
               disabled={disableElements}
+              data-testid="reset-user"
             >
               Reset
             </Button>
             <LoadingButton
+              id="submit-user"
               clickFn={handleSubmit}
               label="Submit"
               status={loadingStatus}
