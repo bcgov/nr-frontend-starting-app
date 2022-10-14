@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:jsdoc/recommended"
     ],
     "globals": {
       "JSX": true,
@@ -29,7 +30,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jsdoc"
     ],
     "rules": {
       "react/require-default-props": "off",
