@@ -20,21 +20,38 @@ import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
 
+type InputValidation = {
+  EMPTY: boolean,
+  INVALID: boolean,
+  OK: boolean
+}
+
 const Form = () => {
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
   const [firstName, setFirstName] = React.useState('');
   const [firstFeed, setFirstFeed] = React.useState('');
-  const [firstInvalid, setFirstInvalid] = React.useState<boolean | undefined>(undefined);
+  const [firstInvalid, setFirstInvalid] = React.useState<InputValidation>({
+    EMPTY: true,
+    INVALID: false,
+    OK: false
+  });
 
   const [lastName, setLastName] = React.useState('');
   const [lastFeed, setLastFeed] = React.useState('');
-  const [lastInvalid, setLastInvalid] = React.useState<boolean | undefined>(undefined);
+  const [lastInvalid, setLastInvalid] = React.useState<InputValidation>({
+    EMPTY: true,
+    INVALID: false,
+    OK: false
+  });
 
   const [showError, setShowError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
+
+  const [firstCharCounter, setFirstCharCounter] = React.useState(false);
+  const [lastCharCounter, setLastCharCounter] = React.useState(false);
 
   const [disableElements, setDisableElements] = React.useState(false);
 
@@ -47,13 +64,23 @@ const Form = () => {
 
   const resetForm = (): void => {
     setFirstName('');
-    setFirstInvalid(undefined);
+    setFirstInvalid({
+      EMPTY: true,
+      INVALID: false,
+      OK: false
+    });
     setFirstFeed('');
 
     setLastName('');
-    setLastInvalid(undefined);
+    setLastInvalid({
+      EMPTY: true,
+      INVALID: false,
+      OK: false
+    });
     setLastFeed('');
 
+    setFirstCharCounter(false);
+    setLastCharCounter(false);
     setDisableElements(false);
     setShowError(false);
     setErrorMessage('');
@@ -69,10 +96,18 @@ const Form = () => {
       errorObject.fields.forEach((fieldException) => {
         if (fieldException.fieldName === 'firstName') {
           setFirstFeed(fieldException.fieldMessage);
-          setFirstInvalid(false);
+          setFirstInvalid({
+            EMPTY: true,
+            INVALID: false,
+            OK: false
+          });
         } else if (fieldException.fieldName === 'lastName') {
           setLastFeed(fieldException.fieldMessage);
-          setLastInvalid(false);
+          setLastInvalid({
+            EMPTY: true,
+            INVALID: false,
+            OK: false
+          });
         }
       });
     }
@@ -121,11 +156,27 @@ const Form = () => {
   };
 
   const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (event.target.value === '') {
-      setFirstInvalid(true);
+    const entry = event.target.value;
+    if (entry === '') {
+      setFirstInvalid({
+        EMPTY: false,
+        INVALID: true,
+        OK: false
+      });
       setFirstFeed('Please enter a valid value');
+    } else if (entry.length < 2) {
+      setFirstInvalid({
+        EMPTY: false,
+        INVALID: true,
+        OK: false
+      });
+      setFirstFeed('The first name must have at least 2 characters');
     } else {
-      setFirstInvalid(false);
+      setFirstInvalid({
+        EMPTY: false,
+        INVALID: false,
+        OK: true
+      });
       setFirstFeed('');
     }
   };
@@ -135,11 +186,27 @@ const Form = () => {
   };
 
   const handleLastName = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (event.target.value === '') {
-      setLastInvalid(true);
+    const entry = event.target.value;
+    if (entry === '') {
+      setLastInvalid({
+        EMPTY: false,
+        INVALID: true,
+        OK: false
+      });
       setLastFeed('Please enter a valid value');
+    } else if (entry.length < 2) {
+      setLastInvalid({
+        EMPTY: false,
+        INVALID: true,
+        OK: false
+      });
+      setLastFeed('The last name must have at least 2 characters');
     } else {
-      setLastInvalid(false);
+      setLastInvalid({
+        EMPTY: false,
+        INVALID: false,
+        OK: true
+      });
       setLastFeed('');
     }
   };
@@ -147,12 +214,11 @@ const Form = () => {
   const handleSubmit = async (): Promise<boolean> => {
     let message = '';
 
-    if ((firstInvalid && lastInvalid)
-        || (typeof firstInvalid !== 'boolean' && typeof lastInvalid !== 'boolean')) {
+    if (firstInvalid.INVALID && lastInvalid.INVALID) {
       message = 'Please, enter your first and last name!';
-    } else if (firstInvalid || typeof firstInvalid !== 'boolean') {
+    } else if (firstInvalid.INVALID) {
       message = 'Please, enter your first name!';
-    } else if (lastInvalid || typeof lastInvalid !== 'boolean') {
+    } else if (lastInvalid.INVALID) {
       message = 'Please, enter your last name!';
     }
 
@@ -182,7 +248,7 @@ const Form = () => {
             <Stack gap={3}>
               <h1>NR Front End Form</h1>
               <p>
-                This is a very simple form. Please, fill your first and last name then hit Submit!
+                This is a test form. Please, fill your first and last name then hit Submit!
               </p>
             </Stack>
           </Column>
@@ -210,10 +276,13 @@ const Form = () => {
               invalidText={firstFeed}
               labelText="First name"
               placeholder="Please put your first name here"
-              invalid={firstInvalid}
+              invalid={firstInvalid.INVALID}
+              maxCount={20}
+              enableCounter={firstCharCounter}
               value={firstName}
               onBlur={handleFirstName}
               onChange={setFirst}
+              onFocus={() => { setFirstCharCounter(true); }}
               disabled={disableElements}
               data-testid="first-name"
             />
@@ -224,10 +293,13 @@ const Form = () => {
               invalidText={lastFeed}
               labelText="Last name"
               placeholder="Please put your last name here"
-              invalid={lastInvalid}
+              invalid={lastInvalid.INVALID}
+              maxCount={20}
+              enableCounter={lastCharCounter}
               value={lastName}
               onBlur={handleLastName}
               onChange={setLast}
+              onFocus={() => { setLastCharCounter(true); }}
               disabled={disableElements}
               data-testid="last-name"
             />

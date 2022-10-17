@@ -16,7 +16,9 @@ describe('the UserTable component', () => {
   const tableHeaders: String[] = ['Column1', 'Column2', 'Column3'];
 
   it('should have the correct headers', () => {
-    const { getByTestId } = render(<UserTable elements={users} deleteFn={() => {return;}} headers={tableHeaders} />);
+    const { getByTestId } = render(
+      <UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />
+    );
     tableHeaders.forEach((element, i) => {
       expect(getByTestId(`header-${element}-${i}`).textContent).toBe(element);
     });
@@ -24,7 +26,7 @@ describe('the UserTable component', () => {
 
   it('should match the snapshot', () => {
     const tree = renderer
-      .create(<UserTable elements={users} deleteFn={() => {return;}} headers={tableHeaders} />)
+      .create(<UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

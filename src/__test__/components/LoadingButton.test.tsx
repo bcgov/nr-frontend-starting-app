@@ -12,24 +12,27 @@ describe('the LoadingButton component', () => {
   };
 
   it('should have the correct name', () => {
-    const { getByTestId } = render(<LoadingButton
-                                     id="test"
-                                     clickFn={() => {return;}}
-                                     label="Submit"
-                                     status={loadingStatus}
-                                   />);
+    const { getByTestId } = render(
+      <LoadingButton
+        id="test"
+        clickFn={() => {}}
+        label="Submit"
+        status={loadingStatus}
+      />
+    );
     expect(getByTestId('button-test').textContent).toBe('Submit');
   });
 
   it('should match the snapshot', () => {
     const tree = renderer
-      .create(<LoadingButton
-                id="test"
-                clickFn={() => {return;}}
-                label="Submit"
-                status={loadingStatus}
-             />)
-      .toJSON();
+      .create(
+        <LoadingButton
+          id="test"
+          clickFn={() => {}}
+          label="Submit"
+          status={loadingStatus}
+        />
+      ).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

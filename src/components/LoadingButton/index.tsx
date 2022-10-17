@@ -7,7 +7,7 @@ import {
 
 import './styles.css';
 
-// The clickFn must provide a return to informing if the action
+// The clickFn must provide a return to inform if the action
 // was successful or not, so the loading component can be properly
 // adjusted
 interface ButtonProps {
@@ -45,7 +45,7 @@ const LoadingButton = ({
       setLoadDesc(status.error);
     }
 
-    // Before reseting the value for the next action,
+    // Before resetting the value for the next action,
     // set a small timeout to provide the user visual feedback
     setTimeout(() => {
       setLoading(false);
