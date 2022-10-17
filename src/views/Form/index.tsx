@@ -29,31 +29,35 @@ type InputValidation = {
 const Form = () => {
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
-  const [firstName, setFirstName] = React.useState('');
-  const [firstFeed, setFirstFeed] = React.useState('');
+  const [firstName, setFirstName] = React.useState<string>('');
+  const [firstFeed, setFirstFeed] = React.useState<string>('');
   const [firstInvalid, setFirstInvalid] = React.useState<InputValidation>({
     EMPTY: true,
     INVALID: false,
     OK: false
   });
 
-  const [lastName, setLastName] = React.useState('');
-  const [lastFeed, setLastFeed] = React.useState('');
+  const [lastName, setLastName] = React.useState<string>('');
+  const [lastFeed, setLastFeed] = React.useState<string>('');
   const [lastInvalid, setLastInvalid] = React.useState<InputValidation>({
     EMPTY: true,
     INVALID: false,
     OK: false
   });
 
-  const [showError, setShowError] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  // Carbon's input components doesn't reset the character counter,
+  // so we use a reset key to force a reset on the whole component
+  const [inputResetKey, setInputResetKey] = React.useState<Boolean>(false);
+
+  const [showError, setShowError] = React.useState<Boolean>(false);
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
 
-  const [firstCharCounter, setFirstCharCounter] = React.useState(false);
-  const [lastCharCounter, setLastCharCounter] = React.useState(false);
+  const [firstCharCounter, setFirstCharCounter] = React.useState<Boolean>(false);
+  const [lastCharCounter, setLastCharCounter] = React.useState<Boolean>(false);
 
-  const [disableElements, setDisableElements] = React.useState(false);
+  const [disableElements, setDisableElements] = React.useState<Boolean>(false);
 
   const tableHeaders: String[] = ['#', 'First name', 'Last name', 'Delete?'];
   const loadingStatus = {
@@ -63,6 +67,7 @@ const Form = () => {
   };
 
   const resetForm = (): void => {
+    setInputResetKey(!inputResetKey);
     setFirstName('');
     setFirstInvalid({
       EMPTY: true,
@@ -273,6 +278,7 @@ const Form = () => {
           <Column sm={4} md={4}>
             <TextInput
               id="first-name"
+              key={inputResetKey}
               invalidText={firstFeed}
               labelText="First name"
               placeholder="Please put your first name here"
@@ -290,6 +296,7 @@ const Form = () => {
           <Column sm={4} md={4}>
             <TextInput
               id="last-name"
+              key={inputResetKey}
               invalidText={lastFeed}
               labelText="Last name"
               placeholder="Please put your last name here"

@@ -29,9 +29,9 @@ const LoadingButton = ({
   label,
   icon
 }: ButtonProps) => {
-  const [loading, setLoading] = React.useState(false);
-  const [loadDesc, setLoadDesc] = React.useState(status.loading);
-  const [success, setSuccess] = React.useState('');
+  const [loading, setLoading] = React.useState<Boolean>(false);
+  const [loadDesc, setLoadDesc] = React.useState<String>(status.loading);
+  const [success, setSuccess] = React.useState<string>('');
 
   const setLoadingStates = async () => {
     setLoading(true);
