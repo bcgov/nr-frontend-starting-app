@@ -252,8 +252,8 @@ const Form = () => {
         <Row>
           <Column sm={4}>
             <Stack gap={3}>
-              <h1>NR Front End Form</h1>
-              <p>
+              <h1 data-testid="form-title">NR Front End Form</h1>
+              <p data-testid="form-desc">
                 This is a test form. Please, fill your first and last name then hit Submit!
               </p>
             </Stack>
@@ -278,7 +278,7 @@ const Form = () => {
         <Row>
           <Column sm={4} md={4}>
             <TextInput
-              id="first-name"
+              id="input-first"
               key={inputResetKey}
               invalidText={firstFeed}
               labelText="First name"
@@ -291,12 +291,12 @@ const Form = () => {
               onChange={setFirst}
               onFocus={() => { setFirstCharCounter(true); }}
               disabled={disableElements}
-              data-testid="first-name"
+              data-testid="input-first"
             />
           </Column>
           <Column sm={4} md={4}>
             <TextInput
-              id="last-name"
+              id="input-last"
               key={inputResetKey}
               invalidText={lastFeed}
               labelText="Last name"
@@ -309,24 +309,24 @@ const Form = () => {
               onChange={setLast}
               onFocus={() => { setLastCharCounter(true); }}
               disabled={disableElements}
-              data-testid="last-name"
+              data-testid="input-last"
             />
           </Column>
         </Row>
         <Row>
           <Column className="buttonsColumn" sm={4}>
             <Button
-              id="reset-user"
+              id="button-reset"
               onClick={resetForm}
               kind="tertiary"
               size="md"
               disabled={disableElements}
-              data-testid="reset-user"
+              data-testid="button-reset"
             >
               Reset
             </Button>
             <LoadingButton
-              id="submit-user"
+              id="submit"
               clickFn={handleSubmit}
               label="Submit"
               status={loadingStatus}
