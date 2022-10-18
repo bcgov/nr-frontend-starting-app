@@ -164,7 +164,7 @@ const Form = () => {
     const entry = event.target.value;
     if (entry === '') {
       setFirstInvalid({
-        EMPTY: false,
+        EMPTY: true,
         INVALID: true,
         OK: false
       });
@@ -194,7 +194,7 @@ const Form = () => {
     const entry = event.target.value;
     if (entry === '') {
       setLastInvalid({
-        EMPTY: false,
+        EMPTY: true,
         INVALID: true,
         OK: false
       });
@@ -219,11 +219,12 @@ const Form = () => {
   const handleSubmit = async (): Promise<boolean> => {
     let message = '';
 
-    if (firstInvalid.INVALID && lastInvalid.INVALID) {
+    if ((firstInvalid.INVALID && lastInvalid.INVALID)
+        || (firstInvalid.EMPTY && lastInvalid.EMPTY)) {
       message = 'Please, enter your first and last name!';
-    } else if (firstInvalid.INVALID) {
+    } else if (firstInvalid.INVALID || firstInvalid.EMPTY) {
       message = 'Please, enter your first name!';
-    } else if (lastInvalid.INVALID) {
+    } else if (lastInvalid.INVALID || lastInvalid.EMPTY) {
       message = 'Please, enter your last name!';
     }
 
