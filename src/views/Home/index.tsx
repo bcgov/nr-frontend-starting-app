@@ -28,8 +28,8 @@ const Home = () => {
         <Row>
           <Column sm={4}>
             <Stack gap={3}>
-              <h1>NR Front End Testing App</h1>
-              <p>
+              <h1 data-testid="home-title">NR Front End Testing App</h1>
+              <p data-testid="home-desc">
                 This is a sample application with the purpose of checking BC Gov&apos;s design
                 system, themes and react components. The app will also be used to validate
                 code style, infrastructe, tech stack, tests, deployment and others.
@@ -39,10 +39,10 @@ const Home = () => {
         </Row>
         <Row>
           <Column sm={4} md={4}>
-            <Tile>
-              <h3>Sample User Form</h3>
+            <Tile data-testid="card-form">
+              <h3 data-testid="card-form__title">Sample User Form</h3>
               <br />
-              <p>
+              <p data-testid="card-form__desc">
                 This is a simple form to validate the user&apos;s inputs.
               </p>
               <br />
@@ -50,16 +50,17 @@ const Home = () => {
                 onClick={goToForm}
                 size="md"
                 renderIcon={ArrowRight}
+                data-testid="card-form__button"
               >
                 Go!
               </Button>
             </Tile>
           </Column>
           <Column sm={4} md={4}>
-            <Tile>
-              <h3>Sample Search</h3>
+            <Tile data-testid="card-table">
+              <h3 data-testid="card-table__title">Sample Search</h3>
               <br />
-              <p>
+              <p data-testid="card-table__desc">
                 This is a simple table showing results of a simulated search.
               </p>
               <br />
@@ -67,6 +68,7 @@ const Home = () => {
                 onClick={goToTable}
                 size="md"
                 renderIcon={ArrowRight}
+                data-testid="card-table__button"
               >
                 Go!
               </Button>
