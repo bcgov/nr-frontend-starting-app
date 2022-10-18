@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.1.3...v0.1.4) (2022-10-14)
+
+
+### Bug Fixes
+
+* duplicate cypress mention on readme ([80e6691](https://github.com/bcgov/nr-frontend-starting-app/commit/80e6691ca8d51b151b302ab2e3126682c3e71352))
+
+
+
 ## [0.1.3](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.1.2...v0.1.3) (2022-09-26)
 
 
