@@ -1,3 +1,7 @@
 {
-	"validFeedback": "OK!"
+	"submit": "Submitted!",
+	"delete": "Deleted!",
+	"empty": "Please enter a valid value",
+	"invalid": "Please, enter your first and last name!",
+	"duplicate": "User already registered!"
 }
