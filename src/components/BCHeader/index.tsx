@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Button,
   Header,
   HeaderName,
   HeaderGlobalBar,
@@ -12,6 +13,7 @@ import {
   Notification,
   Switcher
 } from '@carbon/icons-react';
+import UserService from '../../service/UserService';
 
 const BCHeader = () => (
   <Theme theme="g100">
@@ -20,6 +22,22 @@ const BCHeader = () => (
         NR Sample App
       </HeaderName>
       <HeaderGlobalBar>
+        {UserService.isLoggedIn() && (
+          <Button
+            onClick={() => { UserService.doLogout(); }}
+            size="sm"
+          >
+            Logout
+          </Button>
+        )}
+        {!UserService.isLoggedIn() && (
+          <Button
+            onClick={() => { UserService.doLogin(); }}
+            size="sm"
+          >
+            Login
+          </Button>
+        )}
         <HeaderGlobalAction aria-label="Search" data-testid="header-button__search">
           <Search size={20} />
         </HeaderGlobalAction>

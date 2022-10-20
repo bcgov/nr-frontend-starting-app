@@ -10,6 +10,7 @@ import {
   Stack
 } from '@carbon/react';
 import { ArrowRight } from '@carbon/icons-react';
+import UserService from '../../service/UserService';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,8 +23,12 @@ const Home = () => {
     navigate('/form');
   };
 
+  const provider = (): string => ` With ${UserService.authMethod()}`;
+  const welcomeMsg = (): string => `Welcome ${UserService.getUsername()}`;
+  const showRoles = (): string => `Your roles: ${UserService.getRoles()}`;
+
   return (
-    <FlexGrid container spacing={4}>
+    <FlexGrid container="true" spacing={4}>
       <Stack gap={6}>
         <Row>
           <Column sm={4}>
@@ -72,6 +77,38 @@ const Home = () => {
               >
                 Go!
               </Button>
+            </Tile>
+          </Column>
+        </Row>
+        <Row>
+          <Column>
+            <Tile data-testid="card-authentication">
+              <h3 data-testid="card-authentication__title">Authentication</h3>
+              <br />
+              {UserService.isLoggedIn() && (
+                <div>
+                  <p data-testid="card-table__desc">
+                    You are authenticated!
+                    { provider() }
+                  </p>
+                  <p data-testid="card-table__desc">
+                    { welcomeMsg() }
+                  </p>
+                  <p>
+                    { showRoles() }
+                  </p>
+                </div>
+              )}
+              {!UserService.isLoggedIn() && (
+                <div>
+                  <p data-testid="card-table__desc">
+                    You are not authenticated!
+                  </p>
+                  <p data-testid="card-table__desc">
+                    Please, hit the Login button at the upper right corner!
+                  </p>
+                </div>
+              )}
             </Tile>
           </Column>
         </Row>
