@@ -13,6 +13,7 @@ const initKeycloak = (successCallback: Function) => {
     pkceMethod: 'S256'
   }).then(() => {
     successCallback();
+  // eslint-disable-next-line no-console
   }).catch(console.error);
 };
 
@@ -20,9 +21,14 @@ const doLogin = kc.login;
 
 const doLogout = kc.logout;
 
-const getToken = () => kc.token;
-
 const isLoggedIn = () => !!kc.token;
+
+const getToken = () => {
+  if (isLoggedIn()) {
+    return kc.token;
+  }
+  return '';
+};
 
 const updateToken = (successCallback: any) => {
   kc.updateToken(5)
