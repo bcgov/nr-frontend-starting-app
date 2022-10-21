@@ -1,4 +1,5 @@
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/nr-frontend-starting-app)
+![Cypress nightly](https://github.com/bcgov/nr-frontend-starting-app/actions/workflows/cypress-nightly.yml/badge.svg)
 
 # Natural Resources Front-End Starting Progressive Web Application
 
