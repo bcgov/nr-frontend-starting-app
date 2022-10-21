@@ -46,20 +46,20 @@ const Form = () => {
   });
 
   // Carbon's input components doesn't reset the character counter,
-  // so we use a reset key to force a reset on the whole component
-  const [inputResetKey, setInputResetKey] = React.useState<Boolean>(false);
+  // so we use a key to force a reset on the whole component
+  const [inputResetKey, setInputResetKey] = React.useState<boolean>(false);
 
-  const [showError, setShowError] = React.useState<Boolean>(false);
+  const [showError, setShowError] = React.useState<boolean>(false);
   const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   const [users, setUsers] = React.useState<SampleUser[]>([]);
 
-  const [firstCharCounter, setFirstCharCounter] = React.useState<Boolean>(false);
-  const [lastCharCounter, setLastCharCounter] = React.useState<Boolean>(false);
+  const [firstCharCounter, setFirstCharCounter] = React.useState<boolean>(false);
+  const [lastCharCounter, setLastCharCounter] = React.useState<boolean>(false);
 
-  const [disableElements, setDisableElements] = React.useState<Boolean>(false);
+  const [disableElements, setDisableElements] = React.useState<boolean>(false);
 
-  const tableHeaders: String[] = ['#', 'First name', 'Last name', 'Delete?'];
+  const tableHeaders: string[] = ['#', 'First name', 'Last name', 'Delete?'];
   const loadingStatus = {
     loading: 'Submitting...',
     success: 'Submitted!',

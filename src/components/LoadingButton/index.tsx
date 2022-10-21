@@ -11,14 +11,14 @@ import './styles.css';
 // was successful or not, so the loading component can be properly
 // adjusted
 interface ButtonProps {
-  id: String,
+  id: string,
   clickFn: Function,
   status: {
-    loading: String,
-    success: String,
-    error: String
+    loading: string,
+    success: string,
+    error: string
   },
-  label: String,
+  label: string,
   icon?: JSX.Element
 }
 
@@ -29,8 +29,8 @@ const LoadingButton = ({
   label,
   icon
 }: ButtonProps) => {
-  const [loading, setLoading] = React.useState<Boolean>(false);
-  const [loadDesc, setLoadDesc] = React.useState<String>(status.loading);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadDesc, setLoadDesc] = React.useState<string>(status.loading);
   const [success, setSuccess] = React.useState<string>('');
 
   const setLoadingStates = async () => {
