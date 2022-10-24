@@ -1,3 +1,6 @@
-$bcgov-font-path: "../node_modules/@bcgov/bootstrap-theme/dist/fonts/";
+@use '@carbon/react';
 
-@import "~@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+@use '@carbon/grid';
+
+// Emit the flex-grid styles
+@include grid.flex-grid();
