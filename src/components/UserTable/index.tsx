@@ -19,7 +19,7 @@ import UserService from '../../service/UserService';
 interface TableProps {
   elements: SampleUser[],
   deleteFn: Function,
-  headers: String[]
+  headers: string[]
 }
 
 const UserTable = ({ elements, deleteFn, headers }: TableProps) => {

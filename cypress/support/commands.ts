@@ -16,8 +16,8 @@ Cypress.Commands.add('deleteUser', (firstname, lastname) => {
 
 Cypress.Commands.add('createUser', (firstname, lastname) => {
   cy.request({
-    method: 'GET',
-    url: `${Cypress.env('apiUrl')}/users/`,
+    method: 'POST',
+    url: `${Cypress.env('apiUrl')}/users`,
     failOnStatusCode: false,
     body: {
       firstName: firstname,

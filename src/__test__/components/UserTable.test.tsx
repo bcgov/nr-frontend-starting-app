@@ -9,11 +9,11 @@ describe('the UserTable component', () => {
   const users: SampleUser[] = [{
     firstName: 'User1FirstName',
     lastName: 'User1LastName'
-  },{
+  }, {
     firstName: 'User2FirstName',
     lastName: 'User2LastName'
-  }]
-  const tableHeaders: String[] = ['Column1', 'Column2', 'Column3'];
+  }];
+  const tableHeaders: string[] = ['Column1', 'Column2', 'Column3'];
 
   it('should have the correct headers', () => {
     const { getByTestId } = render(
