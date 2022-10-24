@@ -66,24 +66,15 @@ jobs:
           path: cypress/videos
 
   e2e-webkit:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     name: E2E on Webkit
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Install dependencies
+      - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          # install WebKit browser dependencies
-          build: npx playwright install-deps webkit
-          runTests: false
-
-      - name: Cypress run (WebKit)
-        uses: cypress-io/github-action@v4
-        with:
-          # we have already installed everything
-          install: false
           browser: webkit
       
       - name: Upload screenshots on failure
