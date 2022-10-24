@@ -338,6 +338,9 @@ jobs:
           build-args: |
             REACT_APP_NRFESAMPLEAPP_VERSION=${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }}
             REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}
+            REACT_APP_KC_URL=${{ secrets.REACT_APP_KC_URL }}
+            REACT_APP_KC_REALM=${{ secrets.REACT_APP_KC_REALM }}
+            REACT_APP_KC_CLIENT_ID=${{ secrets.REACT_APP_KC_CLIENT_ID }}
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.ZONE }}-${{ env.COMPONENT }}
 
   deploy-dev:
