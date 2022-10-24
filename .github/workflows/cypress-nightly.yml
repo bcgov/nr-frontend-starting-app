@@ -38,6 +38,9 @@ jobs:
   
   e2e-firefox:
     runs-on: ubuntu-20.04
+    container:
+      image: cypress/browsers:node18.6.0-chrome105-ff104
+      options: --user 1001
     name: E2E on Firefox
     steps:
       - name: Checkout
