@@ -14,6 +14,7 @@ import { hashObject } from 'react-hash-string';
 
 import LoadingButton from '../LoadingButton';
 import SampleUser from '../../types/SampleUser';
+import UserService from '../../service/UserService';
 
 interface TableProps {
   elements: SampleUser[],
@@ -46,13 +47,16 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
             <TableCell>{item.firstName}</TableCell>
             <TableCell>{item.lastName}</TableCell>
             <TableCell>
-              <LoadingButton
-                id={`delete-${idx}`}
-                clickFn={() => deleteFn(idx)}
-                label="Delete"
-                status={loadingStatus}
-                icon={TrashCan}
-              />
+              {!UserService.hasRole('user_write')
+                ? 'Some Text' : (
+                  <LoadingButton
+                    id={`delete-${idx}`}
+                    clickFn={() => deleteFn(idx)}
+                    label="Delete"
+                    status={loadingStatus}
+                    icon={TrashCan}
+                  />
+                )}
             </TableCell>
           </TableRow>
         ))}

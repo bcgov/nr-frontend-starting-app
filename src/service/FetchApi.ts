@@ -16,7 +16,6 @@ function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
   }
 
   if (UserService.isLoggedIn()) {
-    console.log('add token!', UserService.getToken());
     headers.append('Authorization', `Bearer ${UserService.getToken()}`);
   }
 

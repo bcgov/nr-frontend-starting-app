@@ -1,10 +1,10 @@
 import Keycloak from 'keycloak-js';
 
-const kc = new Keycloak({
-  url: 'https://dev.loginproxy.gov.bc.ca/auth',
-  realm: 'standard',
-  clientId: 'nr-fsa-web-app-4266'
-});
+const url = process.env.REACT_APP_KC_URL || '';
+const realm = process.env.REACT_APP_KC_REALM || '';
+const clientId = process.env.REACT_APP_KC_CLIENT_ID || '';
+
+const kc = new Keycloak({ url, realm, clientId });
 
 const initKeycloak = (successCallback: Function) => {
   kc.init({
@@ -38,13 +38,16 @@ const updateToken = (successCallback: any) => {
 
 const getUsername = () => {
   const displayName = kc.tokenParsed?.display_name;
-  /*
-  const email = _kc.tokenParsed?.email;
-  */
   return displayName;
 };
 
-const hasRole = (roles: string[]) => roles.some((role) => kc.hasRealmRole(role));
+const hasRole = (role: string): boolean => {
+  let permission = false;
+  if (isLoggedIn() && Array.isArray(kc.tokenParsed?.client_roles)) {
+    permission = kc.tokenParsed?.client_roles.filter((r) => r === role).length === 1;
+  }
+  return permission;
+};
 
 const authMethod = (): string => {
   let method = '';

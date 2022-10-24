@@ -19,6 +19,7 @@ import getExceptionResponse from '../../service/GetExceptionResponse';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
+import UserService from '../../service/UserService';
 
 type InputValidation = {
   EMPTY: boolean,
@@ -275,64 +276,68 @@ const Form = () => {
             }
           </Column>
         </Row>
-        <Row>
-          <Column sm={4} md={4}>
-            <TextInput
-              id="input-first"
-              key={inputResetKey}
-              invalidText={firstFeed}
-              labelText="First name"
-              placeholder="Please put your first name here"
-              invalid={firstInvalid.INVALID}
-              maxCount={20}
-              enableCounter={firstCharCounter}
-              value={firstName}
-              onBlur={handleFirstName}
-              onChange={setFirst}
-              onFocus={() => { setFirstCharCounter(true); }}
-              disabled={disableElements}
-              data-testid="input-first"
-            />
-          </Column>
-          <Column sm={4} md={4}>
-            <TextInput
-              id="input-last"
-              key={inputResetKey}
-              invalidText={lastFeed}
-              labelText="Last name"
-              placeholder="Please put your last name here"
-              invalid={lastInvalid.INVALID}
-              maxCount={20}
-              enableCounter={lastCharCounter}
-              value={lastName}
-              onBlur={handleLastName}
-              onChange={setLast}
-              onFocus={() => { setLastCharCounter(true); }}
-              disabled={disableElements}
-              data-testid="input-last"
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column className="buttonsColumn" sm={4}>
-            <Button
-              id="button-reset"
-              onClick={resetForm}
-              kind="tertiary"
-              size="md"
-              disabled={disableElements}
-              data-testid="button-reset"
-            >
-              Reset
-            </Button>
-            <LoadingButton
-              id="submit"
-              clickFn={handleSubmit}
-              label="Submit"
-              status={loadingStatus}
-            />
-          </Column>
-        </Row>
+        {UserService.hasRole('user_write') && (
+          <>
+            <Row>
+              <Column sm={4} md={4}>
+                <TextInput
+                  id="input-first"
+                  key={inputResetKey}
+                  invalidText={firstFeed}
+                  labelText="First name"
+                  placeholder="Please put your first name here"
+                  invalid={firstInvalid.INVALID}
+                  maxCount={20}
+                  enableCounter={firstCharCounter}
+                  value={firstName}
+                  onBlur={handleFirstName}
+                  onChange={setFirst}
+                  onFocus={() => { setFirstCharCounter(true); }}
+                  disabled={disableElements}
+                  data-testid="input-first"
+                />
+              </Column>
+              <Column sm={4} md={4}>
+                <TextInput
+                  id="input-last"
+                  key={inputResetKey}
+                  invalidText={lastFeed}
+                  labelText="Last name"
+                  placeholder="Please put your last name here"
+                  invalid={lastInvalid.INVALID}
+                  maxCount={20}
+                  enableCounter={lastCharCounter}
+                  value={lastName}
+                  onBlur={handleLastName}
+                  onChange={setLast}
+                  onFocus={() => { setLastCharCounter(true); }}
+                  disabled={disableElements}
+                  data-testid="input-last"
+                />
+              </Column>
+            </Row>
+            <Row>
+              <Column className="buttonsColumn" sm={4}>
+                <Button
+                  id="button-reset"
+                  onClick={resetForm}
+                  kind="tertiary"
+                  size="md"
+                  disabled={disableElements}
+                  data-testid="button-reset"
+                >
+                  Reset
+                </Button>
+                <LoadingButton
+                  id="submit"
+                  clickFn={handleSubmit}
+                  label="Submit"
+                  status={loadingStatus}
+                />
+              </Column>
+            </Row>
+          </>
+        )}
         <Row>
           <Column sm={4}>
             <UserTable elements={users} deleteFn={deleteByIndex} headers={tableHeaders} />
