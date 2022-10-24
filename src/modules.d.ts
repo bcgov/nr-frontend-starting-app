@@ -1,2 +1,2 @@
-declare module 'shared-components';
-declare module 'styled-components';
+declare module '@carbon/react';
+declare module '@carbon/icons-react';

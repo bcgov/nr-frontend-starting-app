@@ -1,38 +1,64 @@
 import React from 'react';
-import { Button } from 'shared-components';
+
+import {
+  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableBody,
+  TableCell
+} from '@carbon/react';
+import { TrashCan } from '@carbon/icons-react';
+
 import { hashObject } from 'react-hash-string';
+
+import LoadingButton from '../LoadingButton';
 import SampleUser from '../../types/SampleUser';
 
 interface TableProps {
   elements: SampleUser[],
-  deleteFn: Function
+  deleteFn: Function,
+  headers: string[]
 }
 
-function UserTable({ elements, deleteFn }: TableProps) {
+const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
+  const loadingStatus = {
+    loading: 'Deleting...',
+    success: 'Deleted!',
+    error: 'Error'
+  };
+
   return (
-    <table className="table">
-      <thead className="thead-dark">
-        <tr>
-          <th scope="col" className="w-25">#</th>
-          <th scope="col" className="w-25">First name</th>
-          <th scope="col" className="w-25">Last name</th>
-          <th scope="col" className="w-25">Delete?</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table size="lg" useZebraStyles={false}>
+      <TableHead>
+        <TableRow>
+          {headers.map((header, idx) => (
+            <TableHeader key={header} id={`header-${header}-${idx}`} data-testid={`header-${header}-${idx}`}>
+              {header}
+            </TableHeader>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {elements.map((item, idx) => (
-          <tr key={hashObject(item)}>
-            <th scope="row">{idx}</th>
-            <td>{item.firstName}</td>
-            <td>{item.lastName}</td>
-            <td>
-              <Button onClick={() => deleteFn(idx)} label="Delete me" styling="bcgov-normal-white btn" />
-            </td>
-          </tr>
+          <TableRow key={hashObject(item)} id={`row${idx}`}>
+            <TableCell>{idx}</TableCell>
+            <TableCell>{item.firstName}</TableCell>
+            <TableCell>{item.lastName}</TableCell>
+            <TableCell>
+              <LoadingButton
+                id={`delete-${idx}`}
+                clickFn={() => deleteFn(idx)}
+                label="Delete"
+                status={loadingStatus}
+                icon={TrashCan}
+              />
+            </TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
-}
+};
 
 export default UserTable;
