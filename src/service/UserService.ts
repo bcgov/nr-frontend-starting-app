@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Keycloak from 'keycloak-js';
 
 const url = process.env.REACT_APP_KC_URL || '';
@@ -7,14 +8,17 @@ const clientId = process.env.REACT_APP_KC_CLIENT_ID || '';
 const kc = new Keycloak({ url, realm, clientId });
 
 const initKeycloak = (successCallback: Function) => {
+  console.log('Starting KeyCloak instance...');
   kc.init({
     onLoad: 'check-sso',
     silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
     pkceMethod: 'S256'
-  }).then(() => {
+  }).then((authenticated: boolean) => {
+    console.log(`KeyCloak started! User is autenticated: ${authenticated}`);
     successCallback();
-  // eslint-disable-next-line no-console
-  }).catch(console.error);
+  }).catch((e) => {
+    console.log('Some error ocurred:', e);
+  });
 };
 
 const doLogin = kc.login;
