@@ -221,8 +221,11 @@ jobs:
           fail_action: false
     
   e2e-smoke:
-    runs-on: ubuntu-20.04
     name: E2E Smoke on Chrome
+    needs: 
+      - zap-app
+    runs-on: ubuntu-20.04
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
