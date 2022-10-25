@@ -10,8 +10,8 @@ const initKeycloak = (): KeycloakPromise<boolean, KeycloakError> => {
   // eslint-disable-next-line no-console
   console.log('Starting KeyCloak instance...', new Date());
   return kc.init({
-    onLoad: 'login-required',
-    // silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
+    onLoad: 'check-sso',
+    silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
     pkceMethod: 'S256'
   });
 };
