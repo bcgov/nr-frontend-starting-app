@@ -10,10 +10,12 @@ import {
   Stack
 } from '@carbon/react';
 import { ArrowRight } from '@carbon/icons-react';
-import UserService from '../../service/UserService';
+import { useKeycloak } from '@react-keycloak/web';
+import { kcClientRoles, kcUserDisplayName, kcIdentityProvider } from '../../service/AuthService';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { keycloak, initialized } = useKeycloak();
 
   const goToTable = () => {
     navigate('/table');
@@ -23,9 +25,9 @@ const Home = () => {
     navigate('/form');
   };
 
-  const provider = (): string => ` With ${UserService.authMethod()}`;
-  const welcomeMsg = (): string => `Welcome ${UserService.getUsername()}`;
-  const showRoles = (): string => `Your roles: ${UserService.getRoles()}`;
+  const provider = (): string => ` With ${kcIdentityProvider(keycloak, initialized)}`;
+  const welcomeMsg = (): string => `Welcome ${kcUserDisplayName(keycloak, initialized)}`;
+  const showRoles = (): string => `Your roles: ${kcClientRoles(keycloak, initialized)}`;
 
   return (
     <FlexGrid container="true" spacing={4}>
@@ -51,14 +53,22 @@ const Home = () => {
                 This is a simple form to validate the user&apos;s inputs.
               </p>
               <br />
-              <Button
-                onClick={goToForm}
-                size="md"
-                renderIcon={ArrowRight}
-                data-testid="card-form__button"
-              >
-                Go!
-              </Button>
+              {keycloak?.authenticated && (
+                <Button
+                  onClick={goToForm}
+                  size="md"
+                  renderIcon={ArrowRight}
+                  data-testid="card-form__button"
+                >
+                  Go!
+                </Button>
+              )}
+              {!keycloak?.authenticated && (
+                <>
+                  <br />
+                  <p>You&apos;re now allowed to click the button, sorry.</p>
+                </>
+              )}
             </Tile>
           </Column>
           <Column sm={4} md={4}>
@@ -85,7 +95,7 @@ const Home = () => {
             <Tile data-testid="card-authentication">
               <h3 data-testid="card-authentication__title">Authentication</h3>
               <br />
-              {UserService.isLoggedIn() && (
+              {!!keycloak?.authenticated && (
                 <div>
                   <p data-testid="card-table__desc">
                     You are authenticated!
@@ -99,7 +109,7 @@ const Home = () => {
                   </p>
                 </div>
               )}
-              {!UserService.isLoggedIn() && (
+              {!keycloak?.authenticated && (
                 <div>
                   <p data-testid="card-table__desc">
                     You are not authenticated!

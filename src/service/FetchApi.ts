@@ -1,22 +1,24 @@
-import UserService from './UserService';
+interface RequestInitProps {
+  method: string,
+  kcToken?: string,
+  postBody?: BodyInit,
+}
 
 /**
  * Create a request Init
  *
- * @param {string} method a string method to be used on the request.
- * @param {BodyInit} postBody optional body to be sent. When present the request
- *                 is going to use POST method. Otherwise GET will be used.
+ * @param {RequestInitProps} props containing the method, token and postBody.
  * @returns {RequestInit} a RequestInit object
  */
-function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
+function createRequestInit({ method, kcToken, postBody }: RequestInitProps): RequestInit {
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   if (method === 'POST' && postBody) {
     headers.append('Content-Length', String(postBody.toString().length));
   }
 
-  if (UserService.isLoggedIn()) {
-    headers.append('Authorization', `Bearer ${UserService.getToken()}`);
+  if (kcToken) {
+    headers.append('Authorization', `Bearer ${kcToken}`);
   }
 
   if (method === 'GET') {

@@ -9,6 +9,7 @@ import {
   Row,
   Stack
 } from '@carbon/react';
+import { useKeycloak } from '@react-keycloak/web';
 
 import LoadingButton from '../../components/LoadingButton';
 import UserTable from '../../components/UserTable';
@@ -19,7 +20,7 @@ import getExceptionResponse from '../../service/GetExceptionResponse';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
-import UserService from '../../service/UserService';
+import { kcUserHasRole, kcToken } from '../../service/AuthService';
 
 type InputValidation = {
   EMPTY: boolean,
@@ -28,6 +29,8 @@ type InputValidation = {
 }
 
 const Form = () => {
+  const { keycloak, initialized } = useKeycloak();
+
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
   const [firstName, setFirstName] = React.useState<string>('');
@@ -121,7 +124,12 @@ const Form = () => {
 
   const fetchData = async () => {
     try {
-      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, createRequestInit('GET'));
+      const initObj = createRequestInit({
+        method: 'GET',
+        kcToken: kcToken(keycloak)
+      });
+
+      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, initObj);
       setUsers(result);
     } catch (error) {
       handleError(error);
@@ -136,7 +144,14 @@ const Form = () => {
 
     try {
       setDisableElements(true);
-      await fetchApiRequest(`${BASE_URL}/users`, createRequestInit('POST', body));
+
+      const initObj = createRequestInit({
+        method: 'POST',
+        kcToken: kcToken(keycloak),
+        postBody: body
+      });
+
+      await fetchApiRequest(`${BASE_URL}/users`, initObj);
       resetForm();
       fetchData();
       return true;
@@ -148,7 +163,12 @@ const Form = () => {
 
   const deleteUser = async (first: string, last: string) => {
     try {
-      await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, createRequestInit('DELETE'));
+      const initObj = createRequestInit({
+        method: 'DELETE',
+        kcToken: kcToken(keycloak)
+      });
+
+      await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, initObj);
       fetchData();
       return true;
     } catch (error) {
@@ -276,7 +296,7 @@ const Form = () => {
             }
           </Column>
         </Row>
-        {UserService.hasRole('user_write') && (
+        {kcUserHasRole(keycloak, initialized, 'user_write') && (
           <>
             <Row>
               <Column sm={4} md={4}>
