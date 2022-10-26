@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: cypress-screenshots-edgecypress
+          name: cypress-screenshots-edge
           path: cypress/screenshots
       
       - name: Upload videos
