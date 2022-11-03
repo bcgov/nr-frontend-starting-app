@@ -1,6 +1,97 @@
+@use './theme/type-style.scss' as custom-type-style;
+@use './theme/type-family.scss' as custom-type-family;
+
+@use '@carbon/type/scss/_font-family.scss' with (
+  $font-families: custom-type-family.$type-family
+);
+
+@use '@carbon/type/scss/_styles.scss' with (
+  $body-compact-01: custom-type-style.$body-compact-01,
+  $body-compact-02: custom-type-style.$body-compact-02,
+  $body-01: custom-type-style.$body-01,
+  $body-02: custom-type-style.$body-02,
+  $code-01: custom-type-style.$code-01,
+  $code-02: custom-type-style.$code-02,
+  $label-01: custom-type-style.$label-01,
+  $label-02: custom-type-style.$label-02,
+  $helper-text-01: custom-type-style.$helper-text-01,
+  $helper-text-02: custom-type-style.$helper-text-02,
+  $legal-01: custom-type-style.$legal-01,
+  $legal-02: custom-type-style.$legal-02,
+  $heading-compact-01: custom-type-style.$heading-compact-01,
+  $heading-compact-02: custom-type-style.$heading-compact-02,
+  $heading-01: custom-type-style.$heading-01,
+  $heading-02: custom-type-style.$heading-02,
+  $heading-03: custom-type-style.$heading-03,
+  $heading-04: custom-type-style.$heading-04,
+  $heading-05: custom-type-style.$heading-05,
+  $heading-06: custom-type-style.$heading-06,
+  $heading-07: custom-type-style.$heading-07,
+  $fluid-heading-03: custom-type-style.$fluid-heading-03,
+  $fluid-heading-04: custom-type-style.$fluid-heading-04,
+  $fluid-heading-05: custom-type-style.$fluid-heading-05,
+  $fluid-heading-06: custom-type-style.$fluid-heading-06,
+  $fluid-paragraph-01: custom-type-style.$fluid-paragraph-01,
+  $fluid-quotation-01: custom-type-style.$fluid-quotation-01,
+  $fluid-quotation-02: custom-type-style.$fluid-quotation-02,
+  $fluid-display-01: custom-type-style.$fluid-display-01,
+  $fluid-display-02: custom-type-style.$fluid-display-02,
+  $fluid-display-03: custom-type-style.$fluid-display-03,
+  $fluid-display-04: custom-type-style.$fluid-display-04,
+);
+
+// Trying to override thru the theme
+// $test: (
+//   body-compact-01: custom-type-style.$body-compact-01,
+//   body-compact-02: custom-type-style.$body-compact-02,
+//   body-01: custom-type-style.$body-01,
+//   body-02: custom-type-style.$body-02,
+//   code-01: custom-type-style.$code-01,
+//   code-02: custom-type-style.$code-02,
+//   label-01: custom-type-style.$label-01,
+//   label-02: custom-type-style.$label-02,
+//   helper-text-01: custom-type-style.$helper-text-01,
+//   helper-text-02: custom-type-style.$helper-text-02,
+//   legal-01: custom-type-style.$legal-01,
+//   legal-02: custom-type-style.$legal-02,
+//   heading-compact-01: custom-type-style.$heading-compact-01,
+//   heading-compact-02: custom-type-style.$heading-compact-02,
+//   heading-01: custom-type-style.$heading-01,
+//   heading-02: custom-type-style.$heading-02,
+//   heading-03: custom-type-style.$heading-03,
+//   heading-04: custom-type-style.$heading-04,
+//   heading-05: custom-type-style.$heading-05,
+//   heading-06: custom-type-style.$heading-06,
+//   heading-07: custom-type-style.$heading-07,
+//   fluid-heading-03: custom-type-style.$fluid-heading-03,
+//   fluid-heading-04: custom-type-style.$fluid-heading-04,
+//   fluid-heading-05: custom-type-style.$fluid-heading-05,
+//   fluid-heading-06: custom-type-style.$fluid-heading-06,
+//   fluid-paragraph-01: custom-type-style.$fluid-paragraph-01,
+//   fluid-quotation-01: custom-type-style.$fluid-quotation-01,
+//   fluid-quotation-02: custom-type-style.$fluid-quotation-02,
+//   fluid-display-01: custom-type-style.$fluid-display-01,
+//   fluid-display-02: custom-type-style.$fluid-display-02,
+//   fluid-display-03: custom-type-style.$fluid-display-03,
+//   fluid-display-04: custom-type-style.$fluid-display-04,
+// );
+
+// @use '@carbon/react/scss/themes';
+// @use '@carbon/react/scss/theme' with (
+//   $fallback: themes.$white,
+//   $theme: $test
+// );
+
+
 @use '@carbon/react';
 
 @use '@carbon/grid';
 
+// @use '@carbon/type';
+
 // Emit the flex-grid styles
 @include grid.flex-grid();
+
+// :root {
+//   @include theme.theme();
+// }
