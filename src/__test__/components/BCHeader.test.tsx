@@ -1,30 +1,15 @@
 /* eslint-disable no-undef */
 import React from 'react';
-
-/*
-
-Tests related to components with useKeycloak Hook are temporarily disabled.
-- https://github.com/react-keycloak/react-keycloak/issues/198
-
 import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import BCHeader from '../../components/BCHeader';
-import createKeycloakStub from './MockKeyCloak';
+import mockUseKeycloak from '../__mocks__/useKeycloak';
+
+jest.mock('@react-keycloak/web', () => ({
+  useKeycloak: () => mockUseKeycloak()
+}));
 
 describe('the Header component', () => {
-  const mockInitialized = false;
-
-  jest.mock('@react-keycloak/web', () => {
-    const originalModule = jest.requireActual('@react-keycloak/web');
-    return {
-      ...originalModule,
-      useKeycloak: () => [
-        createKeycloakStub,
-        mockInitialized
-      ]
-    };
-  });
-
   it('should have the correct title', () => {
     const { getByTestId } = render(<BCHeader />);
 
@@ -41,6 +26,3 @@ describe('the Header component', () => {
     expect(tree).toMatchSnapshot();
   });
 });
-*/
-
-describe('the Header component', () => it('should have the correct title', () => {}));

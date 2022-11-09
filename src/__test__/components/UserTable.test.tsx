@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
 import React from 'react';
 
-/*
-
-Tests related to components with useKeycloak Hook are temporarily disabled.
-- https://github.com/react-keycloak/react-keycloak/issues/198
-
 import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import UserTable from '../../components/UserTable';
 import SampleUser from '../../types/SampleUser';
+import mockUseKeycloak from '../__mocks__/useKeycloak';
+
+jest.mock('@react-keycloak/web', () => ({
+  useKeycloak: () => mockUseKeycloak()
+}));
 
 describe('the UserTable component', () => {
   const users: SampleUser[] = [{
@@ -37,7 +37,3 @@ describe('the UserTable component', () => {
     expect(tree).toMatchSnapshot();
   });
 });
-
-*/
-
-describe('the UserTable component', () => it('should have the correct headers', () => {}));
