@@ -393,6 +393,9 @@ jobs:
 
   e2e-smoke:
     name: E2E Smoke on Chrome
+    needs: 
+      - deploy-dev
+    continue-on-error: true
     runs-on: ubuntu-20.04
     continue-on-error: true
     steps:
@@ -406,14 +409,14 @@ jobs:
           config: baseUrl=https://${{ env.NAME }}-${{ github.event.number }}-app.apps.silver.devops.gov.bc.ca
       
       - name: Upload screenshots on failure
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       
       - name: Upload videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: cypress-videos
