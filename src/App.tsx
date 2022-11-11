@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import {
   BrowserRouter, Routes, Route
@@ -18,6 +19,13 @@ const initOptions = {
   pkceMethod: 'S256'
 };
 
+const eventLogger = (event: unknown, error: unknown) => {
+  console.log('onKeycloakEvent', event, error);
+};
+const tokenLogger = (tokens: unknown) => {
+  console.log('onKeycloakTokens', tokens);
+};
+
 /**
  * Create an app structure conaining all the routes.
  *
@@ -27,6 +35,8 @@ const App: React.FC = () => (
   <ReactKeycloakProvider
     initOptions={initOptions}
     authClient={keycloak}
+    onEvent={eventLogger}
+    onTokens={tokenLogger}
   >
     <BrowserRouter>
       <Routes>
