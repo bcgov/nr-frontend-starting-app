@@ -19,6 +19,8 @@
 @use '@carbon/react/scss/components/tag/tokens' as tag-tokens;
 @use './theme/tags.scss' as tag-overrides;
 
+@use 'theme/components-overrides.scss';
+
 @use '@carbon/react';
 @use '@carbon/grid';
 
