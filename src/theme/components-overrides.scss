@@ -1,3 +1,9 @@
+$bcgov-prefix: 'bcgov';
+
+@use '@carbon/styles/scss/config' with (
+  $prefix: $bcgov-prefix
+);
+
 @use '@carbon/styles/scss/components/button/vars' with (
   $button-border-radius: 4px
 );
