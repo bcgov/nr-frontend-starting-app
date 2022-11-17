@@ -12,6 +12,7 @@ import Home from './views/Home';
 import Form from './views/Form';
 import Table from './views/Table';
 import keycloak from './keycloak';
+import HomeLogged from './views/HomeLogged';
 
 const initOptions = {
   onLoad: 'check-sso',
@@ -42,6 +43,7 @@ const App: React.FC = () => (
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<HomeLogged />} />
           <Route path="/form" element={<Form />} />
           <Route path="/table" element={<Table />} />
         </Route>
