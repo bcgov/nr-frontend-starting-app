@@ -12,7 +12,8 @@ $bcgov-prefix: 'bcgov';
 .#{$bcgov-prefix}--date-picker__input,
 .#{$bcgov-prefix}--list-box__field,
 .#{$bcgov-prefix}--list-box,
-.#{$bcgov-prefix}--number input[type=number] {
+.#{$bcgov-prefix}--number input[type=number],
+.#{$bcgov-prefix}--pagination {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -25,7 +26,8 @@ $bcgov-prefix: 'bcgov';
 .flatpickr-next-month,
 .#{$bcgov-prefix}--list-box__menu,
 .#{$bcgov-prefix}--link,
-.#{$bcgov-prefix}--number__control-btn {
+.#{$bcgov-prefix}--number__control-btn,
+.#{$bcgov-prefix}--pagination-nav__page {
   border-radius: 4px;
 }
 
@@ -65,4 +67,48 @@ $bcgov-prefix: 'bcgov';
 
 .#{$bcgov-prefix}--modal-footer .#{$bcgov-prefix}--btn:not(.#{$bcgov-prefix}--btn--primary) {
   margin-right: 4px;
+}
+
+
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__item-count .#{$bcgov-prefix}--select-input__wrapper select.#{$bcgov-prefix}--select-input,
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__page-number .#{$bcgov-prefix}--select-input__wrapper select.#{$bcgov-prefix}--select-input {
+  border-radius: 4px;
+  border: 0;
+}
+
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__item-count .#{$bcgov-prefix}--select-input__wrapper,
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__page-number .#{$bcgov-prefix}--select-input__wrapper {
+  margin: 4px;
+}
+
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__item-count .#{$bcgov-prefix}--select-input--inline__wrapper {
+  border-right: 1px solid var(--#{$bcgov-prefix}-border-subtle);
+}
+
+.#{$bcgov-prefix}--pagination .#{$bcgov-prefix}--select__page-number .#{$bcgov-prefix}--select-input--inline__wrapper {
+  border-left: 1px solid var(--#{$bcgov-prefix}-border-subtle);
+}
+
+.#{$bcgov-prefix}--pagination--sm,
+.#{$bcgov-prefix}--pagination--sm .#{$bcgov-prefix}--pagination__control-buttons .#{$bcgov-prefix}--popover-container {
+  height: 40px;
+}
+
+.#{$bcgov-prefix}--pagination--md,
+.#{$bcgov-prefix}--pagination--md .#{$bcgov-prefix}--pagination__control-buttons .#{$bcgov-prefix}--popover-container {
+  height: 48px;
+}
+
+.#{$bcgov-prefix}--pagination--lg,
+.#{$bcgov-prefix}--pagination--lg .#{$bcgov-prefix}--pagination__control-buttons .#{$bcgov-prefix}--popover-container {
+  height: 56px;
+}
+
+.#{$bcgov-prefix}--pagination__control-buttons .#{$bcgov-prefix}--popover-container {
+  border-left: 1px solid var(--#{$bcgov-prefix}-border-subtle);
+}
+
+.#{$bcgov-prefix}--pagination__control-buttons .#{$bcgov-prefix}--pagination__button {
+  margin: 4px;
+  border: 0;
 }
