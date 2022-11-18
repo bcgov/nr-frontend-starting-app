@@ -32,7 +32,8 @@ $bcgov-prefix: 'bcgov';
 .#{$bcgov-prefix}--link,
 .#{$bcgov-prefix}--number__control-btn,
 .#{$bcgov-prefix}--pagination-nav__page,
-.#{$bcgov-prefix}--tab--overflow-nav-button {
+.#{$bcgov-prefix}--tab--overflow-nav-button,
+.#{$bcgov-prefix}--tile {
   border-radius: 4px;
 }
 
