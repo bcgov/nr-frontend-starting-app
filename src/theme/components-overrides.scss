@@ -29,7 +29,8 @@ $bcgov-prefix: 'bcgov';
 .#{$bcgov-prefix}--list-box__menu,
 .#{$bcgov-prefix}--link,
 .#{$bcgov-prefix}--number__control-btn,
-.#{$bcgov-prefix}--pagination-nav__page {
+.#{$bcgov-prefix}--pagination-nav__page,
+.#{$bcgov-prefix}--tab--overflow-nav-button {
   border-radius: 4px;
 }
 
