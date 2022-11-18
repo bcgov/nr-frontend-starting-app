@@ -22,7 +22,8 @@ $bcgov-prefix: 'bcgov';
 .flatpickr-day,
 .flatpickr-prev-month,
 .flatpickr-next-month,
-.#{$bcgov-prefix}--list-box__menu {
+.#{$bcgov-prefix}--list-box__menu,
+.#{$bcgov-prefix}--link {
   border-radius: 4px;
 }
 
