@@ -16,7 +16,8 @@ $bcgov-prefix: 'bcgov';
 .#{$bcgov-prefix}--pagination,
 .#{$bcgov-prefix}--search-input,
 .#{$bcgov-prefix}--select-input,
-.#{$bcgov-prefix}--text-input {
+.#{$bcgov-prefix}--text-input,
+.#{$bcgov-prefix}--text-area {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
