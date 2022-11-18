@@ -41,3 +41,26 @@ $bcgov-prefix: 'bcgov';
   border-top-right-radius: 4px;
 }
 
+.#{$bcgov-prefix}--modal-container {
+  border-radius: 8px;
+}
+
+.#{$bcgov-prefix}--modal-close {
+  margin-right: 16px;
+  margin-top: 16px;
+  border-radius: 4px;
+}
+.#{$bcgov-prefix}--modal-footer {
+  height: auto;
+  margin: 0 16px 16px;
+}
+
+.#{$bcgov-prefix}--modal-footer .#{$bcgov-prefix}--btn {
+  max-width: none;
+  height: 48px;
+  padding-bottom: 16px;
+}
+
+.#{$bcgov-prefix}--modal-footer .#{$bcgov-prefix}--btn:not(.#{$bcgov-prefix}--btn--primary) {
+  margin-right: 4px;
+}
