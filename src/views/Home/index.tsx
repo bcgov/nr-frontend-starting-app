@@ -25,13 +25,27 @@ const Home = () => {
   };
 
   const loginWithIdir = () => {
+    if (keycloak.authenticated) {
+      console.log('your authenticated 1!');
+      return;
+    }
+
     const idirUrl = createLoginUrl('idir');
     console.log('IDIR! ', idirUrl);
     const windowFeatures = 'width=450,height=600,popup=true';
-    window.open(idirUrl, 'loginWindow', windowFeatures);
+    const handle = window.open(idirUrl, 'loginWindow', windowFeatures);
+
+    if (handle) {
+      console.log('success');
+    }
   };
 
   const loginWithBCeID = () => {
+    if (keycloak.authenticated) {
+      console.log('your authenticated 2!');
+      return;
+    }
+
     const bceidUrl = createLoginUrl('bceid');
     console.log('BCeID! ', bceidUrl);
   };
