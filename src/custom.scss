@@ -1,6 +1,8 @@
 @use './theme/light-theme.scss' as light;
 @use './theme/colors.scss' as colors;
 
+@use './theme/components-overrides.scss';
+
 // Set the correct light theme
 @use '@carbon/react/scss/themes';
 @use '@carbon/react/scss/theme' with (
@@ -18,8 +20,6 @@
 
 @use '@carbon/react/scss/components/tag/tokens' as tag-tokens;
 @use './theme/tags.scss' as tag-overrides;
-
-@use 'theme/components-overrides.scss';
 
 @use '@carbon/react';
 @use '@carbon/grid';
