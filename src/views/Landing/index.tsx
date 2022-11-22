@@ -17,10 +17,7 @@ const Landing = () => {
 
   const checkLogin = (popup: Window | null) => {
     const interval = setInterval(() => {
-      console.log('checking login for interval: ', interval);
-
       if (popup!.closed) {
-        console.log('closing and clearing');
         clearInterval(interval);
       }
 

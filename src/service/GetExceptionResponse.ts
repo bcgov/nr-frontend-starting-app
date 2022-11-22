@@ -9,8 +9,15 @@ import ExceptionResponse from '../types/ExceptionResponse';
  */
 function getExceptionResponse(error: unknown | Error): ExceptionResponse {
   if (error instanceof Error) {
-    const excResponse: ExceptionResponse = JSON.parse(String(error.message));
-    return excResponse;
+    try {
+      const excResponse: ExceptionResponse = JSON.parse(String(error.message));
+      return excResponse;
+    } catch (e) {
+      return {
+        errorMessage: 'Unable to parse JSON response. Maybe the server is down!?',
+        fields: []
+      };
+    }
   }
 
   return {
