@@ -23,7 +23,7 @@ const Home = () => {
         navigate('/');
       }
     }
-  }, [keycloak.authenticated]);
+  }, [initialized, keycloak.authenticated]);
 
   const goToTable = () => {
     navigate('/table');

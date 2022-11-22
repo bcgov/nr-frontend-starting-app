@@ -12,7 +12,7 @@ const Table = () => {
         navigate('/');
       }
     }
-  }, [keycloak.authenticated]);
+  }, [initialized, keycloak.authenticated]);
 
   return (
     <>

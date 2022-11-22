@@ -272,7 +272,7 @@ const Form = () => {
         navigate('/');
       }
     }
-  }, [keycloak.authenticated]);
+  }, [initialized, keycloak.authenticated]);
 
   return (
     <FlexGrid>

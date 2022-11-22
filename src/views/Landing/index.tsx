@@ -9,36 +9,37 @@ import {
 } from '@carbon/react';
 import { useKeycloak } from '@react-keycloak/web';
 import { useNavigate } from 'react-router-dom';
-
-type Provider = 'idir' | 'bceid-business';
+import LoginProviders from '../../types/LoginProviders';
 
 const Landing = () => {
   const { keycloak } = useKeycloak();
   const navigate = useNavigate();
 
-  const checkLogin = () => {
+  const checkLogin = (popup: Window | null) => {
     const interval = setInterval(() => {
-      const loginResult = localStorage.getItem('spar-login-success');
-      console.log('spar-login-success:', loginResult);
-      if (loginResult === 'true') {
+      console.log('checking login for interval: ', interval);
+
+      if (popup!.closed) {
+        console.log('closing and clearing');
         clearInterval(interval);
+      }
+
+      const loginResult = localStorage.getItem('spar-login-success');
+      if (loginResult === 'true') {
         localStorage.removeItem('spar-login-success');
         window.location.href = '/home';
       }
-    }, 1000);
-
-    console.log('interval:', interval);
+    }, 500);
   };
 
-  const handleLogin = (provider: Provider) => {
+  const handleLogin = (provider: LoginProviders) => {
     const url = `/start-login?provider=${provider}`;
-    window.open(url, 'loginWindow', 'width=480,height=600');
-    checkLogin();
+    const popup = window.open(url, 'loginWindow', 'width=480,height=600');
+    checkLogin(popup);
   };
 
   useEffect(() => {
     if (keycloak.authenticated) {
-      console.log('yeaaaasss!');
       navigate('/home');
     }
   }, [keycloak.authenticated]);
@@ -60,7 +61,7 @@ const Landing = () => {
           <Row>
             <Column sm={4} md={4}>
               <Button
-                onClick={() => { handleLogin('idir'); }}
+                onClick={() => { handleLogin(LoginProviders.IDIR); }}
                 size="lg"
                 data-testid="card-table__button"
               >
@@ -68,7 +69,7 @@ const Landing = () => {
               </Button>
               &nbsp;
               <Button
-                onClick={() => { handleLogin('bceid-business'); }}
+                onClick={() => { handleLogin(LoginProviders.BCEID_BUSINESS); }}
                 size="lg"
                 data-testid="card-table__button"
               >
