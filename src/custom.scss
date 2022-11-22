@@ -1,7 +1,13 @@
 @use './theme/light-theme.scss' as light;
 @use './theme/colors.scss' as colors;
+@use './theme/type-family.scss' as types;
 
 @use './theme/components-overrides.scss';
+
+@use '@carbon/type/scss/_font-family.scss' with (
+  $font-families: types.$type-family,
+  $font-weights: types.$font-weights
+);
 
 // Set the correct light theme
 @use '@carbon/react/scss/themes';
