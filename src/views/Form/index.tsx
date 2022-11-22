@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -29,6 +30,7 @@ type InputValidation = {
 }
 
 const Form = () => {
+  const navigate = useNavigate();
   const { keycloak, initialized } = useKeycloak();
 
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
@@ -265,7 +267,12 @@ const Form = () => {
 
   React.useEffect(() => {
     fetchData();
-  }, []);
+    if (initialized) {
+      if (!keycloak.authenticated) {
+        navigate('/');
+      }
+    }
+  }, [keycloak.authenticated]);
 
   return (
     <FlexGrid>

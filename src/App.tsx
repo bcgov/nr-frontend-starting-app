@@ -7,12 +7,14 @@ import { ReactKeycloakProvider } from '@react-keycloak/web';
 
 import './custom.scss';
 
-import Layout from './layout/PublicLayout';
-import Home from './views/Home';
+import Landing from './views/Landing';
 import Form from './views/Form';
 import Table from './views/Table';
 import keycloak from './keycloak';
-import HomeLogged from './views/HomeLogged';
+import Home from './views/Home';
+import Layout from './layout/PublicLayout';
+import StartLogin from './views/StartLogin';
+import LoginSuccess from './views/LoginSuccess';
 
 const initOptions = {
   onLoad: 'check-sso',
@@ -42,10 +44,13 @@ const App: React.FC = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<HomeLogged />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/form" element={<Form />} />
           <Route path="/table" element={<Table />} />
+
+          <Route path="/start-login" element={<StartLogin />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
         </Route>
       </Routes>
     </BrowserRouter>
