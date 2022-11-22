@@ -1,6 +1,8 @@
 @use './theme/light-theme.scss' as light;
 @use './theme/colors.scss' as colors;
 
+@use './theme/components-overrides.scss';
+
 // Set the correct light theme
 @use '@carbon/react/scss/themes';
 @use '@carbon/react/scss/theme' with (
