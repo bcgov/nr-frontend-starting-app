@@ -26,7 +26,7 @@ const Landing = () => {
         localStorage.removeItem('spar-login-success');
         window.location.href = '/home';
       }
-    }, 500);
+    }, 1000);
   };
 
   const handleLogin = (provider: LoginProviders) => {
