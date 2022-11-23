@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useKeycloak } from '@react-keycloak/web';
+import React, { useEffect, useState } from 'react';
 import { KeycloakLoginOptions } from 'keycloak-js';
 import LoginProviders from '../../types/LoginProviders';
+import KeycloakService from '../../service/KeycloakService';
 
 const StartLogin = () => {
-  const { keycloak, initialized } = useKeycloak();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
 
   const createLoginUrl = (provider: LoginProviders): string => {
     const idpHint = provider === 'idir' ? 'idir' : 'bceid-business';
@@ -14,7 +14,7 @@ const StartLogin = () => {
       idpHint
     };
 
-    return keycloak.createLoginUrl(loginOptions);
+    return KeycloakService.doCreateLoginUrl(loginOptions);
   };
 
   const createLoginProviders = (): LoginProviders => {
@@ -39,10 +39,12 @@ const StartLogin = () => {
   };
 
   useEffect(() => {
-    if (initialized) {
-      handleLoginPopUp();
-    }
-  }, [initialized]);
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        handleLoginPopUp();
+      });
+  }, [keycloakReady]);
 
   return (
     <>

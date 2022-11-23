@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -7,13 +7,14 @@ import {
   Row,
   Stack
 } from '@carbon/react';
-import { useKeycloak } from '@react-keycloak/web';
 import { useNavigate } from 'react-router-dom';
 import LoginProviders from '../../types/LoginProviders';
+import KeycloakService from '../../service/KeycloakService';
 
 const Landing = () => {
-  const { keycloak } = useKeycloak();
   const navigate = useNavigate();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
+  const [sendToHome, setSendToHome] = useState<boolean>(false);
 
   const checkLogin = (popup: Window | null) => {
     const interval = setInterval(() => {
@@ -24,7 +25,7 @@ const Landing = () => {
       const loginResult = localStorage.getItem('spar-login-success');
       if (loginResult === 'true') {
         localStorage.removeItem('spar-login-success');
-        window.location.href = '/home';
+        setSendToHome(true);
       }
     }, 500);
   };
@@ -36,10 +37,18 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    if (keycloak.authenticated) {
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        if (KeycloakService.isLoggedIn()) {
+          navigate('/home');
+        }
+      });
+
+    if (sendToHome) {
       navigate('/home');
     }
-  }, [keycloak.authenticated]);
+  }, [keycloakReady, sendToHome]);
 
   return (
     <FlexGrid className="mainContainer">

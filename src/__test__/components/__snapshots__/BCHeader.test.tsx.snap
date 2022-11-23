@@ -12,7 +12,7 @@ exports[`the Header component should match the snapshot 1`] = `
     <a
       className="cds--header__name"
       data-testid="header-name"
-      href="/home"
+      href="/"
     >
       <span
         className="cds--header__name--prefix"
@@ -25,17 +25,6 @@ exports[`the Header component should match the snapshot 1`] = `
     <div
       className="cds--header__global"
     >
-      <button
-        aria-describedby={null}
-        aria-pressed={null}
-        className="cds--btn cds--btn--sm cds--btn--primary"
-        disabled={false}
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        Logout
-      </button>
       <span
         className="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip"
         onKeyDown={[Function]}
@@ -44,7 +33,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <button
           aria-describedby={null}
           aria-label="Search"
-          aria-labelledby="tooltip-13"
+          aria-labelledby="tooltip-11"
           aria-pressed={null}
           className="cds--btn--icon-only cds--header__action cds--btn cds--btn--primary cds--btn--icon-only cds--btn cds--btn--primary"
           data-testid="header-button__search"
@@ -74,7 +63,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <span
           aria-hidden="true"
           className="cds--popover"
-          id="tooltip-13"
+          id="tooltip-11"
           role="tooltip"
         >
           <span
@@ -95,7 +84,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <button
           aria-describedby={null}
           aria-label="Notifications"
-          aria-labelledby="tooltip-16"
+          aria-labelledby="tooltip-14"
           aria-pressed={null}
           className="cds--btn--icon-only cds--header__action cds--btn cds--btn--primary cds--btn--icon-only cds--btn cds--btn--primary"
           data-testid="header-button__notifications"
@@ -125,7 +114,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <span
           aria-hidden="true"
           className="cds--popover"
-          id="tooltip-16"
+          id="tooltip-14"
           role="tooltip"
         >
           <span
@@ -146,7 +135,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <button
           aria-describedby={null}
           aria-label="App Switcher"
-          aria-labelledby="tooltip-19"
+          aria-labelledby="tooltip-17"
           aria-pressed={null}
           className="cds--btn--icon-only cds--header__action cds--btn cds--btn--primary cds--btn--icon-only cds--btn cds--btn--primary"
           data-testid="header-button__switcher"
@@ -176,7 +165,7 @@ exports[`the Header component should match the snapshot 1`] = `
         <span
           aria-hidden="true"
           className="cds--popover"
-          id="tooltip-19"
+          id="tooltip-17"
           role="tooltip"
         >
           <span

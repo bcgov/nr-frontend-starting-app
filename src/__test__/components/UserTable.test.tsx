@@ -5,11 +5,6 @@ import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import UserTable from '../../components/UserTable';
 import SampleUser from '../../types/SampleUser';
-import mockUseKeycloak from '../__mocks__/useKeycloak';
-
-jest.mock('@react-keycloak/web', () => ({
-  useKeycloak: () => mockUseKeycloak()
-}));
 
 describe('the UserTable component', () => {
   const users: SampleUser[] = [{

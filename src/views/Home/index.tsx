@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -10,20 +10,21 @@ import {
   Stack
 } from '@carbon/react';
 import { ArrowRight } from '@carbon/icons-react';
-import { useKeycloak } from '@react-keycloak/web';
-import { kcClientRoles, kcUserDisplayName, kcIdentityProvider } from '../../service/AuthService';
+import KeycloakService from '../../service/KeycloakService';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { keycloak, initialized } = useKeycloak();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
 
   useEffect(() => {
-    if (initialized) {
-      if (!keycloak.authenticated) {
-        navigate('/');
-      }
-    }
-  }, [initialized, keycloak.authenticated]);
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        if (!KeycloakService.isLoggedIn()) {
+          navigate('/');
+        }
+      });
+  }, [keycloakReady]);
 
   const goToTable = () => {
     navigate('/table');
@@ -33,9 +34,9 @@ const Home = () => {
     navigate('/form');
   };
 
-  const provider = (): string => ` With ${kcIdentityProvider(keycloak, initialized)}`;
-  const welcomeMsg = (): string => `Welcome ${kcUserDisplayName(keycloak, initialized)}`;
-  const showRoles = (): string => `Your roles: ${kcClientRoles(keycloak, initialized)}`;
+  const provider = (): string => ` With ${KeycloakService.authMethod()}`;
+  const welcomeMsg = (): string => `Welcome ${KeycloakService.getUsername()}`;
+  const showRoles = (): string => `Your roles: ${KeycloakService.getRoles()}`;
 
   return (
     <FlexGrid container="true" spacing={4}>
@@ -61,7 +62,7 @@ const Home = () => {
                 This is a simple form to validate the user&apos;s inputs.
               </p>
               <br />
-              {keycloak.authenticated && (
+              {KeycloakService.isLoggedIn() && (
                 <Button
                   onClick={goToForm}
                   size="md"
@@ -71,7 +72,7 @@ const Home = () => {
                   Go!
                 </Button>
               )}
-              {!keycloak.authenticated && (
+              {!KeycloakService.isLoggedIn() && (
                 <>
                   <br />
                   <p>You&apos;re now allowed to click the button, sorry.</p>
@@ -103,7 +104,7 @@ const Home = () => {
             <Tile data-testid="card-authentication">
               <h3 data-testid="card-authentication__title">Authentication</h3>
               <br />
-              {!!keycloak?.authenticated && (
+              {KeycloakService.isLoggedIn() && (
                 <div>
                   <p data-testid="card-table__desc">
                     You are authenticated!
@@ -117,7 +118,7 @@ const Home = () => {
                   </p>
                 </div>
               )}
-              {!keycloak?.authenticated && (
+              {!KeycloakService.isLoggedIn() && (
                 <div>
                   <p data-testid="card-table__desc">
                     You are not authenticated!

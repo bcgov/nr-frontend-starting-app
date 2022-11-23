@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useKeycloak } from '@react-keycloak/web';
+import React, { useEffect, useState } from 'react';
+import KeycloakService from '../../service/KeycloakService';
 
 const LoginSuccess = () => {
-  const { initialized } = useKeycloak();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
 
   const handlePopup = () => {
     localStorage.setItem('spar-login-success', 'true');
@@ -10,10 +10,12 @@ const LoginSuccess = () => {
   };
 
   useEffect(() => {
-    if (initialized) {
-      handlePopup();
-    }
-  }, [initialized]);
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        handlePopup();
+      });
+  }, [keycloakReady]);
 
   return (
     <>

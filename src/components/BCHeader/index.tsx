@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -13,14 +13,13 @@ import {
   Notification,
   Switcher
 } from '@carbon/icons-react';
-import { useKeycloak } from '@react-keycloak/web';
+import KeycloakService from '../../service/KeycloakService';
 
 const BCHeader = () => {
-  const { keycloak, initialized } = useKeycloak();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
 
   const getIndexAddress = (): string => {
-    const loggedIn = !!keycloak.authenticated;
-    if (loggedIn) {
+    if (KeycloakService.isLoggedIn()) {
       return '/home';
     }
     return '/';
@@ -28,7 +27,12 @@ const BCHeader = () => {
 
   useEffect(() => {
     getIndexAddress();
-  }, [initialized, keycloak.authenticated]);
+
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+      });
+  }, [keycloakReady]);
 
   return (
     <Theme theme="g100">
@@ -37,9 +41,9 @@ const BCHeader = () => {
           NR Sample App
         </HeaderName>
         <HeaderGlobalBar>
-          {!!keycloak?.authenticated && (
+          {!!KeycloakService.isLoggedIn() && (
             <Button
-              onClick={() => keycloak.logout()}
+              onClick={() => KeycloakService.doLogout()}
               size="sm"
             >
               Logout

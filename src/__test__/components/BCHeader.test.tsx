@@ -3,11 +3,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import BCHeader from '../../components/BCHeader';
-import mockUseKeycloak from '../__mocks__/useKeycloak';
-
-jest.mock('@react-keycloak/web', () => ({
-  useKeycloak: () => mockUseKeycloak()
-}));
 
 describe('the Header component', () => {
   it('should have the correct title', () => {

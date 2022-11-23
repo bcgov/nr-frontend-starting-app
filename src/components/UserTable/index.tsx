@@ -9,13 +9,12 @@ import {
   TableCell
 } from '@carbon/react';
 import { TrashCan } from '@carbon/icons-react';
-import { useKeycloak } from '@react-keycloak/web';
 
 import { hashObject } from 'react-hash-string';
 
 import LoadingButton from '../LoadingButton';
 import SampleUser from '../../types/SampleUser';
-import { kcUserHasRole } from '../../service/AuthService';
+import KeycloakService from '../../service/KeycloakService';
 
 interface TableProps {
   elements: SampleUser[],
@@ -29,8 +28,6 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
     success: 'Deleted!',
     error: 'Error'
   };
-
-  const { keycloak, initialized } = useKeycloak();
 
   return (
     <Table size="lg" useZebraStyles={false}>
@@ -50,7 +47,7 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
             <TableCell>{item.firstName}</TableCell>
             <TableCell>{item.lastName}</TableCell>
             <TableCell>
-              {!kcUserHasRole(keycloak, initialized, 'user_write')
+              {!KeycloakService.hasRole('user_write')
                 ? 'Some Text' : (
                   <LoadingButton
                     id={`delete-${idx}`}

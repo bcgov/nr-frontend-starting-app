@@ -1,18 +1,20 @@
-import { useKeycloak } from '@react-keycloak/web';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import KeycloakService from '../../service/KeycloakService';
 
 const Table = () => {
   const navigate = useNavigate();
-  const { keycloak, initialized } = useKeycloak();
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
 
   useEffect(() => {
-    if (initialized) {
-      if (!keycloak.authenticated) {
-        navigate('/');
-      }
-    }
-  }, [initialized, keycloak.authenticated]);
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        if (!KeycloakService.isLoggedIn()) {
+          navigate('/');
+        }
+      });
+  }, [keycloakReady]);
 
   return (
     <>

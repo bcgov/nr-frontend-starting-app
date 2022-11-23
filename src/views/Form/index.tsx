@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -10,7 +10,6 @@ import {
   Row,
   Stack
 } from '@carbon/react';
-import { useKeycloak } from '@react-keycloak/web';
 
 import LoadingButton from '../../components/LoadingButton';
 import UserTable from '../../components/UserTable';
@@ -21,7 +20,7 @@ import getExceptionResponse from '../../service/GetExceptionResponse';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
-import { kcUserHasRole, kcToken } from '../../service/AuthService';
+import KeycloakService from '../../service/KeycloakService';
 
 type InputValidation = {
   EMPTY: boolean,
@@ -31,10 +30,10 @@ type InputValidation = {
 
 const Form = () => {
   const navigate = useNavigate();
-  const { keycloak, initialized } = useKeycloak();
 
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
+  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
   const [firstName, setFirstName] = React.useState<string>('');
   const [firstFeed, setFirstFeed] = React.useState<string>('');
   const [firstInvalid, setFirstInvalid] = React.useState<InputValidation>({
@@ -128,7 +127,7 @@ const Form = () => {
     try {
       const initObj = createRequestInit({
         method: 'GET',
-        kcToken: kcToken(keycloak)
+        kcToken: KeycloakService.getToken()
       });
 
       const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, initObj);
@@ -149,7 +148,7 @@ const Form = () => {
 
       const initObj = createRequestInit({
         method: 'POST',
-        kcToken: kcToken(keycloak),
+        kcToken: KeycloakService.getToken(),
         postBody: body
       });
 
@@ -167,7 +166,7 @@ const Form = () => {
     try {
       const initObj = createRequestInit({
         method: 'DELETE',
-        kcToken: kcToken(keycloak)
+        kcToken: KeycloakService.getToken()
       });
 
       await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, initObj);
@@ -267,12 +266,15 @@ const Form = () => {
 
   React.useEffect(() => {
     fetchData();
-    if (initialized) {
-      if (!keycloak.authenticated) {
-        navigate('/');
-      }
-    }
-  }, [initialized, keycloak.authenticated]);
+
+    KeycloakService.initKeycloak()
+      .then(() => {
+        setKeycloakReady(true);
+        if (!KeycloakService.isLoggedIn()) {
+          navigate('/');
+        }
+      });
+  }, [keycloakReady]);
 
   return (
     <FlexGrid>
@@ -303,7 +305,7 @@ const Form = () => {
             }
           </Column>
         </Row>
-        {kcUserHasRole(keycloak, initialized, 'user_write') && (
+        {KeycloakService.hasRole('user_write') && (
           <>
             <Row>
               <Column sm={4} md={4}>
