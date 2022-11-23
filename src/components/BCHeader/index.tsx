@@ -19,7 +19,8 @@ const BCHeader = () => {
   const { keycloak, initialized } = useKeycloak();
 
   const getIndexAddress = (): string => {
-    if (keycloak.authenticated) {
+    const loggedIn = !!keycloak.authenticated;
+    if (loggedIn) {
       return '/home';
     }
     return '/';
@@ -27,7 +28,7 @@ const BCHeader = () => {
 
   useEffect(() => {
     getIndexAddress();
-  }, [initialized]);
+  }, [initialized, keycloak.authenticated]);
 
   return (
     <Theme theme="g100">
