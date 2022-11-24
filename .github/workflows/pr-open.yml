@@ -51,9 +51,7 @@ jobs:
         run: yarn --prefer-offline
 
       - name: Run lint
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+        run: yarn run lint
 
   run-tests:
     name: Unit Tests
@@ -400,20 +398,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
           config: baseUrl=https://${{ env.NAME }}-${{ github.event.number }}-app.apps.silver.devops.gov.bc.ca
-      
+
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-      
+
       - name: Upload videos
         uses: actions/upload-artifact@v3
         if: always()
