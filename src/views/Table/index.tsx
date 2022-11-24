@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import KeycloakService from '../../service/KeycloakService';
+import React from 'react';
 
-const Table = () => {
-  const navigate = useNavigate();
-  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
-
-  useEffect(() => {
-    KeycloakService.initKeycloak()
-      .then(() => {
-        setKeycloakReady(true);
-        if (!KeycloakService.isLoggedIn()) {
-          navigate('/');
-        }
-      });
-  }, [keycloakReady]);
-
-  return (
-    <>
-      <h2>Search</h2>
-      <h2>Results</h2>
-    </>
-  );
-};
+const Table = () => (
+  <>
+    <h2>Search</h2>
+    <h2>Results</h2>
+  </>
+);
 
 export default Table;

@@ -1,4 +1,5 @@
 import keycloak from '../keycloak';
+import KeycloakUser from '../types/KeycloakUser';
 
 const initKeycloak = () => keycloak.init({
   onLoad: 'check-sso',
@@ -6,9 +7,11 @@ const initKeycloak = () => keycloak.init({
   pkceMethod: 'S256'
 });
 
-const doLogin = keycloak.login;
+const { login } = keycloak;
 
-const doLogout = keycloak.logout;
+const { logout } = keycloak;
+
+const { createLoginUrl } = keycloak;
 
 const getToken = () => keycloak.token;
 
@@ -17,20 +20,8 @@ const isLoggedIn = () => !!keycloak.token;
 const updateToken = (successCallback: any) => {
   keycloak.updateToken(5)
     .then(successCallback)
-    .catch(doLogin);
-};
-
-const getUsername = () => {
-  const displayName = keycloak.tokenParsed?.display_name;
-  return displayName;
-};
-
-const hasRole = (role: string) => {
-  if (isLoggedIn() && Array.isArray(keycloak.tokenParsed?.client_roles)) {
-    const found = keycloak.tokenParsed?.client_roles.find((r) => r === role);
-    return found === role;
-  }
-  return false;
+    // eslint-disable-next-line no-console
+    .catch(console.error);
 };
 
 const authMethod = (): string => {
@@ -41,33 +32,46 @@ const authMethod = (): string => {
   return method;
 };
 
-const getRoles = (): string => {
-  let roleString = '';
+const getRoles = (): string[] => {
+  const roles: string[] = [];
   if (isLoggedIn() && Array.isArray(keycloak.tokenParsed?.client_roles)) {
     keycloak.tokenParsed?.client_roles.forEach((role: string) => {
-      if (roleString !== '') {
-        roleString += ', ';
-      }
-      roleString += role;
+      roles.push(role);
     });
   }
-  return roleString;
+  return roles;
 };
 
-const doCreateLoginUrl = keycloak.createLoginUrl;
+const getUser = (): KeycloakUser => {
+  const displayName = keycloak.tokenParsed?.display_name;
+  const lastName = keycloak.tokenParsed?.last_name;
+  const firstName = keycloak.tokenParsed?.first_name;
+  const idirUsername = keycloak.tokenParsed?.idir_username;
+  const email = keycloak.tokenParsed?.email;
+  const name = keycloak.tokenParsed?.name;
+  const roles: string[] = getRoles();
+
+  return {
+    displayName,
+    email,
+    lastName,
+    firstName,
+    idirUsername,
+    name,
+    roles
+  };
+};
 
 const KeycloakService = {
   initKeycloak,
-  doLogin,
-  doLogout,
-  doCreateLoginUrl,
+  login,
+  logout,
+  createLoginUrl,
   isLoggedIn,
   getToken,
   updateToken,
-  getUsername,
-  hasRole,
-  getRoles,
-  authMethod
+  authMethod,
+  getUser
 };
 
 export default KeycloakService;

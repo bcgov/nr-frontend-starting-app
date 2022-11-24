@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { KeycloakLoginOptions } from 'keycloak-js';
 
 import {
   Button,
@@ -7,48 +9,46 @@ import {
   Row,
   Stack
 } from '@carbon/react';
-import { useNavigate } from 'react-router-dom';
 import LoginProviders from '../../types/LoginProviders';
-import KeycloakService from '../../service/KeycloakService';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Landing = () => {
+  const { initKeycloak, login, signed } = useAuth();
   const navigate = useNavigate();
-  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
-  const [sendToHome, setSendToHome] = useState<boolean>(false);
 
-  const checkLogin = (popup: Window | null) => {
-    const interval = setInterval(() => {
-      if (popup!.closed) {
-        clearInterval(interval);
-      }
-
-      const loginResult = localStorage.getItem('spar-login-success');
-      if (loginResult === 'true') {
-        localStorage.removeItem('spar-login-success');
-        setSendToHome(true);
-      }
-    }, 500);
+  const getPageParam = (): string => {
+    let page: string = '/home';
+    const paramString = window.location.search.split('?')[1];
+    const queryString = new URLSearchParams(paramString);
+    if (queryString.has('page')) {
+      page = queryString.get('page') || '/home';
+    }
+    return page;
   };
 
   const handleLogin = (provider: LoginProviders) => {
-    const url = `/start-login?provider=${provider}`;
-    const popup = window.open(url, 'loginWindow', 'width=480,height=600');
-    checkLogin(popup);
+    if (signed) {
+      navigate(getPageParam());
+      return;
+    }
+
+    const idpHint = provider === 'idir' ? 'idir' : 'bceid-business';
+    const loginOptions: KeycloakLoginOptions = {
+      redirectUri: `${window.location.origin}/home`,
+      idpHint
+    };
+
+    login(loginOptions);
   };
 
   useEffect(() => {
-    KeycloakService.initKeycloak()
-      .then(() => {
-        setKeycloakReady(true);
-        if (KeycloakService.isLoggedIn()) {
-          navigate('/home');
+    initKeycloak()
+      .then((startedSigned) => {
+        if (startedSigned) {
+          navigate(getPageParam());
         }
       });
-
-    if (sendToHome) {
-      navigate('/home');
-    }
-  }, [keycloakReady, sendToHome]);
+  }, []);
 
   return (
     <FlexGrid className="mainContainer">

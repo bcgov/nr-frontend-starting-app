@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   Button,
@@ -13,42 +13,31 @@ import {
   Notification,
   Switcher
 } from '@carbon/icons-react';
-import KeycloakService from '../../service/KeycloakService';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const BCHeader = () => {
-  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  const getIndexAddress = (): string => {
-    if (KeycloakService.isLoggedIn()) {
-      return '/home';
-    }
-    return '/';
+  const goOut = () => {
+    logout();
+    navigate('/');
   };
-
-  useEffect(() => {
-    getIndexAddress();
-
-    KeycloakService.initKeycloak()
-      .then(() => {
-        setKeycloakReady(true);
-      });
-  }, [keycloakReady]);
 
   return (
     <Theme theme="g100">
       <Header aria-label="BC Gov's NR Sample App" data-testid="header">
-        <HeaderName href={getIndexAddress()} prefix="BC Gov's" data-testid="header-name">
+        <HeaderName href="/home" prefix="BC Gov's" data-testid="header-name">
           NR Sample App
         </HeaderName>
         <HeaderGlobalBar>
-          {!!KeycloakService.isLoggedIn() && (
-            <Button
-              onClick={() => KeycloakService.doLogout()}
-              size="sm"
-            >
-              Logout
-            </Button>
-          )}
+          <Button
+            onClick={() => goOut()}
+            size="sm"
+          >
+            Logout
+          </Button>
           <HeaderGlobalAction aria-label="Search" data-testid="header-button__search">
             <Search size={20} />
           </HeaderGlobalAction>

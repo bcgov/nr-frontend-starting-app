@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import {
   Button,
@@ -21,6 +20,7 @@ import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
 import KeycloakService from '../../service/KeycloakService';
+import { useAuth } from '../../contexts/AuthContext';
 
 type InputValidation = {
   EMPTY: boolean,
@@ -29,11 +29,10 @@ type InputValidation = {
 }
 
 const Form = () => {
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
-  const [keycloakReady, setKeycloakReady] = useState<boolean>(false);
   const [firstName, setFirstName] = React.useState<string>('');
   const [firstFeed, setFirstFeed] = React.useState<string>('');
   const [firstInvalid, setFirstInvalid] = React.useState<InputValidation>({
@@ -130,7 +129,7 @@ const Form = () => {
         kcToken: KeycloakService.getToken()
       });
 
-      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/users/find-all`, initObj);
+      const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/api/users/find-all`, initObj);
       setUsers(result);
     } catch (error) {
       handleError(error);
@@ -152,7 +151,7 @@ const Form = () => {
         postBody: body
       });
 
-      await fetchApiRequest(`${BASE_URL}/users`, initObj);
+      await fetchApiRequest(`${BASE_URL}/api/users`, initObj);
       resetForm();
       fetchData();
       return true;
@@ -169,7 +168,7 @@ const Form = () => {
         kcToken: KeycloakService.getToken()
       });
 
-      await fetchApiRequest(`${BASE_URL}/users/${first}/${last}`, initObj);
+      await fetchApiRequest(`${BASE_URL}/api/users/${first}/${last}`, initObj);
       fetchData();
       return true;
     } catch (error) {
@@ -264,17 +263,16 @@ const Form = () => {
     return deleteUser(userToDelete.firstName, userToDelete.lastName);
   };
 
+  const hasWriteRole = (): boolean => {
+    if ('roles' in user) {
+      return user.roles.includes('user_write');
+    }
+    return false;
+  };
+
   React.useEffect(() => {
     fetchData();
-
-    KeycloakService.initKeycloak()
-      .then(() => {
-        setKeycloakReady(true);
-        if (!KeycloakService.isLoggedIn()) {
-          navigate('/');
-        }
-      });
-  }, [keycloakReady]);
+  }, []);
 
   return (
     <FlexGrid>
@@ -305,7 +303,7 @@ const Form = () => {
             }
           </Column>
         </Row>
-        {KeycloakService.hasRole('user_write') && (
+        {hasWriteRole() && (
           <>
             <Row>
               <Column sm={4} md={4}>
