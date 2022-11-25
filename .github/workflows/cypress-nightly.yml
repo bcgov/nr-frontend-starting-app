@@ -39,7 +39,7 @@ jobs:
   e2e-firefox:
     runs-on: ubuntu-20.04
     container:
-      image: cypress/browsers:node18.6.0-chrome105-ff104
+      image: cypress/included:11.2.0
       options: --user 1001
     name: E2E on Firefox
     steps:
@@ -47,9 +47,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          browser: firefox
+        run: cypress run --browser firefox
       
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v3
@@ -63,32 +61,6 @@ jobs:
         if: always()
         with:
           name: cypress-videos-firefox
-          path: cypress/videos
-
-  e2e-webkit:
-    runs-on: macos-latest
-    name: E2E on Webkit
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          browser: webkit
-      
-      - name: Upload screenshots on failure
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-screenshots-webkit
-          path: cypress/screenshots
-      
-      - name: Upload videos
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-videos-webkit
           path: cypress/videos
 
   e2e-edge:
