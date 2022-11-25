@@ -19,7 +19,6 @@ import getExceptionResponse from '../../service/GetExceptionResponse';
 import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
-import KeycloakService from '../../service/KeycloakService';
 import { useAuth } from '../../contexts/AuthContext';
 
 type InputValidation = {
@@ -29,7 +28,7 @@ type InputValidation = {
 }
 
 const Form = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
   const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -126,7 +125,7 @@ const Form = () => {
     try {
       const initObj = createRequestInit({
         method: 'GET',
-        kcToken: KeycloakService.getToken()
+        kcToken: token
       });
 
       const result: SampleUser[] = await fetchApiRequest<SampleUser[]>(`${BASE_URL}/api/users/find-all`, initObj);
@@ -147,7 +146,7 @@ const Form = () => {
 
       const initObj = createRequestInit({
         method: 'POST',
-        kcToken: KeycloakService.getToken(),
+        kcToken: token,
         postBody: body
       });
 
@@ -165,7 +164,7 @@ const Form = () => {
     try {
       const initObj = createRequestInit({
         method: 'DELETE',
-        kcToken: KeycloakService.getToken()
+        kcToken: token
       });
 
       await fetchApiRequest(`${BASE_URL}/api/users/${first}/${last}`, initObj);

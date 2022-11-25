@@ -16,6 +16,7 @@ export type AuthContextData = {
   logout(): Promise<void>;
   createLoginUrl(options?: KeycloakLoginOptions): string;
   provider: string;
+  token: string | undefined,
 };
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -61,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const { createLoginUrl, login } = KeycloakService;
   const provider = KeycloakService.authMethod();
+  const token = KeycloakService.getToken();
 
   // memoize
   const contextValue = useMemo(() => ({
@@ -70,8 +72,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     logout,
     createLoginUrl,
-    provider
-  }), [signed, user, initKeycloak, login, logout, createLoginUrl, provider]);
+    provider,
+    token
+  }), [signed, user, initKeycloak, login, logout, createLoginUrl, provider, token]);
 
   return (
     <AuthContext.Provider value={contextValue}>
