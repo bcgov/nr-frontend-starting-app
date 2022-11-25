@@ -1,22 +1,10 @@
 FROM node:16-bullseye
-
-ARG REACT_APP_NRFESAMPLEAPP_VERSION
-ARG REACT_APP_SERVER_URL
-
-WORKDIR /app
-COPY . .
-
-ENV DISABLE_ESLINT_PLUGIN=true
-ENV REACT_APP_NRFESAMPLEAPP_VERSION=$REACT_APP_NRFESAMPLEAPP_VERSION
-ENV REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL
+LABEL maintainer="Paulo Gomes da Cruz Junior <paulo.cruz@encora.com>"
 
 RUN yarn global add serve
 
-# Install dependencies
-RUN yarn install --frozen-lockfile
-
-# Build to production
-RUN yarn build:production
+WORKDIR /app
+COPY build/ .
 
 EXPOSE 3000
 
