@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Button,
   Header,
-  HeaderName,
   HeaderGlobalBar,
   HeaderGlobalAction,
   Theme
@@ -13,24 +12,23 @@ import {
   Notification,
   Switcher
 } from '@carbon/icons-react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import './styles.css';
 
 const BCHeader = () => {
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
   const goOut = () => {
     logout();
-    navigate('/');
   };
 
   return (
     <Theme theme="g100">
       <Header aria-label="BC Gov's NR Sample App" data-testid="header">
-        <HeaderName href="/home" prefix="BC Gov's" data-testid="header-name">
-          NR Sample App
-        </HeaderName>
+        <Link to="/home" className="header-link">
+          BC Gov&apos;s NR Sample App
+        </Link>
         <HeaderGlobalBar>
           <Button
             onClick={() => goOut()}

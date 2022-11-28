@@ -20,6 +20,7 @@ import { fetchApiRequest, createRequestInit } from '../../service/FetchApi';
 
 import './styles.css';
 import { useAuth } from '../../contexts/AuthContext';
+import BCHeader from '../../components/BCHeader';
 
 type InputValidation = {
   EMPTY: boolean,
@@ -274,103 +275,108 @@ const Form = () => {
   }, []);
 
   return (
-    <FlexGrid>
-      <Stack gap={6}>
-        <Row>
-          <Column sm={4}>
-            <Stack gap={3}>
-              <h1 data-testid="form-title">NR Front End Form</h1>
-              <p data-testid="form-desc">
-                This is a test form. Please, fill your first and last name then hit Submit!
-              </p>
-            </Stack>
-          </Column>
-        </Row>
-        <Row>
-          <Column sm={4}>
-            {
-              showError && (
-                <InlineNotification
-                  id="error-banner"
-                  kind="error"
-                  title="Error"
-                  subtitle={errorMessage}
-                  role="alert"
-                  lowContrast
-                />
-              )
-            }
-          </Column>
-        </Row>
-        {hasWriteRole() && (
-          <>
+    <>
+      <BCHeader />
+      <FlexGrid className="mainContainer">
+        <FlexGrid>
+          <Stack gap={6}>
             <Row>
-              <Column sm={4} md={4}>
-                <TextInput
-                  id="input-first"
-                  key={inputResetKey}
-                  invalidText={firstFeed}
-                  labelText="First name"
-                  placeholder="Please put your first name here"
-                  invalid={firstInvalid.INVALID}
-                  maxCount={20}
-                  enableCounter={firstCharCounter}
-                  value={firstName}
-                  onBlur={handleFirstName}
-                  onChange={setFirst}
-                  onFocus={() => { setFirstCharCounter(true); }}
-                  disabled={disableElements}
-                  data-testid="input-first"
-                />
-              </Column>
-              <Column sm={4} md={4}>
-                <TextInput
-                  id="input-last"
-                  key={inputResetKey}
-                  invalidText={lastFeed}
-                  labelText="Last name"
-                  placeholder="Please put your last name here"
-                  invalid={lastInvalid.INVALID}
-                  maxCount={20}
-                  enableCounter={lastCharCounter}
-                  value={lastName}
-                  onBlur={handleLastName}
-                  onChange={setLast}
-                  onFocus={() => { setLastCharCounter(true); }}
-                  disabled={disableElements}
-                  data-testid="input-last"
-                />
+              <Column sm={4}>
+                <Stack gap={3}>
+                  <h1 data-testid="form-title">NR Front End Form</h1>
+                  <p data-testid="form-desc">
+                    This is a test form. Please, fill your first and last name then hit Submit!
+                  </p>
+                </Stack>
               </Column>
             </Row>
             <Row>
-              <Column className="buttonsColumn" sm={4}>
-                <Button
-                  id="button-reset"
-                  onClick={resetForm}
-                  kind="tertiary"
-                  size="md"
-                  disabled={disableElements}
-                  data-testid="button-reset"
-                >
-                  Reset
-                </Button>
-                <LoadingButton
-                  id="submit"
-                  clickFn={handleSubmit}
-                  label="Submit"
-                  status={loadingStatus}
-                />
+              <Column sm={4}>
+                {
+                  showError && (
+                    <InlineNotification
+                      id="error-banner"
+                      kind="error"
+                      title="Error"
+                      subtitle={errorMessage}
+                      role="alert"
+                      lowContrast
+                    />
+                  )
+                }
               </Column>
             </Row>
-          </>
-        )}
-        <Row>
-          <Column sm={4}>
-            <UserTable elements={users} deleteFn={deleteByIndex} headers={tableHeaders} />
-          </Column>
-        </Row>
-      </Stack>
-    </FlexGrid>
+            {hasWriteRole() && (
+              <>
+                <Row>
+                  <Column sm={4} md={4}>
+                    <TextInput
+                      id="input-first"
+                      key={inputResetKey}
+                      invalidText={firstFeed}
+                      labelText="First name"
+                      placeholder="Please put your first name here"
+                      invalid={firstInvalid.INVALID}
+                      maxCount={20}
+                      enableCounter={firstCharCounter}
+                      value={firstName}
+                      onBlur={handleFirstName}
+                      onChange={setFirst}
+                      onFocus={() => { setFirstCharCounter(true); }}
+                      disabled={disableElements}
+                      data-testid="input-first"
+                    />
+                  </Column>
+                  <Column sm={4} md={4}>
+                    <TextInput
+                      id="input-last"
+                      key={inputResetKey}
+                      invalidText={lastFeed}
+                      labelText="Last name"
+                      placeholder="Please put your last name here"
+                      invalid={lastInvalid.INVALID}
+                      maxCount={20}
+                      enableCounter={lastCharCounter}
+                      value={lastName}
+                      onBlur={handleLastName}
+                      onChange={setLast}
+                      onFocus={() => { setLastCharCounter(true); }}
+                      disabled={disableElements}
+                      data-testid="input-last"
+                    />
+                  </Column>
+                </Row>
+                <Row>
+                  <Column className="buttonsColumn" sm={4}>
+                    <Button
+                      id="button-reset"
+                      onClick={resetForm}
+                      kind="tertiary"
+                      size="md"
+                      disabled={disableElements}
+                      data-testid="button-reset"
+                    >
+                      Reset
+                    </Button>
+                    <LoadingButton
+                      id="submit"
+                      clickFn={handleSubmit}
+                      label="Submit"
+                      status={loadingStatus}
+                    />
+                  </Column>
+                </Row>
+              </>
+            )}
+            <Row>
+              <Column sm={4}>
+                <UserTable elements={users} deleteFn={deleteByIndex} headers={tableHeaders} />
+              </Column>
+            </Row>
+          </Stack>
+        </FlexGrid>
+      </FlexGrid>
+    </>
   );
 };
 
