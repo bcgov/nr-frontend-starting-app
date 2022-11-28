@@ -12,13 +12,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <ClassPrefix prefix="bcgov">
-      <AuthProvider>
+  <AuthProvider>
+    <React.StrictMode>
+      <ClassPrefix prefix="bcgov">
         <App />
-      </AuthProvider>
-    </ClassPrefix>
-  </React.StrictMode>
+      </ClassPrefix>
+    </React.StrictMode>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
