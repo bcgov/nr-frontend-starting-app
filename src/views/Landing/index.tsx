@@ -13,7 +13,7 @@ import LoginProviders from '../../types/LoginProviders';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Landing = () => {
-  const { initKeycloak, login, signed } = useAuth();
+  const { startKeycloak, login, signed } = useAuth();
   const navigate = useNavigate();
 
   const getPageParam = (): string => {
@@ -42,13 +42,11 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    initKeycloak()
-      .then((startedSigned) => {
-        if (startedSigned) {
-          navigate(getPageParam());
-        }
-      });
-  }, []);
+    if (signed) {
+      navigate(getPageParam());
+    }
+    startKeycloak();
+  }, [signed]);
 
   return (
     <FlexGrid className="mainContainer">
@@ -69,7 +67,7 @@ const Landing = () => {
               <Button
                 onClick={() => { handleLogin(LoginProviders.IDIR); }}
                 size="lg"
-                data-testid="card-table__button"
+                data-testid="landing-button__idir"
               >
                 Login with IDIR
               </Button>
@@ -77,7 +75,7 @@ const Landing = () => {
               <Button
                 onClick={() => { handleLogin(LoginProviders.BCEID_BUSINESS); }}
                 size="lg"
-                data-testid="card-table__button"
+                data-testid="landing-button__bceid"
               >
                 Login with Business BCeID
               </Button>

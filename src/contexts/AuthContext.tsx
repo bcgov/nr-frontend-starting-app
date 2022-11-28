@@ -8,18 +8,18 @@ import React, {
 import KeycloakService from '../service/KeycloakService';
 import KeycloakUser from '../types/KeycloakUser';
 
-export type AuthContextData = {
+interface AuthContextData {
   signed: boolean;
   user: KeycloakUser | {};
-  initKeycloak(): Promise<boolean>;
+  startKeycloak(): Promise<boolean>;
   login(options?: KeycloakLoginOptions): Promise<void>;
   logout(): Promise<void>;
   createLoginUrl(options?: KeycloakLoginOptions): string;
   provider: string;
   token: string | undefined,
-};
+}
 
-export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface Props {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   /**
    * Starts Keycloak instance.
    */
-  async function initKeycloak() {
+  async function startKeycloak() {
     try {
       const userIsLoggedIn = await KeycloakService.initKeycloak();
       setSigned(userIsLoggedIn);
@@ -41,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return userIsLoggedIn;
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error('Keycloak init error:', e);
+      console.log('Keycloak init error:', e);
     }
     return false;
   }
@@ -68,13 +68,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const contextValue = useMemo(() => ({
     signed,
     user,
-    initKeycloak,
+    startKeycloak,
     login,
     logout,
     createLoginUrl,
     provider,
     token
-  }), [signed, user, initKeycloak, login, logout, createLoginUrl, provider, token]);
+  }), [signed, user, startKeycloak, login, logout, createLoginUrl, provider, token]);
 
   return (
     <AuthContext.Provider value={contextValue}>
@@ -88,7 +88,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
  *
  * @returns {AuthContext} context.
  */
-export function useAuth() {
+export function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+
   return context;
 }
