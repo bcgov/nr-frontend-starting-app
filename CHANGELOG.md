@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.3.1...v0.3.2) (2022-11-29)
+
+
+### Bug Fixes
+
+* remove webkit/change firefox image ([a49da44](https://github.com/bcgov/nr-frontend-starting-app/commit/a49da4423227101d8150cae07b83f22b490a2829))
+
+
+
 ## [0.3.1](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.3.0...v0.3.1) (2022-11-25)
 
 
@@ -25,7 +34,6 @@
 * changed eslint job ([2a5b2a5](https://github.com/bcgov/nr-frontend-starting-app/commit/2a5b2a58b24d14d28bb39d812feb881e343dc949))
 * cypress on firefox as non-root ([e73e41e](https://github.com/bcgov/nr-frontend-starting-app/commit/e73e41e0ee808b3b6ddbd01398a3c93aa3cc2eef))
 * cypress webkit deps ([2b5b0ab](https://github.com/bcgov/nr-frontend-starting-app/commit/2b5b0abdce19afc31f379dea18cc71b5d454d5a2))
-* duplicate cypress mention on readme ([80e6691](https://github.com/bcgov/nr-frontend-starting-app/commit/80e6691ca8d51b151b302ab2e3126682c3e71352))
 * fixed boolean and string types ([9cae67f](https://github.com/bcgov/nr-frontend-starting-app/commit/9cae67f3e24f7b6a432170b26105e8b5a719b182))
 * fixed char counter reset and added types to states ([748b242](https://github.com/bcgov/nr-frontend-starting-app/commit/748b242304c4a1c60294110fdb6b4824c06f75b2))
 * fixed test ids on form page ([366b9ac](https://github.com/bcgov/nr-frontend-starting-app/commit/366b9accdda0fb9ddbc6354898d3e92f3aaf24e1))
