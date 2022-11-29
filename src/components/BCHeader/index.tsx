@@ -12,15 +12,14 @@ import {
   Notification,
   Switcher
 } from '@carbon/icons-react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
 
 const BCHeader = () => {
-  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const goOut = () => {
-    logout();
+    navigate('/logout');
   };
 
   return (

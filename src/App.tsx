@@ -12,7 +12,8 @@ import Table from './views/Table';
 import Home from './views/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 import { useAuth } from './contexts/AuthContext';
-import SilentCheckSso from './views/SilentCheckSso';
+import SilentCheckSso from './components/SilentCheckSso';
+import Logout from './components/Logout';
 
 /**
  * Create an app structure conaining all the routes.
@@ -26,8 +27,8 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
-
         <Route path="/silent-check-sso" element={<SilentCheckSso />} />
+        <Route path="/logout" element={<Logout />} />
 
         <Route
           path="/home"
