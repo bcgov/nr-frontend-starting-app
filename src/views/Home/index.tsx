@@ -14,6 +14,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import BCHeader from '../../components/BCHeader';
 
 const Home: React.FC = () => {
+  console.log('Home 1');
   const { user, provider } = useAuth();
 
   const navigate = useNavigate();

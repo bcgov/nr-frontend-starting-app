@@ -3,7 +3,7 @@ import KeycloakUser from '../types/KeycloakUser';
 
 const initKeycloak = () => keycloak.init({
   onLoad: 'check-sso',
-  silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
+  silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso`,
   pkceMethod: 'S256'
 });
 
