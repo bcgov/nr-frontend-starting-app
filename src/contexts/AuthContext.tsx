@@ -35,7 +35,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   async function startKeycloak() {
     try {
       const userIsLoggedIn = await KeycloakService.initKeycloak();
-      console.log('Keycloak started. Authenticated=', userIsLoggedIn);
       setSigned(userIsLoggedIn);
       const kcUser = KeycloakService.getUser();
       setUser(kcUser);

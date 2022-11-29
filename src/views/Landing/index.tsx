@@ -13,7 +13,6 @@ import LoginProviders from '../../types/LoginProviders';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Landing = () => {
-  console.log('Landing 1');
   const { startKeycloak, login, signed } = useAuth();
   const navigate = useNavigate();
 
@@ -43,12 +42,9 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    console.log('Landing useEffect');
     if (signed) {
-      console.log('Landing 2 - Already signed! Redirecting...');
       navigate(getPageParam());
     } else {
-      console.log('Landing 3 - Not signed! Starting Keycloak...');
       startKeycloak();
     }
   }, [signed]);
