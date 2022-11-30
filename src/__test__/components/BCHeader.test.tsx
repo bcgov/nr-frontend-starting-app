@@ -16,9 +16,6 @@ describe('the Header component', () => {
       </BrowserRouter>
     );
 
-    // Carbon Header component uses &nbsp; to break the space between the prefix
-    // (BC Gov's) and the title (NR Sample App), so it's necessary to use \xA0
-    // to validate correctly
     expect(getByTestId('header-name').textContent).toBe("BC Gov's NR Sample App");
   });
 

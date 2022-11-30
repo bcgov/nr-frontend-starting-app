@@ -16,7 +16,7 @@ ENV REACT_APP_KC_URL=$REACT_APP_KC_URL
 ENV REACT_APP_KC_REALM=$REACT_APP_KC_REALM
 ENV REACT_APP_KC_CLIENT_ID=$REACT_APP_KC_CLIENT_ID
 
-# Temporary solition to lots of warnings of keycloak sourcemaps new version
+# Temporary solution to lots of warnings of keycloak sourcemaps new version
 # See https://github.com/react-keycloak/react-keycloak/issues/176
 ENV GENERATE_SOURCEMAP=false
 
