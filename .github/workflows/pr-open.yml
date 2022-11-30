@@ -304,11 +304,14 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn --prefer-offline
+        run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Build
-        run: |
-          yarn build
+        run: yarn build:production
+        env:
+          DISABLE_ESLINT_PLUGIN: true
+          REACT_APP_NRFESAMPLEAPP_VERSION: ${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }}
+          REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -333,12 +336,6 @@ jobs:
         with:
           context: ./
           push: true
-          build-args: |
-            REACT_APP_NRFESAMPLEAPP_VERSION=${{ env.REACT_APP_NRFESAMPLEAPP_VERSION }}
-            REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}
-            REACT_APP_KC_URL=${{ secrets.REACT_APP_KC_URL }}
-            REACT_APP_KC_REALM=${{ secrets.REACT_APP_KC_REALM }}
-            REACT_APP_KC_CLIENT_ID=${{ secrets.REACT_APP_KC_CLIENT_ID }}
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.ZONE }}-${{ env.COMPONENT }}
 
   deploy-dev:

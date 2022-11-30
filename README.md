@@ -66,10 +66,7 @@ Build the service:
 ```
 docker build -t bcgov/nr-frontend-starting-app:latest \
   --build-arg REACT_APP_NRFESAMPLEAPP_VERSION=dev \
-  --build-arg REACT_APP_SERVER_URL=<server-url> \
-  --build-arg REACT_APP_KC_URL=<keycloak-server-url> \
-  --build-arg REACT_APP_KC_REALM=<realm-name> \
-  --build-arg REACT_APP_KC_CLIENT_ID=<client-id> .
+  --build-arg REACT_APP_SERVER_URL=<server-url> .
 ```
 
 Then run with:
