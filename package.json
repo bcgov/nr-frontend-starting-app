@@ -1,6 +1,6 @@
 {
   "name": "nr-sample-frontend",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "private": true,
   "dependencies": {
     "@carbon/icons-react": "^11.9.0",

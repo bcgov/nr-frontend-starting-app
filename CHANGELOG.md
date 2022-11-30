@@ -1,10 +1,15 @@
-## [0.3.3](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.3.2...v0.3.3) (2022-11-30)
+# [0.4.0](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.3.3...v0.4.0) (2022-11-30)
 
 
 ### Bug Fixes
 
 * **ci:** fixing docker build ([e0f95c3](https://github.com/bcgov/nr-frontend-starting-app/commit/e0f95c3bd8c40a95098b869a7ce1590b89c95313))
 * remove webkit/change firefox image ([a49da44](https://github.com/bcgov/nr-frontend-starting-app/commit/a49da4423227101d8150cae07b83f22b490a2829))
+
+
+### Features
+
+* **devcontainer:** adding devcontainer support ([6e1bbca](https://github.com/bcgov/nr-frontend-starting-app/commit/6e1bbca88cd035fa4ee9335498ed5b8b6f8b5aa4))
 
 
 
@@ -28,14 +33,8 @@
 * adjusted text area component ([157e4b9](https://github.com/bcgov/nr-frontend-starting-app/commit/157e4b9cf1add3f05575fbb799f1f5b378f8eb2e))
 * adjusted text input component ([59521d3](https://github.com/bcgov/nr-frontend-starting-app/commit/59521d320a8f048704567103b2a476f6e5b8a04f))
 * adjusted tile component ([f73e0aa](https://github.com/bcgov/nr-frontend-starting-app/commit/f73e0aa561607db98cf9ea8a3ca8c0f1c62e89e8))
-* artifact output name ([56e4d1a](https://github.com/bcgov/nr-frontend-starting-app/commit/56e4d1a6582e1099b4cc154ed12d95113e3305d5))
-* bump upload-artifact ver to v3 ([7ea6c12](https://github.com/bcgov/nr-frontend-starting-app/commit/7ea6c12e42a319ef1f934ec6f999c933a0b21fda))
 * changed eslint job ([2a5b2a5](https://github.com/bcgov/nr-frontend-starting-app/commit/2a5b2a58b24d14d28bb39d812feb881e343dc949))
-* cypress on firefox as non-root ([e73e41e](https://github.com/bcgov/nr-frontend-starting-app/commit/e73e41e0ee808b3b6ddbd01398a3c93aa3cc2eef))
-* cypress webkit deps ([2b5b0ab](https://github.com/bcgov/nr-frontend-starting-app/commit/2b5b0abdce19afc31f379dea18cc71b5d454d5a2))
 * fixed typo on tag color ([bc2b5d3](https://github.com/bcgov/nr-frontend-starting-app/commit/bc2b5d343b74b68492f3189fbabc2c21b2fa86f2))
-* friendly workflow job name ([2674ac4](https://github.com/bcgov/nr-frontend-starting-app/commit/2674ac4e71c2401cda8a353e6f14db350b26465e))
-* merge and pr-open actions flow ([69bd631](https://github.com/bcgov/nr-frontend-starting-app/commit/69bd631fd995055895792fd0bb167c92b403a065))
 * renamed the design system prefix ([b0bf378](https://github.com/bcgov/nr-frontend-starting-app/commit/b0bf3783daeaa5b9b3ea07873d2e87ae6c390b51))
 
 
