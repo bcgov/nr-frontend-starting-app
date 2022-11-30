@@ -6,7 +6,7 @@ Cypress.Commands.add('getByDataTest', (selector) => cy.get(`[data-testid=${selec
 Cypress.Commands.add('deleteUser', (firstname, lastname) => {
   cy.request({
     method: 'DELETE',
-    url: `${Cypress.env('apiUrl')}/api/users/${firstname}/${lastname}`,
+    url: `${Cypress.env('apiUrl')}/users/${firstname}/${lastname}`,
     failOnStatusCode: false
   }).then((response) => {
     cy.log(`${response.status}`);
@@ -17,7 +17,7 @@ Cypress.Commands.add('deleteUser', (firstname, lastname) => {
 Cypress.Commands.add('createUser', (firstname, lastname) => {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env('apiUrl')}/api/users`,
+    url: `${Cypress.env('apiUrl')}/users`,
     failOnStatusCode: false,
     body: {
       firstName: firstname,

@@ -25,7 +25,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }: Props) => {
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }: Props) => {
   const [signed, setSigned] = useState<boolean>(false);
   const [user, setUser] = useState<KeycloakUser | {}>({});
 
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
  *
  * @returns {AuthContext} context.
  */
-export function useAuth(): AuthContextData {
+function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -97,3 +97,5 @@ export function useAuth(): AuthContextData {
 
   return context;
 }
+
+export { AuthProvider, useAuth };
