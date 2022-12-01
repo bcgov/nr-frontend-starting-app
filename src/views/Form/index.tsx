@@ -22,6 +22,8 @@ import './styles.css';
 import { useAuth } from '../../contexts/AuthContext';
 import BCHeader from '../../components/BCHeader';
 
+import { env } from '../../env';
+
 type InputValidation = {
   EMPTY: boolean,
   INVALID: boolean,
@@ -31,7 +33,7 @@ type InputValidation = {
 const Form = () => {
   const { user, token } = useAuth();
 
-  const BASE_URL = process.env.REACT_APP_SERVER_URL;
+  const BASE_URL = env.REACT_APP_SERVER_URL;
 
   const [firstName, setFirstName] = React.useState<string>('');
   const [firstFeed, setFirstFeed] = React.useState<string>('');
