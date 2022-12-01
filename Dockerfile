@@ -8,4 +8,4 @@ COPY build/ .
 
 EXPOSE 3000
 
-CMD react-inject-env set && serve -s .
+CMD react-inject-env set -d . && serve -s .
