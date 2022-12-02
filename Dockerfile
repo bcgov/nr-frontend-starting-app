@@ -8,4 +8,6 @@ COPY build/ .
 
 EXPOSE 3000
 
+RUN chmod -R g+w .
+
 CMD react-inject-env set -d . && serve -s .
