@@ -1,4 +1,4 @@
-# [0.4.0](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.3.3...v0.4.0) (2022-11-30)
+# [0.5.0](https://github.com/bcgov/nr-frontend-starting-app/compare/v0.4.0...v0.5.0) (2022-12-02)
 
 
 ### Bug Fixes
@@ -9,6 +9,7 @@
 
 ### Features
 
+* add keycloak authentication ([#28](https://github.com/bcgov/nr-frontend-starting-app/issues/28)) ([ee0bd69](https://github.com/bcgov/nr-frontend-starting-app/commit/ee0bd69468cbe10dcb614a6d78c8645a01d56eb4))
 * **devcontainer:** adding devcontainer support ([6e1bbca](https://github.com/bcgov/nr-frontend-starting-app/commit/6e1bbca88cd035fa4ee9335498ed5b8b6f8b5aa4))
 
 
@@ -33,14 +34,7 @@
 * adjusted text area component ([157e4b9](https://github.com/bcgov/nr-frontend-starting-app/commit/157e4b9cf1add3f05575fbb799f1f5b378f8eb2e))
 * adjusted text input component ([59521d3](https://github.com/bcgov/nr-frontend-starting-app/commit/59521d320a8f048704567103b2a476f6e5b8a04f))
 * adjusted tile component ([f73e0aa](https://github.com/bcgov/nr-frontend-starting-app/commit/f73e0aa561607db98cf9ea8a3ca8c0f1c62e89e8))
-* changed eslint job ([2a5b2a5](https://github.com/bcgov/nr-frontend-starting-app/commit/2a5b2a58b24d14d28bb39d812feb881e343dc949))
-* fixed typo on tag color ([bc2b5d3](https://github.com/bcgov/nr-frontend-starting-app/commit/bc2b5d343b74b68492f3189fbabc2c21b2fa86f2))
 * renamed the design system prefix ([b0bf378](https://github.com/bcgov/nr-frontend-starting-app/commit/b0bf3783daeaa5b9b3ea07873d2e87ae6c390b51))
-
-
-### Features
-
-* Applied the new colors ([725ca78](https://github.com/bcgov/nr-frontend-starting-app/commit/725ca788f31f0346a160ef2e26649067fb46533e))
 
 
 
