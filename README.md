@@ -48,6 +48,38 @@ To run the unit tests all you need is `yarn test`. For end-to-end test you need 
 Before writing your first line of code, please take a moment and check out
 our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
+## Quick look
+
+But if all you want is to take a quick look on the running service, you can do it by
+using Docker.
+
+Note that you'll need these environment variables:
+```
+REACT_APP_SERVER_URL=<server-url>
+REACT_APP_NRFESAMPLEAPP_VERSION=dev
+REACT_APP_KC_URL=<keycloak-server-url>
+REACT_APP_KC_REALM=<realm-name>
+REACT_APP_KC_CLIENT_ID=<client-id>
+```
+
+Build the service:
+```
+docker build -t bcgov/nr-frontend-starting-app:latest \
+  --build-arg REACT_APP_NRFESAMPLEAPP_VERSION=dev \
+  --build-arg REACT_APP_SERVER_URL=<server-url> .
+```
+
+Then run with:
+```
+docker run -p 3000:3000 \
+  -e REACT_APP_NRFESAMPLEAPP_VERSION=dev \
+  -e REACT_APP_SERVER_URL=<server-url> \
+  -e REACT_APP_KC_URL=<keycloak-server-url> \
+  -e REACT_APP_KC_REALM=<realm-name> \
+  -e REACT_APP_KC_CLIENT_ID=<client-id> \
+  -t bcgov/nr-frontend-starting-app:latest
+```
+
 ## Getting help
 
 As mentioned, we're here to help. Feel free to start a conversation

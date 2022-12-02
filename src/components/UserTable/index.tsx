@@ -14,6 +14,7 @@ import { hashObject } from 'react-hash-string';
 
 import LoadingButton from '../LoadingButton';
 import SampleUser from '../../types/SampleUser';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface TableProps {
   elements: SampleUser[],
@@ -22,10 +23,19 @@ interface TableProps {
 }
 
 const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
+  const { user } = useAuth();
+
   const loadingStatus = {
     loading: 'Deleting...',
     success: 'Deleted!',
     error: 'Error'
+  };
+
+  const hasWriteRole = (): boolean => {
+    if ('roles' in user) {
+      return user.roles.includes('user_write');
+    }
+    return false;
   };
 
   return (
@@ -46,13 +56,16 @@ const UserTable = ({ elements, deleteFn, headers }: TableProps) => {
             <TableCell>{item.firstName}</TableCell>
             <TableCell>{item.lastName}</TableCell>
             <TableCell>
-              <LoadingButton
-                id={`delete-${idx}`}
-                clickFn={() => deleteFn(idx)}
-                label="Delete"
-                status={loadingStatus}
-                icon={TrashCan}
-              />
+              {!hasWriteRole()
+                ? 'Some Text' : (
+                  <LoadingButton
+                    id={`delete-${idx}`}
+                    clickFn={() => deleteFn(idx)}
+                    label="Delete"
+                    status={loadingStatus}
+                    icon={TrashCan}
+                  />
+                )}
             </TableCell>
           </TableRow>
         ))}

@@ -40,6 +40,15 @@ parameters:
   - name: REACT_APP_SERVER_URL
     description: Server URL address
     required: true
+  - name: REACT_APP_KC_URL
+    description: KeyCloak Server URL address
+    required: true
+  - name: REACT_APP_KC_REALM
+    description: KeyCloak realm name
+    required: true
+  - name: REACT_APP_KC_CLIENT_ID
+    description: KeyCloak client id
+    required: true
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -94,6 +103,12 @@ objects:
                   value: ${REACT_APP_NRFESAMPLEAPP_VERSION}
                 - name: REACT_APP_SERVER_URL
                   value: ${REACT_APP_SERVER_URL}
+                - name: REACT_APP_KC_URL
+                  value: ${REACT_APP_KC_URL}
+                - name: REACT_APP_KC_REALM
+                  value: ${REACT_APP_KC_REALM}
+                - name: REACT_APP_KC_CLIENT_ID
+                  value: ${REACT_APP_KC_CLIENT_ID}
               ports:
                 - containerPort: 3000
                   protocol: TCP

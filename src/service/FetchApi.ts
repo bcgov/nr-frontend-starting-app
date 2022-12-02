@@ -1,24 +1,33 @@
+interface RequestInitProps {
+  method: string,
+  kcToken?: string,
+  postBody?: BodyInit,
+}
+
 /**
  * Create a request Init
  *
- * @param postBody optional body to be sent. When present the request
- *                 is going to use POST method. Otherwise GET will be used.
- * @returns a RequestInit object
+ * @param {RequestInitProps} props containing the method, token and postBody.
+ * @returns {RequestInit} a RequestInit object
  */
-function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
+function createRequestInit({ method, kcToken, postBody }: RequestInitProps): RequestInit {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  if (method === 'POST' && postBody) {
+    headers.append('Content-Length', String(postBody.toString().length));
+  }
+
+  if (kcToken) {
+    headers.append('Authorization', `Bearer ${kcToken}`);
+  }
+
   if (method === 'GET') {
     return {
       method,
       mode: 'cors',
       cache: 'default',
-      headers: { 'Content-Type': 'application/json' }
+      headers
     };
-  }
-
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  if (method === 'POST' && postBody) {
-    headers.append('Content-Length', String(postBody.toString().length));
   }
 
   return {
@@ -33,10 +42,10 @@ function createRequestInit(method: string, postBody?: BodyInit): RequestInit {
 /**
  * Trigger a fetch request using browser fetch API.
  *
- * @param url API or server address
- * @param config A RequestInit to be used as configuration, containing
+ * @param {string} url API or server address
+ * @param {RequestInit} config A RequestInit to be used as configuration, containing
  *               headers, method type, mode and more.
- * @returns a promise.
+ * @returns {Promise} a promise.
  */
 function fetchApiRequest<T>(url: string, config = {}): Promise<T> {
   return fetch(url, config)

@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
-import { render } from '@testing-library/react';
 import React from 'react';
+
+import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import UserTable from '../../components/UserTable';
 import SampleUser from '../../types/SampleUser';
+import { AuthProvider } from '../../contexts/AuthContext';
 
 describe('the UserTable component', () => {
   const users: SampleUser[] = [{
@@ -17,7 +19,9 @@ describe('the UserTable component', () => {
 
   it('should have the correct headers', () => {
     const { getByTestId } = render(
-      <UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />
+      <AuthProvider>
+        <UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />
+      </AuthProvider>
     );
     tableHeaders.forEach((element, i) => {
       expect(getByTestId(`header-${element}-${i}`).textContent).toBe(element);
@@ -26,7 +30,11 @@ describe('the UserTable component', () => {
 
   it('should match the snapshot', () => {
     const tree = renderer
-      .create(<UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />)
+      .create(
+        <AuthProvider>
+          <UserTable elements={users} deleteFn={() => {}} headers={tableHeaders} />
+        </AuthProvider>
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
