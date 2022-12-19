@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'https://nrfesampleapp-test-app.apps.silver.devops.gov.bc.ca',
+    baseUrl: 'https://nrsparwebapp-test-app.apps.silver.devops.gov.bc.ca/',
     viewportWidth: 1280,
     viewportHeight: 720,
     experimentalWebKitSupport: true,
