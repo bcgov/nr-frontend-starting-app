@@ -8,7 +8,7 @@
  */
 enum LoginProviders {
   IDIR = 'idir',
-  BCEID_BUSINESS = 'bceid-business'
+  BCEID_BUSINESS = 'bceidbusiness'
 }
 
 export default LoginProviders;
