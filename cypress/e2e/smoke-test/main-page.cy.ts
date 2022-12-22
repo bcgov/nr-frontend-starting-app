@@ -1,27 +1,34 @@
 describe('main page test', () => {
-  let pageHeaders: {
-    main: string,
-    userForm: string,
-    userFormCard: string,
-    searchCard: string
+
+  let mainPageData: {
+    title: string,
+    description: string
   };
 
   beforeEach(() => {
     cy.visit('/');
 
     // Loading test data
-    cy.fixture('titles').then((ttls) => {
-      pageHeaders = ttls;
+    cy.fixture('main-page').then((ttls) => {
+      mainPageData = ttls;
     });
   });
 
   it('main page is displayed and loads correctly', () => {
-    cy.getByDataTest('home-title').should('have.text', pageHeaders.main);
-    cy.getByDataTest('card-form__title').should('have.text', pageHeaders.userFormCard);
+    cy.getByDataTest('home-title').should('have.text', mainPageData.title);
+    cy.getByDataTest('home-desc').should('have.text', mainPageData.description);
+    cy.getByDataTest('landing-button__idir').should('be.visible')
+    cy.getByDataTest('landing-button__bceid').should('be.visible')
   });
 
-  it('navigate to the user form page', () => {
-    cy.getByDataTest('card-form__button').click();
-    cy.getByDataTest('form-title').should('have.text', pageHeaders.userForm);
+  it('navigate to the user form page IDIR', () => {
+    cy.getByDataTest('landing-button__idir').click();
+    cy.get('#idirLogo').should('be.visible');
   });
+
+  it('navigate to the user form page BCeID', () => {
+    cy.getByDataTest('landing-button__bceid').click();
+    cy.get('#bceidLogo').should('be.visible');
+  });
+  
 });

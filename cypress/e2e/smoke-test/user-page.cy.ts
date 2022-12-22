@@ -25,7 +25,7 @@ describe('user form test', () => {
     cy.getByDataTest('button-submit').contains('Submit').click();
 
     // Check that the user is created in the UI
-    cy.intercept(`${Cypress.env('apiUrl')}/users/find-all`).as('getUsers');
+    cy.intercept(`${Cypress.env('apiUrl')}/api/users/find-all`).as('getUsers');
     cy.wait('@getUsers');
     cy.contains(msg.confirm.submit);
     cy.contains(testUser.firstName);
@@ -41,7 +41,7 @@ describe('user form test', () => {
     cy.contains('td', testUser.firstName).parent('tr').within(() => {
       cy.get('td').eq(3).contains('button', 'Delete').click();
     });
-    cy.intercept(`${Cypress.env('apiUrl')}/users/find-all`).as('getUsers');
+    cy.intercept(`${Cypress.env('apiUrl')}/api/users/find-all`).as('getUsers');
     cy.wait('@getUsers');
     cy.contains(msg.confirm.delete);
     cy.contains(testUser.firstName).should('not.exist');
