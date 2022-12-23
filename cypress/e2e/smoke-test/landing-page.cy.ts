@@ -1,6 +1,6 @@
-describe('main page test', () => {
+describe('Landing page test', () => {
 
-  let mainPageData: {
+  let landingPageData: {
     title: string,
     description: string
   };
@@ -9,14 +9,14 @@ describe('main page test', () => {
     cy.visit('/');
 
     // Loading test data
-    cy.fixture('main-page').then((ttls) => {
-      mainPageData = ttls;
+    cy.fixture('landing-page').then((ttls) => {
+      landingPageData = ttls;
     });
   });
 
   it('main page is displayed and loads correctly', () => {
-    cy.getByDataTest('home-title').should('have.text', mainPageData.title);
-    cy.getByDataTest('home-desc').should('have.text', mainPageData.description);
+    cy.getByDataTest('home-title').should('have.text', landingPageData.title);
+    cy.getByDataTest('home-desc').should('have.text', landingPageData.description);
     cy.getByDataTest('landing-button__idir').should('be.visible')
     cy.getByDataTest('landing-button__bceid').should('be.visible')
   });
