@@ -1,0 +1,9 @@
+{
+    "header": "BC Gov's NR Sample App",
+    "title": "NR Front End Testing App",
+    "description": "This is a sample application with the purpose of checking BC Gov's design system, themes and react components. The app will also be used to validate code style, infrastructe, tech stack, tests, deployment and others.",
+    "sampleUserFormTitle": "Sample User Form",
+    "sampleUserDescription": "This is a simple form to validate the user's inputs.",
+    "sampleSearchTitle": "Sample Search",
+    "sampleSearchDescription": "This is a simple table showing results of a simulated search."
+}
