@@ -1,6 +1,14 @@
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/nr-frontend-starting-app)
 ![Cypress nightly](https://github.com/bcgov/nr-frontend-starting-app/actions/workflows/cypress-nightly.yml/badge.svg)
 
+# Archiving Notes
+
+This repository was created with the purpose of having a sample app that we could use to learn, deploy and try BCGov's features before we actually have a well defined product to SPAR. Now that we have, this sample app was archived and these exact codebase and functions were added to the [QuickStart TypeScript](https://github.com/bcgov/nr-quickstart-typescript) repository, under `frontend-react` folder.
+
+Also you can check the new SPAR webapp that's on going on [this repository](https://github.com/bcgov/nr-spar-webapp), called [SPAR Webapp](https://github.com/bcgov/nr-spar-webapp). 
+
+If you need any help, you can look for `Team Encora` or one of his members. 
+
 # Natural Resources Front-End Starting Progressive Web Application
 
 This repository holds a set of policies, standard, guides and pipelines to get
